@@ -1,64 +1,103 @@
 # Lifetrailer Studio
 
-Sistema pra gerenciar o estudio onde eu trabalho. Integra com a Altegio (plataforma de agendamento que a gente ja usava) e substitui quadro, papel e caderno pelos controles digitais. Nao e produto, e so pra gente mesmo.
+Sistema de gestão operacional de um estúdio de fotografia, feito para rodar em **modo kiosk em tablet** no balcão. Substitui quadro, papel e caderno por controles digitais e se integra ao **Altegio**, a plataforma de agendamento que o estúdio já usava.
 
-Onde estamos: arquitetura, specs e design das telas fechados. Agora e Fase 4, a implementacao: o codigo em src/.
+Está **em produção**, usado pela equipe do estúdio. O repositório é uma cópia de portfólio: nomes, documentos fiscais, IDs do Altegio e fotos da equipe foram trocados por dados fictícios.
 
-## Como isso foi construido (a partir da Fase 4)
+> **Contexto:** projeto solo, feito por um estudante de Ciência da Computação (2º período) para o estúdio onde trabalha. Parte do código foi escrita com agentes de IA (Claude Code), sob specs e ADRs que eu escrevo e decido. O processo está descrito, sem enfeite, em [`docs/processo-de-trabalho.md`](docs/processo-de-trabalho.md).
 
-A partir da Fase 4 comecei a usar agente de IA (Claude Code) pra escrever boa parte do codigo. Vai aparecer bastante commit assinado Claude no historico, e as vezes o agente ficou rodando sozinho em background enquanto eu fazia outra coisa.
+## O que o sistema faz
 
-Nao e pedir pro robo inventar o sistema. Primeiro vem a spec e o ADR, que eu que escrevo e decido. Depois isso vira issue no GitHub ja com escopo definido, e so ai vai pra implementacao. O agente implementa dentro daquele escopo, roda os testes, as vezes eu peco uma revisao em cima do proprio codigo antes de considerar pronto. E quem le, entende e faz o merge pra main sou eu, sempre. Nao entra codigo que eu nao passei o olho.
+| Módulo | Para quê |
+|---|---|
+| **Comanda** | Atendimento do cliente do começo ao fim: abrir, lançar itens, fechar, enviar comprovante. Máquina de estados multi-etapa. |
+| **Checklist** | Rotina de abertura/fechamento do turno, com justificativa e foto quando algo não é feito. |
+| **Estoque / Inventário** | Insumos e bomboniere, com reconciliação automática. |
+| **Escala** | Turnos, trocas, faltas e volta ao padrão. |
+| **Horas extras** | Cálculo por turno, com regras de borda (saída antecipada, posse do turno). |
+| **Avisos e Achados e Perdidos** | Comunicação interna com confirmação de leitura; registro de objetos com foto. |
 
-Vale dizer que boa parte do texto dos specs e ADRs eu escrevi junto com um assistente de chat, nao so o Claude Code na hora do codigo de verdade. Ele escreve o rascunho, as vezes a analise toda, mas a decisao do que realmente vai pro sistema e sempre minha. Se eu nao concordo com o que ele escreveu, eu mudo antes de virar spec.
+## Arquitetura
 
-Uso isso principalmente porque ainda to no 2o periodo da faculdade e sozinho eu nao daria conta de tocar o projeto tao rapido. Mas a parte que decide o que e certo pro sistema (a FSM da Comanda, regra de dinheiro, o que fica pra depois no pendencias.md) essa e minha, nao do agente.
-
-## O que tem em cada pasta
-
-| Pasta | Serve pra | Muda quando |
-|---|---|---|
-| `docs/adr/` | Registrar decisao importante, uma por arquivo. Nao edito depois de aceito, se mudei de ideia crio outro apontando pro anterior | quase nunca |
-| `docs/spec/` | O que o sistema faz hoje. Sem "porque decidi assim", so o "e assim" | toda vez que decido algo novo |
-| `docs/pendencias.md` | O que falta decidir, organizado por qual fase trava | toda semana |
-| `docs/decisoes-abertas.md` | Regra de dinheiro sem dono ainda, o Wyll que resolve essas | ate ele decidir |
-| `data/` | Preco, staff_id, catalogo, tudo em CSV. Nunca escrevo numero direto no texto | quando o mundo real muda |
-| `tests/` | Caso de teste que ja roda: `python3 tests/runner.py` | vira codigo na Fase 4 |
-| `scripts/` | Coisa que gera outra coisa. Nao e fonte de verdade, so espelha | segue o que ja existe |
-| `src/` | Codigo, so na Fase 4 | ainda nao existe |
-| `docs/historico/` | Versoes velhas do documento. So pra consulta, morto | nunca mais |
-
-## Regras que eu mesmo criei porque ja quebrei a cara
-
-1. **Numero vem do CSV, nunca do texto.** Ja contei os itens do estoque errado duas vezes seguidas porque o numero tava escrito direto num paragrafo em vez de vir do arquivo. Agora tudo que e contagem, soma ou porcentagem le o CSV na hora.
-
-2. **Spec fala o que. ADR fala por que.** Se eu to escrevendo "porque" dentro da spec, e sinal de que deveria ser um ADR.
-
-3. **ADR aceito nao mexe mais.** Mudei de ideia sobre algo? Escrevo um ADR novo dizendo que revoga o antigo. Nao vou la editar o velho, perde o historico de por que decidi daquele jeito na epoca.
-
-4. **Regra que envolve dinheiro so entra no codigo depois de ter teste cobrindo as leituras possiveis dela.** Dez testes passando nao prova nada se os dez testam a mesma interpretacao errada, foi exatamente o que rolou com o calculo de bloco antes de eu perceber que a regra tinha duas leituras validas.
-
-5. **Status do projeto nao fica documentado como se fosse spec.** Fase, quantos problema ja resolvi, essas coisas, isso nao e parte da arquitetura, e status. Ja misturei os dois antes e gerou tres contradicao de uma vez so.
-
-## Se eu for continuar numa conversa nova (com IA ou nao)
-
-```bash
-python3 tests/runner.py                     # roda os testes primeiro
-python3 scripts/gerar-contexto.py > CONTEXTO.md
+```
+ Altegio ──webhook──▶  Processo Node  ──▶  PostgreSQL gerenciado
+ (agenda)              (webhook + API       ├─ PL/pgSQL: toda escrita financeira
+                        + serve o app)      ├─ RLS por papel (app / job / admin)
+                              ▲             ├─ audit log append-only, hash encadeado
+                              │             └─ pg_cron: jobs diários
+                      SPA/PWA React (tablet em kiosk)
 ```
 
-Isso junta spec, ADR, testes e pendencia tudo num arquivo so, pra eu nao precisar reexplicar o projeto do zero toda vez. Nao e o documento oficial, e so um resumo gerado. Se eu criar uma spec nova e esquecer de registrar ela no script, ele quebra na hora, melhor travar do que sumir informacao sem eu perceber.
+- **Sync unidirecional**: Altegio → Lifetrailer. O sistema nunca escreve de volta e nunca trata o dado local de agendamento como autoritativo.
+- **Lógica atômica no banco**: operação de vários passos é função PL/pgSQL, não sequência de chamadas do cliente. Nenhum estado fica inconsistente no meio.
+- **Front**: Vite + React + TypeScript, PWA.
+- **Produção**: droplet + Postgres gerenciado (DigitalOcean), Caddy na frente. Passo a passo em [`deploy/`](deploy/).
 
-## Quem e quem
+## Decisões de engenharia que valem uma olhada
 
-| Pessoa | Funcao |
+| Tema | Onde ler |
 |---|---|
-| Jana | Gerente/admin, tem login proprio |
-| Wyll | Socio, foi ele que definiu como pensar seguranca aqui |
-| Thiago (eu) | Atendente e tambem quem programa (ver ADR 0010 sobre esse conflito) |
-| Marcos | Atendente, sempre de manha |
-| Paulo | Atendente, tarde/noite, revezando |
+| FSM da Comanda: toda transição é explícita e tem teste (`tests/db/05_fsm_comanda.sql`) | [`docs/spec/comanda.md`](docs/spec/comanda.md) |
+| Audit log imutável com cadeia de hash e verificação de integridade | [`docs/spec/audit-log.md`](docs/spec/audit-log.md), `tests/db/04`, `09`, `11` |
+| Fronteira entre app e banco: o app só chama funções permitidas | [ADR 0042](docs/adr/0042-fronteira-entre-o-app-e-o-banco.md) |
+| Identidade do tablet: PIN por dispositivo, sessão derivada no servidor | [ADR 0048](docs/adr/0048-identidade-do-dispositivo.md) |
+| Migrations que rodam sem superuser (como no banco gerenciado), validadas na CI | [ADR 0077](docs/adr/0077-migrations-sem-superuser.md) |
+| Saída do Supabase para Postgres gerenciado, e por quê | [ADR 0016](docs/adr/0016-sai-do-supabase.md), [0018](docs/adr/0018-volta-a-postgres-gerenciado.md) |
+| Topologia de produção | [ADR 0063](docs/adr/0063-topologia-de-producao.md) |
 
-Regra de seguranca que o Wyll passou: desenhar pensando num colaborador mal intencionado no futuro, nao confiando so porque a equipe de hoje e de confianca.
+O projeto tem mais de 90 ADRs. **ADR aceito não se edita**: decisão nova revoga a antiga com outro ADR. Spec diz *o que* o sistema faz; ADR diz *por que*.
 
-Repo e privado. Tem dado real da operacao em `data/`.
+## Testes
+
+| Camada | Ferramenta | Pasta |
+|---|---|---|
+| Banco (FSM, RLS, travas financeiras, audit log, jobs) | pgTAP | `tests/db/` |
+| API, webhook, jobs, carga de catálogo | `node --test` | `tests/api`, `tests/webhook`, `tests/jobs`, `tests/carga` |
+| Front | Vitest + Testing Library | `src/app/src` |
+| Domínio (CSV e docs) | Python | `tests/runner.py` |
+
+A CI sobe o Postgres pelo mesmo `docker-compose.yml` que o desenvolvimento usa, aplica as migrations **do zero** e roda tudo.
+
+## Rodando localmente
+
+Requer Docker, Node 22+ e `psql`.
+
+```bash
+bash scripts/dev-db.sh docker          # Postgres 16 + pgTAP + pg_cron
+node src/db/migrate.mjs                # aplica as migrations
+node src/db/carga.mjs                  # catálogos iniciais (dados fictícios em data/)
+
+# webhook + app no mesmo processo; os dois segredos são obrigatórios (32+ caracteres)
+LT_WEBHOOK_TOKEN=... LT_CLAIM_SEGREDO=... node src/webhook/index.mjs
+npm --prefix src/app run dev           # front com Vite
+```
+
+Testes:
+
+```bash
+LT_BANCO_TESTE=lt_teste_local bash scripts/test-db.sh pgtap
+LT_BANCO_TESTE=lt_teste_local bash scripts/test-db.sh node
+npm --prefix src/app run test
+```
+
+Um roteiro para ver os seis módulos funcionando ponta a ponta está em [`docs/roteiro-demo.md`](docs/roteiro-demo.md).
+
+## Estrutura
+
+```
+src/db/        migrations append-only e scripts do banco
+src/api/       montagem das telas a partir do banco
+src/webhook/   entrada do Altegio + servidor
+src/jobs/      jobs do pg_cron e do carteiro
+src/app/       front React/TypeScript
+docs/spec/     o que o sistema faz, por área
+docs/adr/      por que cada decisão foi tomada
+docs/design/   design system e mockups
+data/          CSVs: preço, catálogo, turnos (fonte de verdade para números)
+deploy/        produção
+tests/         pgTAP, Node, domínio
+```
+
+## Sobre os dados deste repositório
+
+Razão social, CNPJ, chave PIX, IDs do Altegio, nomes de colegas, telefones e fotos da equipe são **fictícios**. A lógica, os testes e a documentação são os do sistema real.
