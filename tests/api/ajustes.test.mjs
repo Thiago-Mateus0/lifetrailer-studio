@@ -117,7 +117,7 @@ update colaborador set ativo = false where id = '${PAULO}';`,
   }));
   const d = montarAjustes(l, [], AGORA, config);
   assert.deepEqual(d.equipe.map((p) => [p.nome, p.ativo, p.souEu]),
-    [['Dev', true, false], ['Marcos', true, false], ['Jana', true, true], ['Paulo', false, false]]);
+    [['Dev', true, false], ['Jana', true, true], ['Marcos', true, false], ['Paulo', false, false]]);
   assert.equal(typeof d.equipe[0].versao, 'number');
 });
 

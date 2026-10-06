@@ -205,7 +205,7 @@ test('a linha do banco monta um DadosHome inteiro', { skip: !disponivel && 'sem 
   });
 
   // 'Paulo' é nome de uma palavra só: uma inicial.
-  assert.equal(d.turno, 'J');
+  assert.equal(d.turno, 'P');
   assert.match(d.saudacao, /^(Bom dia|Boa tarde|Boa noite), Paulo$/);
   assert.equal(d.comandas.abertas, '1');
   assert.equal(d.checklist.progresso.startsWith('1 de 3 itens'), true);

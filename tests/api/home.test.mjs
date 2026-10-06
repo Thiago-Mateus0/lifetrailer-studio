@@ -67,7 +67,7 @@ test('cabecalho: hora, data, saudacao e iniciais saem do fuso de Maceio', () => 
   assert.equal(d.hora, '13:35');
   assert.equal(d.data, '17 AGO 2026');
   assert.equal(d.saudacao, 'Boa tarde, Marcos');
-  assert.equal(d.turno, 'ES');
+  assert.equal(d.turno, 'MS');
   assert.equal(d.turnoResumo, 'Turno da manhã · 4 ensaios hoje');
   assert.equal(d.rodape, 'Recepção · Tablet 01 · v0.9.3');
 });
