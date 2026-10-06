@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F8FAFC}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:9px;padding:6px 11px 6px 7px;border:1px solid #E2E8F0;border-radius:999px;background:#FFFFFF">
+        <span style="width:26px;height:26px;border-radius:50%;background:#EEF2FF;color:#4338CA;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;flex-shrink:0">{{ who.initials }}</span>
+        <span style="display:flex;flex-direction:column;line-height:1.25">
+          <span style="font-size:12px;font-weight:500">{{ who.name }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#64748B">{{ who.sub }}</span>
+        </span>
+      </div>
+      <a href="./Entrada.dc.html" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#64748B;text-decoration:none;border:1px solid #E2E8F0;border-radius:5px;padding:7px 10px">Trocar</a>
+    </div>
+  </div>
+
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <dc-import name="Sidebar" active="ajustes" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>AJUSTES<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}
+        </div>
+        <div style="height:19px"></div>
+
+        <sc-if value="{{ semPermissao }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:420px;margin:60px auto;text-align:center">
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:21px;font-weight:600;letter-spacing:-.2px">Acesso restrito</div>
+            <div style="font-size:12.5px;color:#475569;margin-top:8px;line-height:1.5">Ajustes é exclusivo dos perfis com permissão de Admin. Entre com o PIN da Jana ou do Lifetrailer.</div>
+            <a href="./Entrada.dc.html" style="display:inline-block;margin-top:16px;font-size:12px;color:#4338CA;background:#EEF2FF;border:1px solid #C7CDF7;border-radius:5px;padding:9px 14px;text-decoration:none">Ir para a entrada</a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ temPermissao }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:14px;flex-wrap:wrap">
+              <div>
+                <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">Ajustes</h2>
+                <div style="font-size:12px;color:#64748B;margin-top:3px">{{ subtitulo }}</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:14px;align-items:start">
+
+              <div id="pins" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:16px 17px">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#64748B">PINs de acesso</div>
+                  <span style="{{ pinsTagStyle }}">{{ pinsTag }}</span>
+                </div>
+                <div style="font-size:11.5px;color:#475569;line-height:1.5;margin-bottom:14px">Cada PIN identifica a pessoa em toda ação do sistema. Trocar um PIN não apaga o histórico já registrado no nome dela.</div>
+
+                <div style="display:flex;flex-direction:column;gap:9px">
+                  <sc-for list="{{ lista }}" as="p" hint-placeholder-count="5">
+                    <div style="display:flex;align-items:center;gap:13px;padding:11px 13px;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:7px">
+                      <span style="width:38px;height:38px;border-radius:50%;overflow:hidden;background:#F1F5F9;flex-shrink:0;display:block">
+                        <image-slot id="{{ p.fotoId }}" shape="circle" placeholder="Foto" style="width:100%;height:100%"></image-slot>
+                      </span>
+                      <div style="flex:1;min-width:0">
+                        <div style="font-size:13px;font-weight:500">{{ p.nome }}</div>
+                        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#64748B;margin-top:2px">{{ p.papel }} · PIN {{ p.pinAtual }}</div>
+                      </div>
+                      <input type="text" inputMode="numeric" aria-label="Novo PIN" placeholder="novo" value="{{ p.valor }}" onChange="{{ p.onChange }}" style="width:88px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:2px;padding:9px 6px;border-radius:6px;border:1px solid #CBD5E1;background:#FFFFFF;color:#0F172A">
+                    </div>
+                  </sc-for>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-top:16px">
+                  <button onClick="{{ handlers.salvar }}" style="font-size:12.5px;font-weight:500;color:#FFFFFF;background:#4F46E5;border:1px solid #4F46E5;border-radius:6px;padding:10px 16px;font-family:inherit;cursor:pointer;transition:transform .12s ease,background .15s ease" style-hover="background:#4338CA" style-active="transform:scale(.97)">Salvar PINs</button>
+                  <sc-if value="{{ salvo }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#15803D">Atualizado.</span>
+                  </sc-if>
+                </div>
+              </div>
+
+              <div style="display:flex;flex-direction:column;gap:13px">
+
+                <div id="perfis" style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:15px 16px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#64748B;margin-bottom:11px">Perfis e acessos</div>
+                  <div style="display:flex;flex-direction:column;gap:1px">
+                    <sc-for list="{{ perfisResumo }}" as="r" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-top:1px solid #F1F5F9">
+                        <span style="font-size:12.5px;color:#0F172A">{{ r.papel }}</span>
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#64748B;text-align:right">{{ r.acesso }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 16px">
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#64748B;margin-bottom:11px">Últimas alterações de PIN</div>
+                  <sc-if value="{{ semAuditoria }}" hint-placeholder-val="{{ true }}">
+                    <div style="font-size:11.5px;color:#64748B;line-height:1.5">Nenhuma alteração registrada neste aparelho.</div>
+                  </sc-if>
+                  <div style="display:flex;flex-direction:column;gap:7px">
+                    <sc-for list="{{ auditoria }}" as="l" hint-placeholder-count="2">
+                      <div style="display:flex;justify-content:space-between;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569">
+                        <span>PIN de {{ l.alvo }} · por {{ l.por }}</span><span style="color:#64748B">{{ l.quando }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:#CBD5E1;padding:18px 2px 0">
+              <span>Recepção · Tablet 01</span><span>v0.9.3</span>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1064,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = { sessao: null, pinsSalvos: {}, editPins: {}, salvo: false, auditoria: [] };
+
+  componentDidMount() {
+    try {
+      const ss = localStorage.getItem('lt.sessao');
+      if (ss) this.setState({ sessao: JSON.parse(ss) });
+      const pins = localStorage.getItem('lt.pins');
+      if (pins) this.setState({ pinsSalvos: JSON.parse(pins) });
+      const log = localStorage.getItem('lt.pins.log');
+      if (log) this.setState({ auditoria: JSON.parse(log) });
+    } catch (e) {}
+  }
+
+  componentWillUnmount() { clearTimeout(this._savedT); }
+
+  pessoas() {
+    return [
+      { key: 'thiago', nome: 'Thiago', papel: 'Atendente', pin: '1122', fotoId: 'foto-thiago' },
+      { key: 'paulo', nome: 'Paulo', papel: 'Atendente', pin: '2233', fotoId: 'foto-paulo' },
+      { key: 'marcos', nome: 'Marcos', papel: 'Atendente', pin: '3344', fotoId: 'foto-marcos' },
+      { key: 'jana', nome: 'Jana', papel: 'Admin', pin: '9090', fotoId: 'foto-jana' },
+      { key: 'lifetrailer', nome: 'Lifetrailer', papel: 'Sócios', pin: '5150', fotoId: 'foto-lifetrailer' },
+    ];
+  }
+
+  salvar() {
+    const pins = Object.assign({}, this.state.pinsSalvos);
+    const alterados = [];
+    Object.keys(this.state.editPins).forEach(k => {
+      const v = this.state.editPins[k];
+      if (/^\d{4}$/.test(v)) { pins[k] = v; alterados.push(k); }
+    });
+    if (!alterados.length) return;
+    const nomes = this.pessoas();
+    const agora = new Date();
+    const hora = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
+    const por = this.state.sessao ? this.state.sessao.nome : 'Desconhecido';
+    const log = alterados.map(k => ({
+      alvo: (nomes.find(p => p.key === k) || {}).nome || k, por, quando: hora,
+    })).concat(this.state.auditoria).slice(0, 6);
+    try {
+      localStorage.setItem('lt.pins', JSON.stringify(pins));
+      localStorage.setItem('lt.pins.log', JSON.stringify(log));
+    } catch (e) {}
+    this.setState({ pinsSalvos: pins, editPins: {}, salvo: true, auditoria: log });
+    clearTimeout(this._savedT);
+    this._savedT = setTimeout(() => this.setState({ salvo: false }), 2200);
+  }
+
+  renderVals() {
+    const self = this;
+    const s = this.state;
+    const ss = s.sessao;
+    const papel = ss ? ss.papel : '';
+    const podeAjustar = /admin|sócio|socio/i.test(papel);
+    const soSocio = /sócio|socio/i.test(papel);
+
+    return {
+      who: ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' },
+      temPermissao: podeAjustar,
+      semPermissao: !podeAjustar,
+      subtitulo: soSocio ? 'Sócio · pode alterar qualquer PIN de acesso' : 'Admin · consulta os PINs, alteração é do Sócio',
+      pinsTag: soSocio ? 'edição liberada' : 'somente leitura',
+      pinsTagStyle: 'font-size:10px;font-weight:500;padding:2px 9px;border-radius:999px;white-space:nowrap;'
+        + (soSocio ? 'background:#F0FDF4;color:#15803D' : 'background:#F1F5F9;color:#475569'),
+      lista: this.pessoas().map(p => ({
+        nome: p.key === (ss && ss.key) ? p.nome + ' (você)' : p.nome,
+        papel: p.papel, fotoId: p.fotoId,
+        pinAtual: s.pinsSalvos[p.key] || p.pin,
+        valor: s.editPins[p.key] !== undefined ? s.editPins[p.key] : '',
+        onChange: (e) => {
+          if (!soSocio) return;
+          const v = e.target.value.replace(/\D/g, '').slice(0, 4);
+          self.setState(st => ({ editPins: Object.assign({}, st.editPins, { [p.key]: v }) }));
+        },
+      })),
+      perfisResumo: [
+        { papel: 'Sócio', acesso: 'tudo + PINs' },
+        { papel: 'Admin', acesso: 'aprova, tranca, configura' },
+        { papel: 'Atendente', acesso: 'opera o turno' },
+      ],
+      auditoria: s.auditoria,
+      semAuditoria: s.auditoria.length === 0,
+      salvo: s.salvo,
+      handlers: { salvar: () => self.salvar() },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

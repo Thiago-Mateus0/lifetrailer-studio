@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+</helmet>
+<div style="{{ spacerStyle }}"></div>
+
+<div onClick="{{ close }}" style="{{ backdropStyle }}"></div>
+
+<nav style="{{ navStyle }}">
+  <div style="padding:16px 0 0;display:flex;flex-direction:column;align-items:flex-start;flex-shrink:0">
+    <a href="./Home.dc.html" style="{{ logoBoxStyle }}">
+      <img src="./logo-lifetrailer-dark.png" alt="Lifetrailer Studio" style="{{ logoStyle }}">
+    </a>
+    <small style="{{ tagStyle }}">Gestão operacional</small>
+    <button onClick="{{ toggle }}" aria-label="{{ toggleLabel }}" aria-expanded="{{ navOpen }}" style="{{ toggleStyle }}">
+      <span style="display:flex;flex-direction:column;gap:3px;width:14px">
+        <span style="{{ barStyle }}"></span>
+        <span style="{{ barStyle }}"></span>
+        <span style="{{ barStyle }}"></span>
+      </span>
+    </button>
+  </div>
+
+  <div style="margin-top:12px;display:flex;flex-direction:column">
+    <sc-for list="{{ items }}" as="m" hint-placeholder-count="9">
+      <div style="{{ m.wrapStyle }}">
+        <div style="{{ m.rowStyle }}" onClick="{{ m.onToggle }}" onKeyDown="{{ m.onKeyDown }}" role="button" tabIndex="{{ m.tabIndex }}" aria-expanded="{{ m.ariaExpanded }}" aria-label="{{ m.label }}">
+          <span style="display:flex;align-items:center;gap:9px;min-width:0">
+            <span style="{{ m.iconStyle }}">{{ m.code }}</span>
+            <span style="white-space:nowrap">{{ m.label }}</span>
+          </span>
+          <span style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+            <sc-if value="{{ m.badge }}" hint-placeholder-val="{{ false }}">
+              <span style="{{ m.badgeStyle }}">{{ m.badge }}</span>
+            </sc-if>
+            <sc-if value="{{ m.hasSub }}" hint-placeholder-val="{{ false }}">
+              <span style="{{ m.chevronStyle }}">›</span>
+            </sc-if>
+          </span>
+        </div>
+        <sc-if value="{{ m.open }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;padding:2px 0 6px">
+            <sc-for list="{{ m.sub }}" as="s" hint-placeholder-count="2">
+              <a href="{{ s.href }}" style="padding:7px 16px 7px 42px;font-size:12px;color:#64748B;text-decoration:none;white-space:nowrap">{{ s.l }}</a>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="{{ urgenteStyle }}">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#B91C1C;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">Urgente <b style="font-family:'JetBrains Mono',monospace;font-size:10px;background:#DC2626;color:#fff;padding:0 5px;border-radius:7px;font-weight:500">2</b></div>
+    <div style="font-size:11.5px;color:#B91C1C;line-height:1.35;padding:7px 0">Checklist de entrada<span style="display:block;color:#B91C1C;font-size:10px;margin-top:2px;font-family:'JetBrains Mono',monospace">4 itens · limite 10:00</span></div>
+    <div style="font-size:11.5px;color:#B91C1C;line-height:1.35;padding:7px 0;border-top:1px solid #FEF2F2">Estoque acabando<span style="display:block;color:#B91C1C;font-size:10px;margin-top:2px;font-family:'JetBrains Mono',monospace">propés · papel higiênico</span></div>
+  </div>
+
+  <a href="./Entrada.dc.html" style="{{ footerStyle }}">
+    <div style="width:27px;height:27px;border-radius:3px;background:#EEF2FF;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;flex-shrink:0;color:#4F46E5;font-weight:500">{{ whoInitials }}</div>
+    <div style="min-width:0"><b style="font-size:12px;font-weight:500;display:block;white-space:nowrap">{{ whoName }}</b><small style="font-size:10px;color:#64748B;font-family:'JetBrains Mono',monospace;white-space:nowrap">{{ whoSub }}</small></div>
+  </a>
+</nav>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;comanda&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;inicio&quot;,&quot;comanda&quot;,&quot;checklist&quot;,&quot;estoque&quot;,&quot;escala&quot;,&quot;horas&quot;,&quot;avisos&quot;,&quot;achados&quot;,&quot;treinamento&quot;]},&quot;whoName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Jana&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;whoSub&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Admin · acesso total&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;whoInitials&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;JA&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { open: false, subOpen: this.props.active || null, isDesktop: false };
+
+  componentDidMount() {
+    this._onKey = (e) => { if (e.key === 'Escape' && this.state.open && !this.state.isDesktop) this.setState({ open: false }); };
+    window.addEventListener('keydown', this._onKey);
+    this._mq = window.matchMedia('(min-width: 1024px)');
+    const applyMq = (e) => this.setState(s => ({ isDesktop: e.matches, open: e.matches ? true : (s.isDesktop ? false : s.open) }));
+    applyMq(this._mq);
+    this._onMq = applyMq;
+    this._mq.addEventListener('change', this._onMq);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKey);
+    this._mq.removeEventListener('change', this._onMq);
+  }
+
+  renderVals() {
+    const active = this.props.active || '';
+    const self = this;
+    const open = this.state.open;
+    const isDesktop = this.state.isDesktop;
+    const ease = 'cubic-bezier(.22,.61,.36,1)';
+    const navWidth = open ? 190 : 56;
+    const countBadge = (bg) => 'display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;font-size:10px;font-weight:600;color:#FFFFFF;background:' + bg;
+    const fade = (delay, extra) => 'transition:opacity .22s ' + ease + ' ' + delay + 'ms,transform .26s ' + ease + ' ' + delay + 'ms;'
+      + 'opacity:' + (open ? 1 : 0) + ';transform:translateX(' + (open ? '0' : '-8px') + ');'
+      + (open ? '' : 'pointer-events:none;') + (extra || '');
+
+    const defs = [
+      { key: 'inicio', code: 'IN', label: 'Início', href: './Home.dc.html' },
+      { key: 'comanda', code: 'CM', label: 'Comanda', href: './Comanda.dc.html' },
+      { key: 'checklist', code: 'CK', label: 'Checklist', href: './Checklist.dc.html', badge: 4, badgeColor: '#DC2626',
+        sub: [{ l: 'Entrada', href: './Checklist.dc.html?fase=entrada' }, { l: 'Saída', href: './Checklist.dc.html?fase=saida' }] },
+      { key: 'estoque', code: 'ES', label: 'Estoque', href: './Estoque.dc.html', badge: 3, badgeColor: '#DC2626',
+        sub: [{ l: 'Conferir', href: './Estoque.dc.html?view=conferir' }, { l: 'Compra', href: './Estoque.dc.html?view=compra' }, { l: 'Bomboniere', href: './Estoque.dc.html?view=bomboniere' }] },
+      { key: 'escala', code: 'EC', label: 'Escala', href: './Escala.dc.html' },
+      { key: 'horas', code: 'HE', label: 'Horas extras', href: './Horas extras.dc.html',
+        sub: [{ l: 'Pendentes', href: './Horas extras.dc.html?aba=pendentes' }, { l: 'Pagas', href: './Horas extras.dc.html?aba=pagas' }, { l: 'Canceladas', href: './Horas extras.dc.html?aba=canceladas' }] },
+      { key: 'avisos', code: 'AV', label: 'Avisos', href: './Avisos.dc.html', badge: 3, badgeColor: '#D97706', // TODO: read from Home.avisosCount once badge is a real shared count
+        sub: [{ l: 'Ativos', href: './Avisos.dc.html?aba=ativos' }, { l: 'Do sistema', href: './Avisos.dc.html?aba=sistema' }, { l: 'Arquivados', href: './Avisos.dc.html?aba=arquivados' }] },
+      { key: 'achados', code: 'AC', label: 'Achados', href: './Achados.dc.html',
+        sub: [{ l: 'Guardados', href: './Achados.dc.html?aba=guardados' }, { l: 'Entregues', href: './Achados.dc.html?aba=entregues' }, { l: 'Descartados', href: './Achados.dc.html?aba=descartados' }] },
+      { key: 'treinamento', code: 'TR', label: 'Treinamento', href: './Treinamento.dc.html' },
+    ];
+
+    // Ajustes só aparece para quem tem permissão de Admin (Admin ou Sócio)
+    if (/admin|sócio|socio/i.test(this.props.whoSub || '')) {
+      defs.push({ key: 'ajustes', code: 'AJ', label: 'Ajustes', href: './Ajustes.dc.html',
+        sub: [{ l: 'PINs de acesso', href: './Ajustes.dc.html#pins' }, { l: 'Perfis e acessos', href: './Ajustes.dc.html#perfis' }] });
+    }
+
+    const items = defs.map((d, i) => {
+      const isActive = d.key === active;
+      const hasSub = !!(d.sub && d.sub.length);
+      const subOpen = hasSub && this.state.subOpen === d.key;
+      const act = hasSub
+        ? () => self.setState(s => ({ subOpen: s.subOpen === d.key ? null : d.key }))
+        : () => { window.location.href = d.href; };
+      return {
+        label: d.label, code: d.code, hasSub, open: open && subOpen, badge: d.badge || null,
+        wrapStyle: fade(open ? 40 + i * 26 : 0),
+        rowStyle: 'display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 16px;font-size:12.5px;cursor:pointer;'
+          + (isActive ? 'color:#0F172A;background:#EEF2FF;border-left:2px solid #4F46E5' : 'color:#475569;border-left:2px solid transparent'),
+        iconStyle: 'display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:5px;flex-shrink:0;'
+          + 'font-family:\'JetBrains Mono\',monospace;font-size:8.5px;letter-spacing:.4px;font-weight:600;'
+          + (isActive ? 'background:#4F46E5;color:#FFFFFF' : 'background:#E9EDF3;color:#64748B'),
+        badgeStyle: d.badge ? countBadge(d.badgeColor) : '',
+        chevronStyle: 'display:inline-block;transition:transform .15s;transform:rotate(' + (subOpen ? '90deg' : '0deg') + ');color:#64748B;font-size:11px',
+        sub: hasSub ? d.sub : [],
+        tabIndex: open ? 0 : -1,
+        ariaExpanded: hasSub ? (subOpen ? 'true' : 'false') : undefined,
+        onToggle: act,
+        onKeyDown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } },
+      };
+    });
+
+    return {
+      toggle: () => self.setState(s => ({ open: !s.open })),
+      close: () => self.setState({ open: false }),
+      navOpen: open ? 'true' : 'false',
+      toggleLabel: open ? 'Fechar menu' : 'Abrir menu',
+      spacerStyle: 'flex-shrink:0;height:100%;background:#F8FAFC;border-right:1px solid #E2E8F0;'
+        + (isDesktop ? 'transition:width .3s ' + ease + ';width:' + navWidth + 'px' : 'width:56px'),
+      navStyle: 'position:absolute;left:0;top:0;bottom:0;z-index:12;display:flex;flex-direction:column;background:#F8FAFC;border-right:1px solid #E2E8F0;overflow:hidden;will-change:width;'
+        + 'transition:width .3s ' + ease + ',box-shadow .3s ' + ease + ';'
+        + 'width:' + navWidth + 'px;'
+        + 'box-shadow:' + (open && !isDesktop ? '10px 0 30px -12px rgba(15,23,42,.28)' : 'none'),
+      backdropStyle: isDesktop ? 'display:none' : 'position:absolute;inset:0;z-index:11;background:rgba(15,23,42,.05);transition:opacity .3s ' + ease + ';'
+        + 'opacity:' + (open ? 1 : 0) + ';' + (open ? '' : 'pointer-events:none'),
+      logoBoxStyle: 'padding:0 15px;display:flex;align-items:center;overflow:hidden;flex-shrink:0;'
+        + 'transition:height .3s ' + ease + ';height:' + (open ? 56 : 13) + 'px',
+      logoStyle: 'display:block;height:auto;transition:width .3s ' + ease + ';width:' + (open ? 124 : 26) + 'px;max-width:none',
+      tagStyle: 'display:block;padding:0 16px;font-family:\'JetBrains Mono\',monospace;font-size:8.5px;color:#64748B;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;'
+        + 'transition:opacity .22s ' + ease + ' ' + (open ? 90 : 0) + 'ms,margin-top .3s ' + ease + ';'
+        + 'opacity:' + (open ? 1 : 0) + ';margin-top:' + (open ? 7 : 0) + 'px',
+      toggleStyle: 'margin:14px 0 0 15px;width:34px;height:34px;border-radius:8px;border:1px solid ' + (open ? '#C7CDF7' : '#E2E8F0')
+        + ';background:' + (open ? '#EEF2FF' : '#FFFFFF') + ';display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;'
+        + 'transition:background .2s ' + ease + ',border-color .2s ' + ease,
+      barStyle: 'height:2px;border-radius:1px;transition:background .2s ' + ease + ';background:' + (open ? '#4F46E5' : '#475569'),
+      urgenteStyle: 'margin:16px 12px 0;background:#FEF2F2;border:1px solid #FEF2F2;border-radius:6px;padding:10px 11px;flex-shrink:0;' + fade(open ? 300 : 0),
+      footerStyle: 'margin-top:auto;padding:13px 16px;border-top:1px solid #E2E8F0;display:flex;align-items:center;gap:9px;text-decoration:none;color:#0F172A;' + fade(open ? 330 : 0),
+      items,
+      whoInitials: this.props.whoInitials || '—',
+      whoName: this.props.whoName || 'Ninguém autenticado',
+      whoSub: this.props.whoSub || 'Entre com seu PIN',
+    };
+  }
+}
+</script>
+</body>
+</html>

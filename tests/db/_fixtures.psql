@@ -1,0 +1,133 @@
+-- Fixture comum dos testes das RPC financeiras (Etapa 2).
+-- Incluído com \ir, roda dentro da transação do teste e some no rollback.
+-- Extensão .psql de propósito: o runner só varre *.sql, e este arquivo não
+-- produz saída TAP.
+--
+-- UUIDs fixos para o teste poder afirmar sobre eles:
+--   aaaa…01 Jana (administrador, sócia) aaaa…02 Marcos (atendente)
+--   aaaa…03 Paulo (atendente)       aaaa…04 Dev  (desenvolvedor)
+--   bbbb…01 estúdio Acustico
+--   cccc…01 item de bomboniere
+
+-- Regra global 2: toda lógica de data e limite usa America/Maceio.
+set local timezone to 'America/Maceio';
+
+insert into colaborador (id, nome, nivel_acesso, pin_hash, senha_hash) values
+  ('aaaaaaaa-0000-0000-0000-000000000001', 'Jana',  'administrador',  null,  'x'),
+  ('aaaaaaaa-0000-0000-0000-000000000002', 'Marcos', 'atendente',      'pin', null),
+  ('aaaaaaaa-0000-0000-0000-000000000003', 'Paulo',  'atendente',      'pin', null),
+  ('aaaaaaaa-0000-0000-0000-000000000004', 'Dev',   'desenvolvedor',  null,  'x');
+
+-- A aaaa…01 é sócia (ADR 0050): é ela a atora das RPC de dar acesso
+-- (pin_definir, senha_definir) e da leitura do registro nos outros testes. A
+-- gerente que não é sócia aparece só em 33_perfil_socio.sql.
+update colaborador set socio = true where id = 'aaaaaaaa-0000-0000-0000-000000000001';
+
+insert into estudio (id, nome, staff_id, ordem_exibicao) values
+  ('bbbbbbbb-0000-0000-0000-000000000001', 'Acustico', 1, 1);
+
+-- data/turnos.csv. dia_semana segue a convenção do Postgres (0 = domingo).
+--
+-- ⚠ Duas divergências entre o CSV e a forma física de 0001, anotadas aqui
+-- porque o teste tem de escolher um valor e a escolha não pode ficar muda:
+--   1. `hora_fim_calculo` é NOT NULL, e o CSV deixa a Manhã vazia. Aqui vai
+--      14:00 (o próprio hora_fim). Valor inerte: quem lê hora_fim_calculo é
+--      app.hora_fim_calculo_do_dia(), que só olha o turno tarde_noite.
+--   2. domingo tem `janela_posse_inicio = primeiro_ensaio` no CSV, que não é
+--      um `time`. Aqui vai 06:00 — encaixa exatamente onde a janela do sábado
+--      termina, sem sobreposição.
+--   3. desde a migration 0068, `hora_fim` (fim do turno, exibição) e
+--      `hora_fim_calculo` (limite do acréscimo) são colunas distintas. A Manhã
+--      tem fim e NÃO tem limite de acréscimo — como o CSV sempre disse.
+insert into turno_definicao
+  (dia_semana, turno, hora_inicio, hora_fim, hora_fim_calculo,
+   janela_posse_inicio, janela_posse_fim, vigencia_inicio)
+select d, 'manha', time '08:00', time '14:00', null, time '06:00', time '14:00', date '2026-08-10'
+  from generate_series(1,6) d
+union all
+select d, 'tarde_noite', time '14:00',
+       case when d = 6 then time '18:00' else time '23:00' end,
+       case when d = 6 then time '18:00' else time '23:00' end,
+       time '14:00', time '06:00', date '2026-08-10'
+  from generate_series(1,6) d
+union all
+-- Domingo: só turno extra, acréscimo o dia inteiro (sem tarde_noite = sem
+-- hora_fim_calculo do dia). Os dois horários repetem o 06:00 da nota 2 para o
+-- snapshot do domingo extra continuar idêntico ao de antes da 0068.
+select 0, 'extra', time '06:00', time '06:00', time '06:00', time '06:00', time '06:00', date '2026-08-10';
+
+-- data/precos.csv — Acustico 60min.
+insert into tabela_preco (estudio_id, duracao_minutos, valor, vigencia_inicio) values
+  ('bbbbbbbb-0000-0000-0000-000000000001', 60, 97.00, date '2026-08-10');
+
+-- data/acrescimo-noturno.csv
+insert into acrescimo_noturno (valor, vigencia_inicio) values (25.00, date '2026-08-10');
+
+insert into item_bomboniere (id, nome, categoria, preco, saldo_materializado) values
+  ('cccccccc-0000-0000-0000-000000000001', 'Biscoito', 'Doces', 6.70, 10);
+
+-- Competências abertas cobrindo a janela que os testes usam. Datas relativas
+-- a current_date de propósito: teste que depende de data fixa apodrece.
+insert into competencia (mes_ano, status)
+select date_trunc('month', d)::date, 'aberta'
+  from generate_series(current_date - interval '2 months',
+                       current_date + interval '1 month',
+                       interval '1 month') d;
+
+-- app.quarta_recente(): quarta-feira mais recente (hoje, se hoje for quarta).
+-- Dia útil garantido — tem turno tarde_noite, logo tem hora_fim_calculo (23h).
+create function app.quarta_recente() returns date
+language sql immutable as $fx$
+  select current_date - ((extract(dow from current_date)::int - 3 + 7) % 7);
+$fx$;
+
+-- app.domingo_recente(): domingo mais recente. Dia sem tarde_noite — o
+-- acréscimo vale o dia inteiro.
+create function app.domingo_recente() returns date
+language sql immutable as $fx$
+  select current_date - (extract(dow from current_date)::int);
+$fx$;
+
+-- app.agendamento_teste(): um agendamento de 1h no Acustico, para a FSM ter
+-- de onde nascer. Nasce e morre dentro da transação do teste.
+create function app.agendamento_teste(
+  p_cliente  text,
+  p_inicio   timestamptz,
+  p_nao_tabelada boolean default false,
+  p_invalida     boolean default false
+) returns uuid
+language sql
+as $fx$
+  insert into cliente_chave (cliente_id) values (p_cliente) on conflict do nothing;
+
+  insert into agendamento (
+    cliente_id, cliente_nome, cliente_telefone, estudio_id,
+    datetime_inicio_agendado, datetime_fim_agendado, seance_length_segundos,
+    duracao_agendada, servico_titulo, attendance, origem, tipo_staff,
+    duracao_nao_tabelada, duracao_invalida, valor_altegio_snapshot)
+  values (
+    p_cliente, 'Cliente ' || p_cliente, '82999990000',
+    'bbbbbbbb-0000-0000-0000-000000000001',
+    p_inicio, p_inicio + interval '60 minutes', 5400,
+    60, 'Ensaio 1h', 1, 'altegio', 'operacional',
+    p_nao_tabelada, p_invalida, 97.00)
+  returning id;
+$fx$;
+
+-- Transição de origem Sistema (webhook, tranca): sem identidade na transação,
+-- como roda em produção. Desde a 0097, ator nulo com identidade é recusado.
+create or replace function app.transicionar_como_sistema(p_id uuid, p_evento text)
+  returns comanda
+  language plpgsql
+as $fx$
+declare
+  v_id text := current_setting('app.colaborador_id', true);
+  v_c  comanda;
+begin
+  perform set_config('app.colaborador_id', '', true);
+  select * into v_c from app.comanda_transicionar(p_id, p_evento,
+    (select versao from comanda where id = p_id), null);
+  perform set_config('app.colaborador_id', coalesce(v_id, ''), true);
+  return v_c;
+end;
+$fx$;

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F8FAFC}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+input,textarea{font-family:inherit}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;gap:5px;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ perfis }}" as="pf" hint-placeholder-count="2">
+        <button style="{{ pf.tabStyle }}" onClick="{{ pf.onClick }}">{{ pf.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <dc-import name="Sidebar" active="achados" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto;animation:riseIn .34s cubic-bezier(.22,.61,.36,1) both">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>ACHADOS<span style="color:#E2E8F0;margin:0 9px">·</span>17 AGO 2026<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}<div style="flex:1"></div><span>09:40</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">Achados e perdidos</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:4px">{{ headSub }}</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+            <button style="{{ btnRegistrar }}" onClick="{{ handlers.toggleRegistrar }}">Registrar achado</button>
+            <span style="width:1px;height:22px;background:#E2E8F0"></span>
+            <sc-for list="{{ abas }}" as="a" hint-placeholder-count="3">
+              <button style="{{ a.style }}" onClick="{{ a.onClick }}">{{ a.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ registrando }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #E2E8F0;border-radius:7px;overflow:hidden;margin-bottom:15px">
+            <div style="padding:11px 15px;background:#F1F5F9;font-size:13px;font-weight:500">Registrar achado</div>
+            <div style="padding:14px 15px">
+              <div style="display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap">
+                <div style="width:120px;height:120px;flex-shrink:0">
+                  <image-slot id="{{ form.fotoId }}" shape="rounded" radius="6" placeholder="Foto do item"></image-slot>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;flex:1;min-width:220px;align-content:start">
+                  <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">O que é</span><input type="text" value="{{ form.item }}" onChange="{{ form.onItem }}" placeholder="ex. carteira preta" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+                  <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Estúdio</span><input type="text" value="{{ form.estudio }}" onChange="{{ form.onEstudio }}" placeholder="ex. Estúdio 1" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+                  <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Data</span><input type="text" value="{{ form.data }}" onChange="{{ form.onData }}" placeholder="ex. 17/08" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+                  <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Nome do cliente <span style="color:#64748B">— opcional</span></span><input type="text" value="{{ form.cliente }}" onChange="{{ form.onCliente }}" placeholder="se souber quem é" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+                </div>
+              </div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#B45309;margin:-4px 0 11px">Foto obrigatória para guardar o item.</div>
+              <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"><span style="font-size:11px;color:#475569">Observação <span style="color:#64748B">— opcional</span></span><input type="text" value="{{ form.observacao }}" onChange="{{ form.onObservacao }}" placeholder="algo que identifica o item" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:13px">
+                <span style="font-size:11px;color:#475569">Guardado onde</span>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <sc-for list="{{ form.lugares }}" as="lu" hint-placeholder-count="3">
+                    <button style="{{ lu.style }}" onClick="{{ lu.onClick }}">{{ lu.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:12px;border-top:1px solid #E2E8F0">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#B45309">{{ form.aviso }}</span>
+                <div style="display:flex;gap:7px">
+                  <button style="{{ btnGhost }}" onClick="{{ handlers.toggleRegistrar }}">Cancelar</button>
+                  <button style="{{ form.salvarStyle }}" onClick="{{ form.salvar }}">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vazio }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:110px 20px;color:#64748B">
+            <div style="width:64px;height:64px;margin:0 auto 22px;border:1.5px solid #E2E8F0;border-radius:6px"></div>
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:26px;font-weight:600;color:#CBD5E1;letter-spacing:-.3px;margin-bottom:8px">{{ vazioTitulo }}</div>
+            <div style="font-size:12px">{{ vazioSub }}</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ temLista }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px">
+            <sc-for list="{{ lista }}" as="it" hint-placeholder-count="6">
+              <div style-hover="border-color:#CBD5E1;box-shadow:0 10px 24px -18px rgba(15,23,42,.35);transform:translateY(-2px)" style="border:1px solid #E2E8F0;border-radius:8px;background:#FFFFFF;overflow:hidden;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;{{ it.cardStyle }}" onClick="{{ it.abrir }}">
+                <div style="position:relative;width:100%;aspect-ratio:1/1;background:#F8FAFC">
+                  <image-slot id="{{ it.fotoId }}" shape="rect" placeholder="Foto do item" style="width:100%;height:100%"></image-slot>
+                  <span style="position:absolute;top:7px;right:7px;{{ it.statusStyle }}">{{ it.status }}</span>
+                </div>
+                <div style="padding:9px 10px 11px">
+                  <div style="font-size:12.5px;font-weight:500;line-height:1.3">{{ it.item }}</div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#64748B;margin-top:4px">{{ it.codigo }} · {{ it.local }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="font-size:11px;color:#64748B;margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0;line-height:1.55">{{ rodape }}</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<sc-if value="{{ selecionado }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px" onClick="{{ selecionado.fechar }}">
+    <div style="width:100%;max-width:560px;max-height:88vh;overflow:auto;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 40px 80px -30px rgba(15,23,42,.16)" onClick="{{ pararPropagacao }}">
+      <div style="position:relative;width:100%;aspect-ratio:16/10;background:#F8FAFC">
+        <image-slot id="{{ selecionado.fotoId }}" shape="rect" placeholder="Foto do item" style="width:100%;height:100%"></image-slot>
+        <button style="position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:5px;background:rgba(15,23,42,.5);border:1px solid #E2E8F0;color:#0F172A;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center" onClick="{{ selecionado.fechar }}">✕</button>
+        <span style="position:absolute;top:10px;left:10px;{{ selecionado.statusStyle }}">{{ selecionado.status }}</span>
+      </div>
+      <div style="padding:18px 20px 20px">
+        <div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap">
+          <h3 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:19px;font-weight:600;margin:0">{{ selecionado.item }}</h3>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B">{{ selecionado.codigo }}</span>
+        </div>
+        <div style="font-size:12.5px;color:#475569;margin-top:8px;line-height:1.55">{{ selecionado.linha }}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#64748B;margin-top:8px">{{ selecionado.meta }}</div>
+
+        <sc-if value="{{ selecionado.temAcoes }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:14px">
+            <sc-for list="{{ selecionado.acoes }}" as="ac" hint-placeholder-count="2">
+              <button style="{{ ac.style }}" onClick="{{ ac.onClick }}">{{ ac.label }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ selecionado.entregando }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid #E2E8F0">
+            <div style="display:flex;gap:9px;align-items:flex-end;flex-wrap:wrap">
+              <label style="display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px"><span style="font-size:11px;color:#475569">Entregue para quem</span><input type="text" value="{{ selecionado.nomeRetirada }}" onChange="{{ selecionado.onNomeRetirada }}" placeholder="nome de quem retirou" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+              <button style="{{ selecionado.confirmarStyle }}" onClick="{{ selecionado.confirmarEntrega }}">Confirmar entrega</button>
+              <button style="{{ btnGhost }}" onClick="{{ selecionado.cancelarEntrega }}">Cancelar</button>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:9px;line-height:1.5">Fica registrado que {{ who.name }} entregou hoje 09:40. Confira o detalhe que identifica antes de devolver.</div>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0;display:flex;flex-direction:column;gap:4px">
+          <div style="font-size:11px;color:#475569;margin-bottom:2px">Histórico</div>
+          <sc-for list="{{ selecionado.historico }}" as="h" hint-placeholder-count="3">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;line-height:1.5">{{ h }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1064,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  _sessao() {
+    if (this.__ss === undefined) {
+      try { const r = localStorage.getItem('lt.sessao'); this.__ss = r ? JSON.parse(r) : null; } catch (e) { this.__ss = null; }
+    }
+    return this.__ss;
+  }
+
+  _who() {
+    const ss = this._sessao();
+    return ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' };
+  }
+
+  _isAdmin() { return /admin|sócio|socio/i.test((this._sessao() || {}).papel || 'Atendente'); }
+
+  _eu() { return (this._sessao() || {}).nome || 'Ninguém autenticado'; }
+
+  _perfilChip() {
+    const ss = this._sessao();
+    return [{
+      value: 'sessao', label: ss ? ss.nome : 'Entrar',
+      tabStyle: 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid #E2E8F0;background:#FFFFFF;color:#475569',
+      onClick: function(){ window.location.href = './Entrada.dc.html'; },
+    }];
+  }
+
+  state = {
+    perfil: 'admin',
+    aba: new URLSearchParams(location.search).get('aba') || 'guardados',
+    registrando: false,
+    entregando: null,
+    aberto: null,
+    nomes: {},
+    historicos: {},
+    extras: [],
+    entregues: {},
+    descartados: {},
+    item: '',
+    estudio: '',
+    data: '17/08',
+    cliente: '',
+    observacao: '',
+    lugar: 'Gaveta A/P',
+    novoFotoN: 0,
+  };
+
+  renderVals() {
+    const self = this;
+    const s = this.state;
+    const isAdmin = this._isAdmin();
+    const eu = this._eu();
+    const HOJE = 17;
+
+    const btn = function(bg, bd, fg) {
+      return 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;background:' + bg + ';border:1px solid ' + bd + ';color:' + fg;
+    };
+    const btnGhost = btn('transparent', '#CBD5E1', '#475569');
+    const btnOuro = btn('#4F46E5', '#4F46E5', '#F8FAFC');
+    const btnOuroFraco = btn('#EEF2FF', '#EEF2FF', '#4338CA');
+    const btnMorto = btn('transparent', '#E2E8F0', '#CBD5E1') + ';cursor:not-allowed';
+    const tab = function(on) {
+      return on
+        ? 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;background:#EEF2FF;border:1px solid #CBD5E1;color:#0F172A'
+        : 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;background:transparent;border:1px solid transparent;color:#64748B';
+    };
+    const pill = function(bg, bd, fg) {
+      return 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:' + bg + ';color:' + fg;
+    };
+
+    const BASE = [
+      { id: 'ac1', codigo: 'AC-104', item: 'Carteira preta', estudio: 'Estúdio 1', cliente: 'Renata Alves', observacao: 'tem uma foto dentro', lugar: 'Gaveta A/P', dia: 16, por: 'Marcos', valor: true },
+      { id: 'ac2', codigo: 'AC-103', item: 'Chave com chaveiro de moto', estudio: 'Estúdio 2', cliente: 'Pedro Lima', observacao: 'chaveiro vermelho', lugar: 'Gaveta A/P', dia: 14, por: 'Thiago', valor: true },
+      { id: 'ac3', codigo: 'AC-102', item: 'Blusa cinza', estudio: 'Estúdio 1', cliente: '', observacao: '', lugar: 'Gaveta A/P', dia: 3, por: 'Marcos', valor: false },
+      { id: 'ac4', codigo: 'AC-101', item: 'Guarda-chuva azul', estudio: 'Recepção', cliente: '', observacao: '', lugar: 'Gaveta A/P', dia: 1, por: 'Thiago', valor: false },
+      { id: 'ac0', codigo: 'AC-098', item: 'Óculos de sol', estudio: 'Estúdio 3', cliente: 'Camila Reis', observacao: 'armação marrom', lugar: 'Gaveta A/P', dia: 8, por: 'Marcos', valor: true,
+        entregue: { nome: 'Camila Reis', quando: '11/08 20:15', por: 'Jana' } },
+    ];
+
+    const todos = BASE.concat(s.extras);
+    const entregaDe = function(it) { return s.entregues[it.id] || it.entregue || null; };
+    const foiDescartado = function(it) { return !!s.descartados[it.id]; };
+    const diasGuardado = function(it) { return HOJE - it.dia; };
+    const vencido = function(it) { return !entregaDe(it) && !foiDescartado(it) && diasGuardado(it) >= 90; };
+
+    const guardados = todos.filter(function(it) { return !entregaDe(it) && !foiDescartado(it); });
+    const abasDef = [
+      { v: 'guardados', l: 'Guardados' },
+      { v: 'entregues', l: 'Entregues' },
+      { v: 'descartados', l: 'Descartados' },
+    ];
+    const aba = abasDef.some(function(a) { return a.v === s.aba; }) ? s.aba : 'guardados';
+
+    let visiveis = todos.filter(function(it) {
+      if (aba === 'entregues') return !!entregaDe(it);
+      if (aba === 'descartados') return foiDescartado(it);
+      return !entregaDe(it) && !foiDescartado(it);
+    });
+    visiveis = visiveis.slice().sort(function(x, y) { return y.dia - x.dia; });
+
+    const histBase = function(it) {
+      const h = ['Registrado ' + String(it.dia).padStart(2, '0') + '/08 por ' + it.por + ' — achado no ' + it.estudio];
+      const e = entregaDe(it);
+      if (e) h.push('Entregue ' + e.quando + ' para ' + e.nome + ' — confirmado por ' + e.por);
+      if (foiDescartado(it)) h.push('Descartado ' + s.descartados[it.id] + ' por ' + eu + ' — passou de 90 dias');
+      return h.concat(s.historicos[it.id] || []);
+    };
+
+    const nVencidos = guardados.filter(vencido).length;
+    const podeSalvar = s.item.trim().length > 0 && s.estudio.trim().length > 0;
+
+    const construirItem = function(it) {
+      const e = entregaDe(it);
+      const dias = diasGuardado(it);
+      const acoes = [];
+      let status = '';
+      let statusStyle = pill('transparent', '#E2E8F0', '#64748B');
+
+      if (e) {
+        status = 'Entregue';
+        statusStyle = pill('#F0FDF4', '#F0FDF4', '#15803D');
+      } else if (foiDescartado(it)) {
+        status = 'Descartado';
+        statusStyle = pill('transparent', '#E2E8F0', '#64748B');
+      } else if (vencido(it)) {
+        // 2 cortes, sem gradiente (COR.md §4.7): 90+ é crítico sutil e nomeia a ação
+        status = 'descarte hoje · ' + dias + ' dias';
+        statusStyle = pill('#FEF2F2', '#FEF2F2', '#B91C1C');
+      } else if (dias >= 60) {
+        status = dias + ' dias';
+        statusStyle = pill('#FFFBEB', '#FFFBEB', '#B45309');
+      } else {
+        status = dias === 0 ? 'Hoje' : dias + (dias === 1 ? ' dia' : ' dias');
+        statusStyle = pill('transparent', '#E2E8F0', '#475569');
+      }
+
+      if (!e && !foiDescartado(it)) {
+        acoes.push({ label: 'Entregar', style: btnOuro, onClick: function() { self.setState({ entregando: it.id }); } });
+        if (isAdmin && vencido(it)) {
+          acoes.push({
+            label: 'Descartar', style: btnOuroFraco,
+            onClick: function() {
+              self.setState(function(p) { const d = Object.assign({}, p.descartados); d[it.id] = '17/08 09:40'; return { descartados: d, entregando: null }; });
+            },
+          });
+        }
+      }
+
+      const nome = s.nomes[it.id] || '';
+      return {
+        id: it.id,
+        item: it.item,
+        codigo: it.codigo,
+        local: it.estudio,
+        fotoId: 'foto-' + it.id,
+        linha: (it.cliente ? 'Cliente: ' + it.cliente + ' · ' : '') + it.estudio + ' · ' + it.lugar.toLowerCase() + (it.observacao ? ' · obs: ' + it.observacao : ''),
+        meta: e
+          ? 'Entregue para ' + e.nome + ' em ' + e.quando
+          : String(it.dia).padStart(2, '0') + '/08 · registrado por ' + it.por,
+        cardStyle: vencido(it) ? 'border-color:#FECACA' : '',
+        status: status,
+        statusStyle: statusStyle,
+        acoes: acoes,
+        temAcoes: acoes.length > 0,
+        entregando: s.entregando === it.id,
+        nomeRetirada: nome,
+        onNomeRetirada: function(ev) {
+          const v = ev.target.value;
+          self.setState(function(p) { const n = Object.assign({}, p.nomes); n[it.id] = v; return { nomes: n }; });
+        },
+        confirmarStyle: nome.trim() ? btnOuro : btnMorto,
+        confirmarEntrega: function() {
+          if (!nome.trim()) return;
+          self.setState(function(p) {
+            const g = Object.assign({}, p.entregues);
+            g[it.id] = { nome: nome.trim(), quando: '17/08 09:40', por: eu };
+            return { entregues: g, entregando: null, aberto: null };
+          });
+        },
+        cancelarEntrega: function() { self.setState({ entregando: null }); },
+        historico: histBase(it),
+        abrir: function() { self.setState({ aberto: it.id }); },
+        fechar: function() { self.setState({ aberto: null, entregando: null }); },
+      };
+    };
+
+    const lista = visiveis.map(construirItem);
+    const itemAberto = s.aberto ? todos.filter(function(it) { return it.id === s.aberto; })[0] : null;
+    const selecionado = itemAberto ? construirItem(itemAberto) : null;
+
+    return {
+      badge: guardados.length,
+      badgeStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:10px;padding:1px 6px;border-radius:8px;font-weight:500;' + (nVencidos > 0 ? 'color:#F8FAFC;background:#4F46E5' : 'color:#475569;background:#E2E8F0'),
+      who: this._who(),
+      perfis: this._perfilChip(),
+      headSub: nVencidos > 0
+        ? guardados.length + ' itens guardados · ' + nVencidos + ' passaram de 90 dias'
+        : guardados.length + ' itens guardados',
+      btnRegistrar: s.registrando ? btnOuroFraco : btnOuro,
+      btnGhost: btnGhost,
+      abas: abasDef.map(function(a) {
+        return { label: a.l, style: tab(a.v === aba), onClick: function() { self.setState({ aba: a.v, entregando: null }); } };
+      }),
+      registrando: s.registrando,
+      handlers: {
+        toggleRegistrar: function() { self.setState(function(p) { return { registrando: !p.registrando }; }); },
+      },
+      form: {
+        item: s.item,
+        estudio: s.estudio,
+        data: s.data,
+        cliente: s.cliente,
+        observacao: s.observacao,
+        onItem: function(e) { self.setState({ item: e.target.value }); },
+        onEstudio: function(e) { self.setState({ estudio: e.target.value }); },
+        onData: function(e) { self.setState({ data: e.target.value }); },
+        onCliente: function(e) { self.setState({ cliente: e.target.value }); },
+        onObservacao: function(e) { self.setState({ observacao: e.target.value }); },
+        fotoId: 'foto-novo-' + s.novoFotoN,
+        lugares: ['Gaveta A/P', 'Com a Jana'].map(function(l) {
+          return { label: l, style: l === s.lugar ? btnOuroFraco : btnGhost, onClick: function() { self.setState({ lugar: l }); } };
+        }),
+        aviso: 'Foto obrigatória. Depois de 90 dias o item aparece marcado para a Jana decidir o descarte.',
+        salvarStyle: podeSalvar ? btnOuro : btnMorto,
+        salvar: function() {
+          if (!podeSalvar) return;
+          self.setState(function(p) {
+            const n = p.extras.length + 1;
+            return {
+              extras: p.extras.concat([{
+                id: 'novo' + p.novoFotoN, codigo: 'AC-' + (104 + n), item: p.item.trim(), estudio: p.estudio.trim(),
+                cliente: p.cliente.trim(), observacao: p.observacao.trim(), lugar: p.lugar, dia: HOJE, por: eu, valor: false,
+              }]),
+              item: '', estudio: '', cliente: '', observacao: '', registrando: false, aba: 'guardados', novoFotoN: p.novoFotoN + 1,
+            };
+          });
+        },
+      },
+      lista: lista,
+      selecionado: selecionado,
+      pararPropagacao: function(e) { e.stopPropagation(); },
+      temLista: lista.length > 0,
+      vazio: lista.length === 0,
+      vazioTitulo: aba === 'entregues' ? 'Nada entregue ainda' : (aba === 'descartados' ? 'Nada descartado' : 'Nenhum item guardado'),
+      vazioSub: aba === 'entregues'
+        ? 'Quando um item volta para o dono, o registro fica aqui com nome e horário.'
+        : (aba === 'descartados' ? 'Itens descartados depois de 90 dias ficam nesta aba como registro.' : 'Registre o que for encontrado no salão ao fim do turno.'),
+      rodape: isAdmin
+        ? 'A observação existe para não entregar item ao dono errado: pergunte antes de mostrar. Descarte só depois de 90 dias, e fica registrado quem descartou.'
+        : 'Registre o achado no fim do turno, com o estúdio e o lugar onde guardou. Para entregar, confira a observação e anote o nome de quem retirou.',
+    };
+  }
+}
+
+</script>
+</body>
+</html>

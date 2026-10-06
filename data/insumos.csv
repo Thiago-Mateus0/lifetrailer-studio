@@ -1,0 +1,54 @@
+nome,categoria,severidade,fornecedor,especificacao_compra,ordem_quadro,ativo
+"Propés",Limpeza,Urgente,Percarbonato,2 sacos,1,true
+"Esponja piso",Limpeza,Urgente,Percarbonato,2un,2,true
+"Papel toalha",Limpeza,Urgente,Percarbonato,2un,3,true
+"Papel higiênico",Limpeza,Urgente,Percarbonato,3un,4,true
+"CIF",Limpeza,Urgente,Percarbonato,,5,true
+"Vanish",Limpeza,Urgente,Percarbonato,,6,true
+"Desinfetante",Limpeza,Urgente,Percarbonato,1L,7,true
+"Água sanitária",Limpeza,Urgente,Percarbonato,1L,8,true
+"Sabonete líquido mãos",Limpeza,Urgente,Percarbonato,1L,9,true
+"Papel H. Premium",Limpeza,Urgente,SEM_NOME_PENDENCIA,3un,10,true
+"Esponja pratos",Limpeza,Urgente,SEM_NOME_PENDENCIA,2un,11,true
+"Limpa laminado",Limpeza,Urgente,SEM_NOME_PENDENCIA,1un,12,true
+"Tinta piso branco",Limpeza,Urgente,SEM_NOME_PENDENCIA,,13,true
+"Tintas Quintal",Limpeza,Urgente,SEM_NOME_PENDENCIA,,14,true
+"Detergente",Limpeza,Urgente,SEM_NOME_PENDENCIA,1un,15,true
+"Lustra móveis",Limpeza,Urgente,SEM_NOME_PENDENCIA,1/2un,16,true
+"Pastilha adesiva",Limpeza,Urgente,SEM_NOME_PENDENCIA,2un,17,true
+"Limpa vidros",Limpeza,Urgente,SEM_NOME_PENDENCIA,1/2un,18,true
+"Saco lixo 15L branco",Estudio,Urgente,Tuff,,19,true
+"Saco lixo 30L azul",Estudio,Urgente,Tuff,,20,true
+"Saco lixo 50L preto",Estudio,Urgente,Tuff,,21,true
+"Saco lixo 200L preto",Estudio,Urgente,Tuff,,22,true
+"Fundos fotográficos",Estudio,Urgente,Tuff,,23,true
+"Ração gata",Estudio,Urgente,Tuff,1kg,24,true
+"Areia gata",Estudio,Urgente,Tuff,1kg,25,true
+"Copo 180ml",Estudio,Urgente,Tuff,1 saco,26,true
+"Veja banheiro",Estudio,Urgente,Tuff,1un,27,true
+"Algodão",Limpeza,Atencao,SEM_NOME_PENDENCIA,,28,true
+"Sabão em pedra",Limpeza,Atencao,SEM_NOME_PENDENCIA,1un,29,true
+"Lenço umedecido",Limpeza,Atencao,SEM_NOME_PENDENCIA,,30,true
+"Sabão em pó",Limpeza,Atencao,SEM_NOME_PENDENCIA,1kg,31,true
+"Freeco",Limpeza,Atencao,SEM_NOME_PENDENCIA,1un,32,true
+"Fita crepe/durex/auto",Limpeza,Atencao,SEM_NOME_PENDENCIA,,33,true
+"Refil Glade",Limpeza,Atencao,SEM_NOME_PENDENCIA,,34,false
+"Odorizador",Limpeza,Atencao,SEM_NOME_PENDENCIA,,35,true
+"Álcool gel",Estudio,Atencao,SEM_NOME_PENDENCIA,1un,36,true
+"Álcool 70%",Estudio,Atencao,SEM_NOME_PENDENCIA,1/2un,37,true
+"Aromas estúdios",Estudio,Atencao,SEM_NOME_PENDENCIA,,38,true
+"Cotonete",Estudio,Atencao,SEM_NOME_PENDENCIA,,39,true
+"Panos",Estudio,Atencao,SEM_NOME_PENDENCIA,,40,true
+"Balinhas",Estudio,Atencao,SEM_NOME_PENDENCIA,1 saco,41,true
+"Refil filtro de água",Estudio,Atencao,SEM_NOME_PENDENCIA,,42,true
+"Café grão",Cafe-Bebidas,Atencao,Café,1kg,43,true
+"Café moído",Cafe-Bebidas,Atencao,Café,1kg,44,true
+"Açúcar",Cafe-Bebidas,Atencao,Café,1kg,45,true
+"Açúcar sachê",Cafe-Bebidas,Atencao,Café,,46,true
+"Adoçante sachê",Cafe-Bebidas,Atencao,Café,,47,true
+"Filtro café 102",Cafe-Bebidas,Atencao,Café,1un,48,true
+"Filtro V60",Cafe-Bebidas,Atencao,Café,,49,true
+"Copo to go 100ml",Cafe-Bebidas,Atencao,Café,,50,true
+"Copo to go 200ml",Cafe-Bebidas,Atencao,Café,,51,true
+"Filtro máquina espresso",Cafe-Bebidas,Atencao,Café,,52,true
+"Mexedor",Cafe-Bebidas,Atencao,Café,,53,true

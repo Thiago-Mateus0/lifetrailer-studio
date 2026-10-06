@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F8FAFC}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+input{font-family:inherit}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;gap:5px;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ perfis }}" as="pf" hint-placeholder-count="2">
+        <button style="{{ pf.tabStyle }}" onClick="{{ pf.onClick }}">{{ pf.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <dc-import name="Sidebar" active="horas" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto;animation:riseIn .34s cubic-bezier(.22,.61,.36,1) both">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>HORAS EXTRAS<span style="color:#E2E8F0;margin:0 9px">·</span>17 AGO 2026<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}<div style="flex:1"></div><span style="{{ syncStyle }}"><span style="{{ syncDotStyle }}"></span>{{ syncLabel }}</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">Horas extras</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:4px">{{ headSub }}</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+            <button style="{{ btnLancar }}" onClick="{{ handlers.toggleLancar }}">Lançar manual</button>
+            <span style="width:1px;height:22px;background:#E2E8F0"></span>
+            <sc-for list="{{ abas }}" as="a" hint-placeholder-count="3">
+              <button style="{{ a.style }}" onClick="{{ a.onClick }}">{{ a.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- lançamento manual -->
+        <sc-if value="{{ lancarAberto }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #E2E8F0;border-radius:7px;overflow:hidden;margin-bottom:15px">
+            <div style="padding:11px 15px;background:#F1F5F9;font-size:13px;font-weight:500">Lançar hora extra manual</div>
+            <div style="padding:14px 15px">
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-bottom:12px">
+                <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Data</span><input type="text" value="{{ form.data }}" onInput="{{ form.onData }}" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px;font-family:'JetBrains Mono',monospace"></label>
+                <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Início</span><input type="text" value="{{ form.inicio }}" onInput="{{ form.onInicio }}" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px;font-family:'JetBrains Mono',monospace"></label>
+                <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Fim</span><input type="text" value="{{ form.fim }}" onInput="{{ form.onFim }}" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px;font-family:'JetBrains Mono',monospace"></label>
+              </div>
+              <sc-if value="{{ form.mostrarDestinatario }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+                  <span style="font-size:11px;color:#475569">Destinatário</span>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap">
+                    <sc-for list="{{ form.opcoesDestinatario }}" as="op" hint-placeholder-count="3">
+                      <button style="{{ op.style }}" onClick="{{ op.onClick }}">{{ op.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"><span style="font-size:11px;color:#475569">Motivo</span><input type="text" value="{{ form.motivo }}" onInput="{{ form.onMotivo }}" placeholder="o que foi feito fora do turno" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:12px;border-top:1px solid #E2E8F0">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#B45309">{{ form.aviso }}</span>
+                <div style="display:flex;gap:7px">
+                  <button style="{{ btnGhost }}" onClick="{{ handlers.toggleLancar }}">Cancelar</button>
+                  <button style="{{ btnConfirmar }}" onClick="{{ handlers.enviarLancamento }}">Enviar para aprovação</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:#64748B">período</span>
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <sc-for list="{{ periodos }}" as="p" hint-placeholder-count="3">
+                <button style="{{ p.style }}" onClick="{{ p.onClick }}">{{ p.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#475569">{{ totalPeriodo }}</span>
+        </div>
+
+        <!-- totais pendentes por colaborador -->
+        <sc-if value="{{ temTotais }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:15px">
+            <sc-for list="{{ totais }}" as="t" hint-placeholder-count="3">
+              <div style="border:1px solid #E2E8F0;border-radius:7px;padding:13px 15px;background:#FFFFFF">
+                <div style="font-size:12px;color:#475569;margin-bottom:6px">{{ t.nome }}</div>
+                <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:23px;font-weight:600;letter-spacing:-.3px;{{ t.valorStyle }}">{{ t.valor }}</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:4px">{{ t.detalhe }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- lista -->
+        <sc-if value="{{ vazio }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:110px 20px;color:#64748B">
+            <div style="width:64px;height:64px;margin:0 auto 22px;border:1.5px solid #E2E8F0;border-radius:6px"></div>
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:26px;font-weight:600;color:#CBD5E1;letter-spacing:-.3px;margin-bottom:8px">{{ vazioTitulo }}</div>
+            <div style="font-size:12px">{{ vazioSub }}</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ temLista }}" hint-placeholder-val="{{ true }}">
+          <div style="border:1px solid #E2E8F0;border-radius:7px;overflow:hidden">
+            <sc-for list="{{ lista }}" as="r" hint-placeholder-count="5">
+              <div style-hover="background:#F8FAFC" style="border-bottom:1px solid #E2E8F0;transition:background .18s ease">
+                <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;flex-wrap:wrap">
+                  <span style="width:3px;height:32px;border-radius:2px;flex-shrink:0;{{ r.markStyle }}"></span>
+                  <div style="min-width:104px;flex-shrink:0">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ r.data }}</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:2px">{{ r.intervalo }}</div>
+                  </div>
+                  <div style="flex:1;min-width:180px">
+                    <div style="font-size:12.5px;font-weight:500">{{ r.colaborador }} <span style="{{ r.origemStyle }}">{{ r.origem }}</span></div>
+                    <div style="font-size:11px;color:#64748B;margin-top:3px;line-height:1.45">{{ r.detalhe }}</div>
+                  </div>
+                  <div style="text-align:right;min-width:92px;flex-shrink:0">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:14px;{{ r.valorStyle }}">{{ r.valor }}</div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:2px">{{ r.blocos }}</div>
+                  </div>
+                  <span style="{{ r.statusStyle }}">{{ r.status }}</span>
+                  <sc-if value="{{ r.temAcoes }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;gap:6px;flex-shrink:0">
+                      <sc-for list="{{ r.acoes }}" as="ac" hint-placeholder-count="2">
+                        <button style="{{ ac.style }}" onClick="{{ ac.onClick }}">{{ ac.label }}</button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ r.temFlags }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:7px;flex-wrap:wrap;padding:0 15px 12px 30px">
+                    <sc-for list="{{ r.flags }}" as="fl" hint-placeholder-count="1">
+                      <span style="{{ fl.style }}">{{ fl.texto }}</span>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <div style="padding:0 15px 12px 30px">
+                  <button style="{{ btnHistorico }}" onClick="{{ r.toggleHistorico }}">{{ r.historicoLabel }}</button>
+                  <sc-if value="{{ r.historicoAberto }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;flex-direction:column;gap:4px;margin-top:9px;padding-left:11px;border-left:1px solid #E2E8F0">
+                      <sc-for list="{{ r.auditoria }}" as="ev" hint-placeholder-count="2">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;line-height:1.45">{{ ev }}</span>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <sc-if value="{{ r.cancelando }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:0 15px 14px 30px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <input type="text" value="{{ motivo }}" onInput="{{ handlers.onMotivo }}" placeholder="motivo do cancelamento (obrigatório)" style="flex:1;min-width:220px;background:#F8FAFC;border:1px solid #FEF2F2;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12px">
+                    <button style="{{ btnGhost }}" onClick="{{ handlers.fecharCancelamento }}">Voltar</button>
+                    <button style="{{ btnCancelarAtivo }}" onClick="{{ r.confirmarCancelamento }}">Cancelar a extra</button>
+                    <sc-if value="{{ motivoErro }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#B91C1C;width:100%">Escreva o motivo antes de cancelar — ele fica registrado e é o que permite distinguir cancelamento humano de cascata.</span>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <div style="font-size:11px;color:#64748B;margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0;line-height:1.55">{{ rodape }}</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;valorBloco&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:25,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:10,&quot;max&quot;:60,&quot;unit&quot;:&quot;R$&quot;,&quot;section&quot;:&quot;Cálculo&quot;}}">
+class Component extends DCLogic {
+  _sessao() {
+    if (this.__ss === undefined) {
+      try { const r = localStorage.getItem('lt.sessao'); this.__ss = r ? JSON.parse(r) : null; } catch (e) { this.__ss = null; }
+    }
+    return this.__ss;
+  }
+
+  _who() {
+    const ss = this._sessao();
+    return ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' };
+  }
+
+  _isAdmin() { return /admin|sócio|socio/i.test((this._sessao() || {}).papel || 'Atendente'); }
+
+  _eu() { return (this._sessao() || {}).nome || 'Ninguém autenticado'; }
+
+  _perfilChip() {
+    const ss = this._sessao();
+    return [{
+      value: 'sessao', label: ss ? ss.nome : 'Entrar',
+      tabStyle: 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid #E2E8F0;background:#FFFFFF;color:#475569',
+      onClick: function(){ window.location.href = './Entrada.dc.html'; },
+    }];
+  }
+
+  // TODO: quando a outbox real (IndexedDB) existir, syncState deve vir do status da fila, não de um valor semeado
+  _syncInfo() {
+    const map = { ok: { label: 'sincronizado', dot: '#16A34A', text: '#15803D', pulse: false }, pending: { label: 'sincronizando…', dot: '#D97706', text: '#B45309', pulse: true }, offline: { label: 'sem conexão', dot: '#DC2626', text: '#B91C1C', pulse: false } };
+    return map[this.state.syncState] || map.ok;
+  }
+
+  state = {
+    syncState: 'ok',
+    perfil: 'admin',
+    aba: new URLSearchParams(location.search).get('aba') || 'pendentes',
+    periodo: 'mes',
+    lancarAberto: false,
+    cancelandoId: null,
+    motivo: '',
+    abertos: {},
+    // id -> { status, motivo }
+    mudancas: {},
+    form: { data: '16/08/2026', inicio: '06:00', fim: '08:30', motivo: '', destinatario: 'Thiago' },
+    lancadas: [],
+  };
+
+  renderVals() {
+    const self = this;
+    const perfil = this.state.perfil;
+    const isAdmin = this._isAdmin();
+    const aba = this.state.aba;
+    const valorBloco = this.props.valorBloco ?? 25;
+    const eu = this._eu();
+
+    const vtStyle = function(on){
+      return (on
+        ? 'font-size:11px;color:#F8FAFC;background:#0F172A;border:1px solid #0F172A;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500'
+        : 'font-size:11px;color:#64748B;background:none;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit') + ';white-space:nowrap;flex-shrink:0';
+    };
+    const btnOn = 'font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600;white-space:nowrap';
+    const btnOff = 'font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap';
+    const btnGhost = 'font-size:12px;color:#475569;border:1px solid #E2E8F0;padding:8px 13px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap';
+    const acaoPagar = 'font-size:11px;color:#15803D;border:1px solid #F0FDF4;background:#F0FDF4;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500;white-space:nowrap';
+    const acaoNeutra = 'font-size:11px;color:#475569;border:1px solid #E2E8F0;background:none;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500;white-space:nowrap';
+
+    // papéis de cor (COR.md §3): pendente = atenção, paga = sucesso, cancelada = inativo
+    const STATUS = {
+      Pendente: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#FFFBEB;color:#B45309;flex-shrink:0;min-width:84px;text-align:center',
+      Paga: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#F0FDF4;color:#15803D;flex-shrink:0;min-width:84px;text-align:center',
+      Cancelada: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid #E2E8F0;white-space:nowrap;background:transparent;color:#64748B;flex-shrink:0;min-width:84px;text-align:center',
+    };
+    const MARK = { Pendente:'background:#D97706', Paga:'background:#16A34A', Cancelada:'background:#E2E8F0' };
+    const ORIGEM = {
+      Sistema: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;background:#F1F5F9;color:#475569;margin-left:5px',
+      Manual: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;background:#F1F5F9;color:#0F172A;margin-left:5px',
+    };
+    const FLAG = {
+      alerta: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#FFFBEB;color:#B45309',
+      info: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#F1F5F9;color:#475569',
+      neutra: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#F1F5F9;color:#475569',
+    };
+
+    const fmt = function(v){ return 'R$ ' + v.toFixed(2).replace('.', ','); };
+
+    const BASE = [
+      { id:'he-1045', data:'16/08', diaSemana:'domingo', colaborador:'Thiago', origem:'Sistema', comanda:'#1045',
+        intervalo:'09:00 – 12:00', blocos:3, status:'Pendente',
+        detalhe:'Comanda #1045 · domingo é extra desde o início do ensaio',
+        flags:[{tipo:'alerta', texto:'intervalo descoberto 14:10 – 15:40 · lançar manual'}],
+        auditoria:['criada pelo sistema no fechamento da #1045 · 16/08 12:14'] },
+      { id:'he-1042', data:'15/08', colaborador:'Thiago', origem:'Sistema', comanda:'#1042',
+        intervalo:'23:00 – 00:45', blocos:2, status:'Pendente',
+        detalhe:'Comanda #1042 · agendado 11:00 – 15:00, fechado por Paulo',
+        flags:[{tipo:'alerta', texto:'cruzou janela de posse · inteiro para quem detinha no início'}],
+        auditoria:['criada pelo sistema no fechamento da #1042 · 16/08 00:52'] },
+      { id:'he-1039', data:'14/08', colaborador:'Marcos', origem:'Sistema', comanda:'#1039',
+        intervalo:'23:00 – 23:50', blocos:1, status:'Pendente',
+        detalhe:'Comanda #1039',
+        flags:[{tipo:'alerta', texto:'turno sem colaborador na escala · caiu para quem fechou'}],
+        auditoria:['criada pelo sistema no fechamento da #1039 · 14/08 23:58'] },
+      { id:'he-1015b', data:'13/08', colaborador:'Thiago', origem:'Sistema', comanda:'#1015',
+        intervalo:'23:00 – 00:55', blocos:2, status:'Pendente',
+        detalhe:'Comanda #1015 · recriada no refechamento',
+        flags:[{tipo:'info', texto:'substitui he-1015a, cancelada · os dois foram notificados'}],
+        auditoria:['criada pelo sistema no refechamento da #1015 · 14/08 10:22'] },
+      { id:'he-m12', data:'12/08', colaborador:'Paulo', origem:'Manual', comanda:'',
+        intervalo:'06:30 – 08:00', blocos:1, status:'Pendente',
+        detalhe:'Chegou antes para montar cenário do ensaio das 9h',
+        flags:[{tipo:'alerta', texto:'fora da escala do dia · lançamento validado com alerta'}],
+        auditoria:['lançada por Paulo · 12/08 08:05'] },
+      { id:'he-1021', data:'10/08', colaborador:'Paulo', origem:'Sistema', comanda:'#1021',
+        intervalo:'23:00 – 23:40', blocos:1, status:'Paga',
+        detalhe:'Comanda #1021',
+        flags:[],
+        auditoria:['criada pelo sistema no fechamento da #1021 · 10/08 23:47', 'paga por Jana · 12/08 09:12'] },
+      { id:'he-1015a', data:'13/08', colaborador:'Thiago', origem:'Sistema', comanda:'#1015',
+        intervalo:'23:00 – 00:20', blocos:1, status:'Cancelada',
+        detalhe:'Comanda #1015 · substituída no refechamento',
+        flags:[],
+        auditoria:['criada pelo sistema no fechamento da #1015 · 13/08 00:25', 'cancelada pelo sistema · 14/08 10:22 · motivo: refechamento da comanda'] },
+      { id:'he-1018', data:'09/08', colaborador:'Marcos', origem:'Sistema', comanda:'#1018',
+        intervalo:'23:00 – 00:10', blocos:2, status:'Cancelada',
+        detalhe:'Comanda #1018 · ensaio não ocorreu',
+        flags:[{tipo:'neutra', texto:'volta a Pendente se a comanda descancelar'}],
+        auditoria:['criada pelo sistema no fechamento da #1018 · 09/08 23:30', 'cancelada por cascata da comanda · 10/08 08:40'] },
+    ];
+
+    const registros = BASE.concat(this.state.lancadas).map(function(r){
+      const mud = self.state.mudancas[r.id];
+      const status = mud ? mud.status : r.status;
+      let auditoria = r.auditoria || [];
+      if (mud) {
+        if (mud.status === 'Paga') auditoria = auditoria.concat(['paga por Jana · 17/08 09:40']);
+        if (mud.status === 'Cancelada') auditoria = auditoria.concat(['cancelada por Jana · 17/08 09:40 · motivo: ' + mud.motivo]);
+        if (mud.status === 'Pendente') auditoria = auditoria.concat(['pagamento estornado por Jana · 17/08 09:40']);
+      }
+      return { ...r, status: status, auditoria: auditoria, valor: r.blocos * valorBloco };
+    });
+
+    const periodo = this.state.periodo;
+    const noPeriodo = function(r){
+      const dia = parseInt(r.data.slice(0, 2), 10);
+      if (periodo === 'q1') return dia <= 15;
+      if (periodo === 'q2') return dia >= 16;
+      return true;
+    };
+    const doPerfil = function(r){ return isAdmin || r.colaborador === eu; };
+
+    const visiveis = registros.filter(function(r){
+      if (!doPerfil(r)) return false;
+      if (!noPeriodo(r)) return false;
+      if (aba === 'pendentes') return r.status === 'Pendente';
+      if (aba === 'pagas') return r.status === 'Paga';
+      return r.status === 'Cancelada';
+    });
+
+    const lista = visiveis.map(function(r){
+      const acoes = [];
+      if (isAdmin && r.status === 'Pendente') {
+        acoes.push({ label:'Marcar paga', style:acaoPagar, onClick:function(){
+          self.setState(function(s){ const m = { ...s.mudancas }; m[r.id] = { status:'Paga' }; return { mudancas:m, cancelandoId:null }; });
+        }});
+        acoes.push({ label:'Cancelar', style:acaoNeutra, onClick:function(){
+          self.setState({ cancelandoId: r.id, motivo: '' });
+        }});
+      }
+      if (isAdmin && r.status === 'Paga') {
+        acoes.push({ label:'Estornar', style:acaoNeutra, onClick:function(){
+          self.setState(function(s){ const m = { ...s.mudancas }; m[r.id] = { status:'Pendente' }; return { mudancas:m }; });
+        }});
+      }
+      return {
+        data: r.data + (r.diaSemana ? ' · ' + r.diaSemana : ''),
+        intervalo: r.intervalo,
+        colaborador: r.colaborador,
+        origem: r.origem,
+        origemStyle: ORIGEM[r.origem],
+        detalhe: r.detalhe,
+        valor: fmt(r.valor),
+        valorStyle: r.status === 'Cancelada' ? 'color:#64748B;text-decoration:line-through' : 'color:#0F172A',
+        blocos: r.blocos + (r.blocos === 1 ? ' bloco' : ' blocos'),
+        status: r.status,
+        statusStyle: STATUS[r.status],
+        markStyle: MARK[r.status],
+        temAcoes: acoes.length > 0,
+        acoes: acoes,
+        temFlags: r.flags.length > 0,
+        flags: r.flags.map(function(f){ return { texto: f.texto, style: FLAG[f.tipo] }; }),
+        historicoAberto: !!self.state.abertos[r.id],
+        historicoLabel: self.state.abertos[r.id] ? 'ocultar histórico' : 'histórico',
+        auditoria: r.auditoria,
+        toggleHistorico: function(){
+          self.setState(function(s){ const a = { ...s.abertos }; a[r.id] = !a[r.id]; return { abertos: a }; });
+        },
+        cancelando: self.state.cancelandoId === r.id,
+        confirmarCancelamento: function(){
+          const mot = self.state.motivo.trim();
+          if (!mot) { self.setState({ motivoErro: true }); return; }
+          self.setState(function(s){
+            const m = { ...s.mudancas };
+            m[r.id] = { status:'Cancelada', motivo: mot };
+            return { mudancas:m, cancelandoId:null, motivo:'', motivoErro:false };
+          });
+        },
+      };
+    });
+
+    const NOMES = ['Marcos', 'Thiago', 'Paulo'];
+    const pendentes = registros.filter(function(r){
+      return r.status === 'Pendente' && doPerfil(r) && noPeriodo(r);
+    });
+    const totais = NOMES.map(function(n){
+      const seus = pendentes.filter(function(r){ return r.colaborador === n; });
+      const soma = seus.reduce(function(a, r){ return a + r.valor; }, 0);
+      return {
+        nome: n,
+        valor: fmt(soma),
+        valorStyle: soma > 0 ? 'color:#0F172A;font-weight:600' : 'color:#CBD5E1',
+        detalhe: seus.length === 0 ? 'nada pendente' : seus.length + (seus.length === 1 ? ' extra pendente' : ' extras pendentes'),
+      };
+    }).filter(function(t){ return isAdmin || t.nome === eu; });
+
+    const abas = [
+      { value:'pendentes', label:'Pendentes' },
+      { value:'pagas', label:'Pagas' },
+      { value:'canceladas', label:'Canceladas' },
+    ].map(function(a){
+      return { label:a.label, style: aba === a.value ? btnOn : btnOff, onClick: function(){ self.setState({ aba:a.value, cancelandoId:null }); } };
+    });
+
+    const f = this.state.form;
+    const setForm = function(campo){
+      return function(e){
+        const v = e.target.value;
+        self.setState(function(s){ const nf = { ...s.form }; nf[campo] = v; return { form: nf }; });
+      };
+    };
+
+    // validação contra a Escala: alerta, nunca bloqueio
+    const destino = isAdmin ? f.destinatario : eu;
+    const ESCALA_DIA = {
+      '16/08': { turnos: [], rotulo: 'domingo sem expediente' },
+      '17/08': { turnos: [{ nome:'Marcos', hora:'08:00 – 14:00' }, { nome:'Thiago', hora:'14:00 – 23:00' }], rotulo: 'segunda' },
+      '18/08': { turnos: [{ nome:'Marcos', hora:'08:00 – 14:00' }, { nome:'Paulo', hora:'14:00 – 23:00' }], rotulo: 'terça' },
+    };
+    const chaveDia = f.data.slice(0, 5);
+    const dia = ESCALA_DIA[chaveDia];
+    let avisoEscala;
+    if (!dia) {
+      avisoEscala = 'Sem escala carregada para ' + chaveDia + ' — o lançamento é aceito e o Admin é alertado.';
+    } else if (dia.turnos.length === 0) {
+      avisoEscala = chaveDia + ' é ' + dia.rotulo + ' — aceito com alerta ao Admin.';
+    } else {
+      const meu = dia.turnos.filter(function(t){ return t.nome === destino; })[0];
+      avisoEscala = meu
+        ? destino + ' estava escalado em ' + chaveDia + ', ' + meu.hora + ' — confira se o horário lançado é fora do turno.'
+        : destino + ' não estava escalado em ' + chaveDia + ' — aceito com alerta ao Admin.';
+    }
+
+    const vazioTitulo = { pendentes:'Nada pendente', pagas:'Nada pago ainda', canceladas:'Nada cancelado' }[aba];
+    const vazioSub = {
+      pendentes: isAdmin ? 'Toda hora extra criada já foi paga ou cancelada.' : 'Você não tem hora extra esperando pagamento.',
+      pagas: 'Quando a Jana marcar uma extra como paga, ela aparece aqui.',
+      canceladas: 'Extras canceladas ficam no histórico, nunca são excluídas.',
+    }[aba];
+
+    const sync = this._syncInfo();
+    return {
+      syncStyle: 'color:' + sync.text + ';display:flex;align-items:center;gap:6px',
+      syncDotStyle: 'width:5px;height:5px;border-radius:50%;background:' + sync.dot + (sync.pulse ? ';animation:pulseDot 2.4s ease-in-out infinite' : ''),
+      syncLabel: sync.label,
+      headSub: isAdmin
+        ? 'Criadas no fechamento da comanda ou lançadas à mão. Pagar e cancelar são ações suas.'
+        : 'Suas horas extras. A Jana paga por fora e marca cada uma individualmente.',
+      btnLancar: this.state.lancarAberto ? btnOn : btnOff,
+      btnGhost, btnConfirmar: btnOn,
+      btnCancelarConfirma: 'font-size:12px;color:#B91C1C;border:1px solid #FEF2F2;background:#FEF2F2;padding:8px 13px;border-radius:5px;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap',
+      abas: abas,
+      lancarAberto: this.state.lancarAberto,
+      lista: lista,
+      temLista: lista.length > 0,
+      vazio: lista.length === 0,
+      vazioTitulo, vazioSub,
+      totais: totais,
+      temTotais: totais.length > 0,
+      motivo: this.state.motivo,
+      periodos: [
+        { value:'mes', label:'Agosto' },
+        { value:'q1', label:'1 – 15 ago' },
+        { value:'q2', label:'16 – 31 ago' },
+      ].map(function(p){
+        return {
+          label: p.label,
+          style: periodo === p.value
+            ? 'font-size:11px;color:#F8FAFC;background:#0F172A;border:1px solid #0F172A;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:600;white-space:nowrap'
+            : 'font-size:11px;color:#475569;background:none;border:1px solid #E2E8F0;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500;white-space:nowrap',
+          onClick: function(){ self.setState({ periodo: p.value, cancelandoId: null }); },
+        };
+      }),
+      totalPeriodo: fmt(pendentes.reduce(function(a, r){ return a + r.valor; }, 0)) + ' pendentes no período',
+      btnHistorico: 'font-family:\'JetBrains Mono\',monospace;font-size:9.5px;letter-spacing:.4px;color:#64748B;background:none;border:1px solid #E2E8F0;border-radius:4px;padding:4px 9px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease',
+      btnCancelarAtivo: this.state.motivo.trim()
+        ? 'font-size:12px;color:#B91C1C;border:1px solid #FEF2F2;background:#FEF2F2;padding:8px 13px;border-radius:5px;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap'
+        : 'font-size:12px;color:#CBD5E1;border:1px solid #E2E8F0;background:none;padding:8px 13px;border-radius:5px;font-family:inherit;cursor:not-allowed;font-weight:500;white-space:nowrap',
+      motivoErro: !!this.state.motivoErro && !this.state.motivo.trim(),
+      counts: { pendentes: pendentes.length },
+      form: {
+        data: f.data, inicio: f.inicio, fim: f.fim, motivo: f.motivo,
+        onData: setForm('data'), onInicio: setForm('inicio'), onFim: setForm('fim'), onMotivo: setForm('motivo'),
+        destinatario: f.destinatario,
+        mostrarDestinatario: isAdmin,
+        opcoesDestinatario: NOMES.map(function(n){
+          return {
+            label: n,
+            style: f.destinatario === n
+              ? 'font-size:11.5px;color:#F8FAFC;background:#0F172A;border:1px solid #0F172A;padding:8px 12px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:600;white-space:nowrap'
+              : 'font-size:11.5px;color:#475569;background:none;border:1px solid #E2E8F0;padding:8px 12px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500;white-space:nowrap',
+            onClick: function(){ self.setState(function(s){ const nf = { ...s.form }; nf.destinatario = n; return { form: nf }; }); },
+          };
+        }),
+        aviso: avisoEscala,
+      },
+      rodape: isAdmin
+        ? 'O valor é cópia do acréscimo da comanda (R$ ' + valorBloco.toFixed(2).replace('.', ',') + ' por bloco noturno) e nunca é recalculado. Refechamento cancela e cria nova, sempre notificando as duas pessoas. Extra já paga não é alterada: valor maior cancela e recria, valor menor só alerta a diferença.'
+        : 'O valor vem do acréscimo da comanda e não muda depois de criado. Se o ensaio for refechado, você é avisado — mesmo que a extra passe para outra pessoa.',
+      who: this._who(),
+      perfis: this._perfilChip(),
+      handlers: {
+        toggleLancar: function(){ self.setState(function(s){ return { lancarAberto: !s.lancarAberto }; }); },
+        enviarLancamento: function(){
+          self.setState(function(s){
+            const nova = {
+              id: 'he-m' + (s.lancadas.length + 1) + '-nova',
+              data: s.form.data.slice(0, 5), colaborador: isAdmin ? s.form.destinatario : eu, origem: 'Manual', comanda: '',
+              intervalo: s.form.inicio + ' – ' + s.form.fim, blocos: 1, status: 'Pendente',
+              detalhe: s.form.motivo || 'Lançamento manual sem motivo informado',
+              flags: [{ tipo:'alerta', texto: avisoEscala }],
+            };
+            return { lancadas: s.lancadas.concat([nova]), lancarAberto: false, aba: 'pendentes' };
+          });
+        },
+        onMotivo: function(e){ const v = e.target.value; self.setState({ motivo: v, motivoErro: false }); },
+        fecharCancelamento: function(){ self.setState({ cancelandoId: null, motivo: '', motivoErro: false }); },
+      },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

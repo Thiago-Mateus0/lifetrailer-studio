@@ -1,0 +1,9 @@
+company_id,staff_id,tipo,estudio,ordem_exibicao,rotulo,ativo
+1000001,2000001,Estudio,Acustico,1,Estúdio 1 (Acústico),true
+1000001,2000002,Estudio,Branco,2,Estúdio 2 (Branco),true
+1000001,2000003,Estudio,Luz Natural,3,Estúdio 3 (Luz Natural),true
+1000001,2000004,Estudio,Loft,4,Estúdio 4 (Loft),true
+1000001,2000005,Estudio,Quintal,5,Estúdio 5 (Quintal),true
+1000001,2000006,Pessoa,,,Wyll / Gerente,true
+1000001,2000007,Pessoa,,,Dev,true
+1000001,2000008,Pessoa,,,Recrutas (atendentes),true

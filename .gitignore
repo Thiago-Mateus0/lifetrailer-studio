@@ -1,0 +1,10 @@
+CONTEXTO.md
+__pycache__/
+.env
+*.pyc
+*.zip
+.claude/worktrees/
+
+# As fotos que a rota de mídia grava em dev (ADR 0051 §1). Foto de operação não
+# é conteúdo versionado; em produção os bytes vão pro R2.
+var/

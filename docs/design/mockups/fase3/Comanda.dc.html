@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F8FAFC}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <!-- viewer chrome: not part of the product -->
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;gap:5px;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ perfis }}" as="pf" hint-placeholder-count="2">
+        <button style="{{ pf.tabStyle }}" onClick="{{ pf.onClick }}">{{ pf.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ============ product shell (tablet) ============ -->
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <!-- sidebar -->
+      <dc-import name="Sidebar" active="comanda" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <!-- main -->
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto;animation:riseIn .34s cubic-bezier(.22,.61,.36,1) both">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>{{ crumb }}<div style="flex:1"></div><span style="{{ syncStyle }}"><span style="{{ syncDotStyle }}"></span>{{ syncLabel }}</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <!-- ============ LIST VIEW ============ -->
+        <sc-if value="{{ isLista }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:14px;flex-wrap:wrap">
+            <div>
+              <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">Comandas</h2>
+              <div style="font-size:12px;color:#64748B;margin-top:4px">{{ listaSub }}</div>
+            </div>
+            <button style="white-space:nowrap;font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600" onClick="{{ handlers.toggleNovo }}">+ Nova comanda</button>
+          </div>
+
+          <div style="display:flex;gap:5px;margin-bottom:12px;font-family:'JetBrains Mono',monospace">
+            <sc-for list="{{ modos }}" as="m" hint-placeholder-count="2">
+              <button style="{{ m.style }}" onClick="{{ m.onClick }}">{{ m.label }}</button>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+            <sc-if value="{{ isHistorico }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:11px">
+                <button style="padding:6px 10px;border-radius:4px;border:1px solid #E2E8F0;background:none;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;color:#475569;font-family:inherit" onClick="{{ handlers.diaAnterior }}">‹</button>
+                <span style="padding:6px 12px;min-width:110px;text-align:center;white-space:nowrap">{{ dataLabel }}</span>
+                <button style="padding:6px 10px;border-radius:4px;border:1px solid #E2E8F0;background:none;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;color:#475569;font-family:inherit" onClick="{{ handlers.diaSeguinte }}">›</button>
+              </div>
+            </sc-if>
+            <input type="text" placeholder="Buscar por cliente, número ou estúdio" value="{{ searchInput }}" onChange="{{ handlers.setSearch }}" style="flex:1;min-width:200px;font-size:12.5px;padding:8px 12px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit;color:#0F172A">
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px;font-family:'JetBrains Mono',monospace">
+            <sc-for list="{{ statusFiltros }}" as="sf" hint-placeholder-count="4">
+              <button style="{{ sf.style }}" onClick="{{ sf.onClick }}">{{ sf.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ novo }}" hint-placeholder-val="{{ false }}">
+            <div style="border:1px solid #E2E8F0;border-radius:7px;overflow:hidden;margin-bottom:16px">
+              <div style="padding:11px 15px;background:#F1F5F9;font-size:13px;font-weight:500">Nova comanda manual</div>
+              <div style="padding:14px 15px;display:grid;grid-template-columns:1fr 1fr;gap:11px">
+                <label style="grid-column:1/-1;display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Cliente</span><input type="text" value="{{ form.cliente }}" onChange="{{ handlers.setCliente }}" style="font-size:12.5px;padding:8px 10px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit"></label>
+                <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Início</span><input type="text" placeholder="20:00" value="{{ form.horaInicio }}" onChange="{{ handlers.setHoraInicio }}" style="width:70px;font-size:12.5px;padding:8px 10px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit"></label>
+                <label style="display:flex;flex-direction:column;gap:5px"><span style="font-size:11px;color:#475569">Término</span><input type="text" placeholder="21:00" value="{{ form.horaFim }}" onChange="{{ handlers.setHoraFim }}" style="width:70px;font-size:12.5px;padding:8px 10px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit"></label>
+                <div style="grid-column:1/-1;display:flex;gap:6px">
+                  <sc-for list="{{ estudios }}" as="es" hint-placeholder-count="2">
+                    <button style="{{ es.style }}" onClick="{{ es.onClick }}">{{ es.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;justify-content:flex-end;gap:7px;padding:12px 15px;border-top:1px solid #E2E8F0">
+                <button style="font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:9px 14px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500" onClick="{{ handlers.toggleNovo }}">Cancelar</button>
+                <button style="font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:9px 14px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600" onClick="{{ handlers.criar }}">Criar comanda</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ vazio }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:90px 20px;color:#64748B">
+              <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;color:#CBD5E1;letter-spacing:-.3px;margin-bottom:8px">Nenhuma comanda</div>
+              <div style="font-size:12px">{{ vazioSub }}</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ !vazio }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <sc-for list="{{ lista }}" as="c" hint-placeholder-count="4">
+                <div style-hover="border-color:#CBD5E1;background:#F8FAFC" style="display:flex;align-items:center;gap:14px;border:1px solid #E2E8F0;border-radius:7px;padding:12px 15px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease" onClick="{{ c.onClick }}">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:600;color:#0F172A;white-space:nowrap">{{ c.horario }}</span>
+                  <span style="flex:1;font-size:13px;font-weight:500;min-width:0">{{ c.cliente }}</span>
+                  <span style="font-size:9.5px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.6px;font-family:'JetBrains Mono',monospace;border:1px solid #CBD5E1;color:#475569;white-space:nowrap;text-transform:uppercase">{{ c.estudioTag }}</span>
+                  <span style="{{ c.origemStyle }}">{{ c.origemLabel }}</span>
+                  <span style="{{ c.pillStyle }}"><span style="{{ c.pillDotStyle }}"></span>{{ c.statusLabel }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;min-width:56px;text-align:right">{{ c.valor }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isHistorico }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin-top:18px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#475569">
+              <button style="padding:7px 12px;border-radius:4px;border:1px solid #E2E8F0;background:none;cursor:pointer;transition:background .18s ease,border-color .18s ease;color:#475569;font-family:inherit" onClick="{{ handlers.pagAnterior }}">‹ anterior</button>
+              <span style="color:#64748B">Página {{ pagInfo.atual }} de {{ pagInfo.total }}</span>
+              <button style="padding:7px 12px;border-radius:4px;border:1px solid #E2E8F0;background:none;cursor:pointer;transition:background .18s ease,border-color .18s ease;color:#475569;font-family:inherit" onClick="{{ handlers.pagSeguinte }}">seguinte ›</button>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <!-- ============ DETAIL VIEW ============ -->
+        <sc-if value="{{ !isLista }}" hint-placeholder-val="{{ false }}">
+
+        <button style="font-size:11.5px;color:#475569;border:none;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;padding:0;margin-bottom:14px;display:flex;align-items:center;gap:5px" onClick="{{ handlers.goLista }}">← Voltar para Comandas</button>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">Comanda {{ sel.id }}</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:4px">{{ sel.cliente }} · {{ sel.estudio }} · {{ sel.dataLabel }}</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+              <button style="font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500">Ver audit log</button>
+            </sc-if>
+            <sc-for list="{{ actions }}" as="act" hint-placeholder-count="2">
+              <button style="white-space:nowrap;{{ act.style }}" onClick="{{ act.onClick }}">{{ act.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px 4px 8px;border-radius:4px;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px;{{ pill.style }}"><span style="width:6px;height:6px;border-radius:50%;{{ pill.dotStyle }}"></span>{{ pill.label }}</span>
+
+        <!-- ============ ASSUNÇÃO — reduced view ============ -->
+        <sc-if value="{{ isAssuncao }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:460px;background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:20px 22px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px">Comanda de outro atendente</div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid #E2E8F0"><span style="color:#475569;white-space:nowrap">Cliente</span><span style="white-space:nowrap;flex-shrink:0">{{ sel.cliente }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid #E2E8F0"><span style="color:#475569">Estúdio</span><span style="font-size:9.5px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.6px;font-family:'JetBrains Mono',monospace;border:1px solid #CBD5E1;color:#475569;text-transform:uppercase">{{ sel.estudioTag }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid #E2E8F0"><span style="color:#475569;white-space:nowrap">Horário</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ sel.horario }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:13px"><span style="color:#475569;white-space:nowrap">Responsável</span><span style="white-space:nowrap;flex-shrink:0">Paulo</span></div>
+            <button style="width:100%;margin-top:18px;font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600" onClick="{{ handlers.assumir }}">Assumir comanda</button>
+            <div style="font-size:11px;color:#64748B;margin-top:14px;line-height:1.5">Sem valores, sem bomboniere, sem ação até assumir. A posse foi entregue pelo que a Escala diz — se você está no estúdio agora, assuma.</div>
+          </div>
+        </sc-if>
+
+        <!-- ============ FULL VIEW (aberta / fechada / enviada / cancelada) ============ -->
+        <sc-if value="{{ showFull }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:1fr;gap:18px">
+
+          <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+            <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;font-weight:500;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px">Responsabilidade</h3>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid #E2E8F0"><span style="white-space:nowrap">Criado por <span style="color:#64748B">· imutável</span></span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ criadoPorLabel }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid #E2E8F0"><span style="white-space:nowrap">Origem da criação</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ origemLabel }}</span></div>
+            <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px"><span style="white-space:nowrap">Responsável atual</span><span style="font-family:'JetBrains Mono',monospace">{{ posse.responsavelLabel }}</span></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start">
+            <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+              <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;font-weight:500;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px">Ensaio</h3>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid #E2E8F0"><span style="white-space:nowrap">Serviço contratado</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">1 hora</span></div>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid #E2E8F0"><span style="white-space:nowrap">Agendado</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ sel.horario }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid #E2E8F0"><span style="white-space:nowrap">Praticado</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ praticadoLabel }}</span></div>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px"><span style="white-space:nowrap">Valor do ensaio</span><span style="{{ valEnsaioPrevistoStyle }}">{{ valEnsaioPrevisto }}</span></div>
+            </div>
+            <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+              <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;font-weight:500;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px">Extensão calculada</h3>
+              <sc-if value="{{ temPraticado }}" hint-placeholder-val="{{ true }}">
+                <div style="background:#F1F5F9;border-left:2px solid #4F46E5;padding:11px 13px;font-size:11.5px;color:#475569;font-family:'JetBrains Mono',monospace;line-height:1.75;border-radius:0 5px 5px 0">50 min além do agendado<br>2 blocos de 30 min · offset 0<br>base 97,00 · sem noturno<br>saiu 22:05, antes das 23h</div>
+              </sc-if>
+              <div style="display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;margin-top:11px"><span style="white-space:nowrap">Total da extensão</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ valExtensao }}</span></div>
+            </div>
+          </div>
+
+          <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+            <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;font-weight:500;margin:0 0 4px;text-transform:uppercase;letter-spacing:1px">Extras</h3>
+            <div style="font-size:10.5px;color:#64748B;margin-bottom:10px">Horas, fundos, equipamentos e bomboniere — como na comanda de papel</div>
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+              <tbody>
+                <sc-for list="{{ extras }}" as="ex" hint-placeholder-count="3">
+                  <tr><td style="padding:11px 0;border-bottom:1px solid #E2E8F0">{{ ex.nome }}</td><td style="padding:11px 0;border-bottom:1px solid #E2E8F0;font-family:'JetBrains Mono',monospace;text-align:right">× {{ ex.qtd }}</td><td style="padding:11px 0;border-bottom:1px solid #E2E8F0;font-family:'JetBrains Mono',monospace;text-align:right">{{ ex.preco }}</td><td style="padding:11px 0;border-bottom:1px solid #E2E8F0;font-family:'JetBrains Mono',monospace;text-align:right">{{ ex.total }}</td></tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <sc-if value="{{ isAberta }}" hint-placeholder-val="{{ false }}">
+              <span style="display:inline-block;margin-top:11px;font-size:11px;color:#4338CA;border:1px solid #C7CDF7;background:#EEF2FF;padding:4px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500" onClick="{{ handlers.togglePicker }}">+ Adicionar do catálogo</span> <span style="display:inline-block;margin-top:11px;margin-left:6px;font-size:11px;color:#4338CA;border:1px solid #C7CDF7;background:#EEF2FF;padding:4px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500" onClick="{{ handlers.togglePicker }}">+ Fundo/equipamento</span>
+
+              <sc-if value="{{ pickerAberto }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:11px;border:1px solid #E2E8F0;border-radius:6px;padding:12px 13px">
+                  <div style="font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px;font-family:'JetBrains Mono',monospace">Catálogo — preço fixo, uso interno</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px">
+                    <sc-for list="{{ catalogo }}" as="it" hint-placeholder-count="6">
+                      <span style-hover="border-color:#4F46E5;color:#4338CA;background:#EEF2FF" style="font-size:11.5px;padding:6px 10px;border:1px solid #E2E8F0;border-radius:5px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;white-space:nowrap" onClick="{{ it.onClick }}">{{ it.nome }} <span style="color:#64748B;font-family:'JetBrains Mono',monospace">· {{ it.preco }}</span></span>
+                    </sc-for>
+                  </div>
+                  <div style="font-size:10px;color:#64748B;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;font-family:'JetBrains Mono',monospace">Item fora do catálogo</div>
+                  <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+                    <input type="text" placeholder="Descrição" value="{{ livre.descricao }}" onChange="{{ handlers.setLivreDescricao }}" style="flex:1;min-width:140px;font-size:12px;padding:7px 10px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit">
+                    <input type="text" placeholder="Preço" value="{{ livre.preco }}" onChange="{{ handlers.setLivrePreco }}" style="width:90px;font-size:12px;padding:7px 10px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit">
+                    <button style="font-size:11.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:7px 12px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600" onClick="{{ handlers.addLivre }}">Adicionar</button>
+                  </div>
+                  <div style="font-size:10.5px;color:#64748B;margin-top:9px;line-height:1.5">Preço do catálogo vale só para uso dentro do estúdio. Uso externo é negociado — lance como item fora do catálogo.</div>
+                </div>
+              </sc-if>
+            </sc-if>
+          </div>
+
+          <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+            <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;font-weight:500;margin:0 0 4px;text-transform:uppercase;letter-spacing:1px">Equipamentos emprestados</h3>
+            <div style="font-size:10.5px;color:#64748B;margin-bottom:10px">Rádio, JBL, carregadores, controle do AR, cabo tether — checagem na entrada e na saída, como na comanda de papel</div>
+            <sc-for list="{{ emprestimos }}" as="eq" hint-placeholder-count="7">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;font-size:12.5px;border-bottom:1px solid #E2E8F0">
+                <span>{{ eq.nome }}</span>
+                <div style="display:flex;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B">
+                  <span style="display:flex;align-items:center;gap:6px">Entrada <span style="width:16px;height:16px;border:1.5px solid #CBD5E1;border-radius:3px;{{ eq.entradaStyle }}"></span></span>
+                  <span style="display:flex;align-items:center;gap:6px">Saída <span style="width:16px;height:16px;border:1.5px solid #CBD5E1;border-radius:3px;{{ eq.saidaStyle }}"></span></span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ isCancelada }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+              <h3 style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#475569;font-weight:500;margin:0 0 10px;text-transform:uppercase;letter-spacing:1px">Cancelamento</h3>
+              <div style="font-size:12.5px;color:#334155;margin-bottom:8px">Cliente não compareceu (no-show confirmado na Altegio) · registrado por Paulo · 22:20</div>
+              <div style="font-size:11px;color:#475569;line-height:1.5">Origem reversível (attendance = −1). Estado anterior salvo como <b>Aberta</b> — se a Altegio reverter o no-show, a Comanda volta sozinha. Se em vez disso o agendamento fosse excluído, o cancelamento seria terminal.</div>
+            </div>
+          </sc-if>
+
+          <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:16px 18px">
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0"><span style="white-space:nowrap">Ensaio</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ valEnsaio }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0"><span style="white-space:nowrap">Extensão</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ valExtensao }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0"><span style="white-space:nowrap">Extras</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ valExtras }}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid #E2E8F0;margin-top:8px;padding-top:10px"><span style="white-space:nowrap">Subtotal</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">{{ valSubtotal }}</span></div>
+            <sc-if value="{{ temAntecipado }}" hint-placeholder-val="{{ true }}"><div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0"><span style="white-space:nowrap">Pago antecipado</span><span style="font-family:'JetBrains Mono',monospace;color:#15803D;white-space:nowrap;flex-shrink:0">−{{ valAntecipado }}</span></div></sc-if>
+
+            <sc-if value="{{ hasAjuste }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid #E2E8F0;margin-top:8px;padding-top:10px"><span style="white-space:nowrap">Total original (congelado)</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">156,30</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:11.5px;padding:6px 0;color:#B91C1C"><span>Ajuste — motivo: valor de bomboniere corrigido</span><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0">+20,00</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13.5px;padding-top:12px;border-top:1px solid #E2E8F0;margin-top:9px"><span style="white-space:nowrap">Total corrigido</span><span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:#0F172A;white-space:nowrap;flex-shrink:0">176,30</span></div>
+              <div style="font-size:10.5px;color:#64748B;margin-top:8px">O relatório de competência mostra o original — a correção aparece rastreável na competência em que foi feita.</div>
+            </sc-if>
+
+            <sc-if value="{{ !hasAjuste }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;justify-content:space-between;font-size:13.5px;padding-top:12px;border-top:1px solid #E2E8F0;margin-top:9px"><span style="white-space:nowrap">A pagar agora</span><span style="font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;color:#0F172A;white-space:nowrap;flex-shrink:0">{{ valPagar }}</span></div>
+            </sc-if>
+
+            <sc-if value="{{ isAberta }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:15px;display:flex;flex-direction:column;gap:8px">
+                <button style="width:100%;font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500">Gerar PDF</button>
+                <button style="width:100%;font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500">Enviar no WhatsApp</button>
+              </div>
+              <div style="font-size:11px;color:#64748B;margin-top:14px">Fechar exige horário praticado preenchido. Congela o total, dá baixa no bomboniere e registra a hora extra do turno.</div>
+            </sc-if>
+
+            <sc-if value="{{ isEnviada }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:11.5px;color:#475569;margin-top:14px;padding-top:14px;border-top:1px solid #E2E8F0">Enviado por WhatsApp para (11) 9•••2-4471 em 7 ago, 22:11. <span style="color:#4338CA;cursor:pointer;font-weight:500">Reenviar</span></div>
+            </sc-if>
+
+            <sc-if value="{{ canReabrir }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:15px">
+                <sc-if value="{{ reabrirConfirmando }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:12px 14px">
+                    <div style="font-size:12.5px;color:#0F172A;font-weight:500">Reabrir comanda enviada?</div>
+                    <div style="font-size:11.5px;color:#991B1B;margin-top:6px;line-height:1.5">Total atual: R$ {{ valorAtual }}. Essa comanda já foi enviada — reabrir agora registra o total anterior e alerta o Admin.</div>
+                    <div style="display:flex;gap:8px;margin-top:10px">
+                      <button style="flex:1;font-size:12px;color:#475569;border:1px solid #E2E8F0;padding:8px 12px;border-radius:5px;background:#FFFFFF;font-family:inherit;cursor:pointer;font-weight:500" onClick="{{ handlers.cancelarReabertura }}">Cancelar</button>
+                      <button style="flex:1;font-size:12px;color:#FFFFFF;border:1px solid #DC2626;padding:8px 12px;border-radius:5px;background:#DC2626;font-family:inherit;cursor:pointer;font-weight:600" onClick="{{ handlers.confirmarReabertura }}">Confirmar reabertura</button>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ !reabrirConfirmando }}" hint-placeholder-val="{{ true }}">
+                  <button style="width:100%;font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500" onClick="{{ handlers.reabrir }}">Reabrir comanda</button>
+                  <div style="font-size:10.5px;color:#64748B;margin-top:9px">{{ reabrirNote }}</div>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+        </sc-if>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  _sessao() {
+    if (this.__ss === undefined) {
+      try { const r = localStorage.getItem('lt.sessao'); this.__ss = r ? JSON.parse(r) : null; } catch (e) { this.__ss = null; }
+    }
+    return this.__ss;
+  }
+
+  _who() {
+    const ss = this._sessao();
+    return ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' };
+  }
+
+  _isAdmin() { return /admin|sócio|socio/i.test((this._sessao() || {}).papel || 'Atendente'); }
+
+  _eu() { return (this._sessao() || {}).nome || 'Ninguém autenticado'; }
+
+  _perfilChip() {
+    const ss = this._sessao();
+    return [{
+      value: 'sessao', label: ss ? ss.nome : 'Entrar',
+      tabStyle: 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid #E2E8F0;background:#FFFFFF;color:#475569',
+      onClick: function(){ window.location.href = './Entrada.dc.html'; },
+    }];
+  }
+
+  // TODO: quando a outbox real (IndexedDB) existir, syncState deve vir do status da fila, não de um valor semeado
+  _syncInfo() {
+    const map = { ok: { label: 'sincronizado', dot: '#16A34A', text: '#15803D', pulse: false }, pending: { label: 'sincronizando…', dot: '#D97706', text: '#B45309', pulse: true }, offline: { label: 'sem conexão', dot: '#DC2626', text: '#B91C1C', pulse: false } };
+    return map[this.state.syncState] || map.ok;
+  }
+
+  state = {
+    syncState: 'ok',
+    reabrirConfirmando: false,
+    view: 'lista', perfil: 'atendente', modo: 'ativas', dateIdx: 0, page: 0, search: '', searchInput: '', selectedId: '0184', novo: false,
+    form: { cliente: '', horaInicio: '', horaFim: '', estudio: 'Luz Natural' },
+    pickerAberto: false, livre: { descricao: '', preco: '' },
+    comandas: [
+      {id:'0182', dateIdx:0, cliente:'Bianca Reis', estudio:'Branco', horario:'09:00 – 10:00', status:'enviada', origem:'sistema', valor:'156,30',
+        extras: [{ nome: 'Água com gás 500ml', qtd: 2, preco: '3,50', total: '7,00' }, { nome: 'Bolo de chocolate (fatia)', qtd: 1, preco: '12,30', total: '12,30' }, { nome: 'Fundo de papel branco', qtd: 1, preco: '40,00', total: '40,00' }]},
+      {id:'0183', dateIdx:0, cliente:'Marcos Lino', estudio:'Luz Natural', horario:'14:00 – 15:00', status:'fechada', origem:'sistema', valor:'97,00',
+        extras: []},
+      {id:'0186', dateIdx:0, cliente:'Diego Lima', estudio:'Acústico', horario:'11:00 – 12:00', status:'cancelada', origem:'sistema', valor:'0,00', extras: []},
+      {id:'0185', dateIdx:0, cliente:'Renata Prado', estudio:'Branco', horario:'18:30 – 19:30', status:'assuncao', origem:'sistema', valor:'—', extras: []},
+      {id:'0184', dateIdx:0, cliente:'Janayna Nunes', estudio:'Luz Natural', horario:'20:15 – 21:15', status:'aberta', origem:'sistema', valor:'156,30',
+        extras: [{ nome: 'Doritos 32g', qtd: 2, preco: '7,90', total: '15,80' }, { nome: 'Água sem gás 500ml', qtd: 1, preco: '3,50', total: '3,50' }, { nome: 'Fundo de papel branco', qtd: 1, preco: '40,00', total: '40,00' }]},
+      {id:'0178', dateIdx:1, cliente:'Fernanda Ottoni', estudio:'Loft', horario:'10:00 – 11:00', status:'fechada', origem:'sistema', valor:'97,00', extras: []},
+      {id:'0179', dateIdx:1, cliente:'Rebeca Dias', estudio:'Quintal', horario:'16:00 – 17:00', status:'enviada', origem:'manual', valor:'137,00', criadoPor:'Marcos', extras: [{ nome: 'Fundo de papel branco', qtd: 1, preco: '40,00', total: '40,00' }]},
+      {id:'0171', dateIdx:2, cliente:'Otávio Cunha', estudio:'Luz Natural', horario:'09:30 – 10:30', status:'fechada', origem:'sistema', valor:'97,00', extras: []},
+    ],
+  };
+
+  renderVals() {
+    const self = this;
+    const { view, perfil, modo, dateIdx, page, search, selectedId, novo, form, comandas, pickerAberto, livre, reabrirConfirmando } = this.state;
+    const CATALOGO = [
+      { nome: 'Fundo fotográfico Pisando', preco: 90 },
+      { nome: 'Fundo fotográfico BG - sem pisar', preco: 30 },
+      { nome: 'Mic Lapela Lark 150', preco: 30 },
+      { nome: 'Canon 6D + 50mm 1.4', preco: 90 },
+      { nome: 'Canon T4i - 50mm', preco: 70 },
+      { nome: 'Ponto de luz extra', preco: 50 },
+      { nome: 'Esteira', preco: 50 },
+      { nome: 'Spotlight SE', preco: 70 },
+      { nome: 'Teleprompter FeelWorld TP2A', preco: 50 },
+      { nome: 'Canon EF 16-35mm 2.8F', preco: 50 },
+      { nome: 'Canon EF 24-70mm 2.8F', preco: 55 },
+      { nome: 'Canon EF 50mm 1.4F', preco: 30 },
+      { nome: 'Canon EF 100mm 2.8F Macro', preco: 55 },
+      { nome: 'Canon EF 70-200mm 2.8F', preco: 65 },
+    ];
+    const fmt = (n) => n.toFixed(2).replace('.', ',');
+    const num = (t) => parseFloat(String(t).replace(/\./g, '').replace(',', '.')) || 0;
+    const addExtra = (nome, precoNum) => this.setState(s => ({
+      comandas: s.comandas.map(c => c.id === selectedId
+        ? { ...c, extras: [...(c.extras || []), { nome, qtd: 1, preco: fmt(precoNum), total: fmt(precoNum) }] }
+        : c),
+      pickerAberto: false, livre: { descricao: '', preco: '' },
+    }));
+    const isLista = view === 'lista';
+    const isAdmin = this._isAdmin();
+    const isHistorico = modo === 'historico';
+    const PAGE_SIZE = 5;
+
+    const DATAS = ['7 de agosto', '6 de agosto', '5 de agosto'];
+    const setStatus = (id, status) => this.setState(s => ({ comandas: s.comandas.map(c => c.id === id ? { ...c, status } : c) }));
+
+    const vtStyle = function(on){
+      return (on
+        ? 'font-size:11px;color:#F8FAFC;background:#0F172A;border:1px solid #0F172A;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500'
+        : 'font-size:11px;color:#64748B;background:none;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit') + ';white-space:nowrap;flex-shrink:0';
+    };
+    const PERFIS = [ {value:'atendente', label:'Atendente'}, {value:'admin', label:'Admin'} ];
+
+    // papéis de cor (COR.md §3): informativo / atenção / sucesso / inativo. Índigo nunca é status.
+    const pillMap = {
+      aberta: { label: 'Aberta · editável', style: 'background:#F1F5F9;color:#475569;border:none', dotStyle: 'background:#475569' },
+      fechada: { label: 'Fechada · congelada', style: 'background:#FFFBEB;color:#B45309;border:none', dotStyle: 'background:#B45309' },
+      enviada: { label: 'Enviada · PDF + WhatsApp', style: 'background:#F0FDF4;color:#15803D;border:none', dotStyle: 'background:#15803D' },
+      cancelada: { label: 'Cancelada · reversível', style: 'background:transparent;color:#64748B;border:1px solid #E2E8F0', dotStyle: 'background:#94A3B8' },
+      assuncao: { label: '', style: '', dotStyle: '' },
+    };
+    const pillListStyle = (s) => 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;white-space:nowrap;' + (s === 'assuncao' ? 'background:#D97706;color:#FFFFFF' : (pillMap[s] ? pillMap[s].style : ''));
+    const pillDotStyle = (s) => 'display:inline-block;width:5px;height:5px;border-radius:50%;margin-right:6px;' + (s === 'assuncao' ? 'background:#FFFFFF' : (pillMap[s] ? pillMap[s].dotStyle : ''));
+    const pillListLabel = { aberta:'aberta', fechada:'fechada', enviada:'enviada', cancelada:'cancelada', assuncao:'aguardando assunção' };
+
+    // search ignores date filter; "ativas" mode ignores date and shows open + today; "histórico" is date-scoped and paginated
+    const searching = search.trim().length > 0;
+    const q = search.trim().toLowerCase();
+    const statusFiltro = this.state.statusFiltro || 'todas';
+    const baseList = (searching
+      ? comandas.filter(c => c.cliente.toLowerCase().includes(q) || c.id.includes(q) || c.estudio.toLowerCase().includes(q))
+      : (isHistorico ? comandas.filter(c => c.dateIdx === dateIdx) : comandas.filter(c => c.dateIdx === 0 || c.status === 'aberta' || c.status === 'assuncao'))
+    ).filter(c => statusFiltro === 'todas' || c.status === statusFiltro)
+     .sort((a,b) => a.dateIdx - b.dateIdx || a.horario.localeCompare(b.horario));
+
+    const totalPages = isHistorico ? Math.max(1, Math.ceil(baseList.length / PAGE_SIZE)) : 1;
+    const pageClamped = Math.min(page, totalPages - 1);
+    const filtered = isHistorico ? baseList.slice(pageClamped * PAGE_SIZE, pageClamped * PAGE_SIZE + PAGE_SIZE) : baseList;
+
+    const lista = filtered.map(c => ({
+      horario: c.horario, cliente: c.cliente,
+      estudioTag: c.estudio.toUpperCase(),
+      origemLabel: c.origem === 'manual' ? 'manual' : 'sistema',
+      origemStyle: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;white-space:nowrap;background:#F1F5F9;color:#475569',
+      pillStyle: pillListStyle(c.status), pillDotStyle: pillDotStyle(c.status), statusLabel: pillListLabel[c.status],
+      valor: c.valor,
+      onClick: () => self.setState({ view: 'detalhe', selectedId: c.id }),
+    }));
+
+    const sel = comandas.find(c => c.id === selectedId) || comandas[0];
+    const status = sel.status, origem = sel.origem;
+    const isAberta = status === 'aberta';
+    const isAssuncao = status === 'assuncao';
+    const isFechada = status === 'fechada';
+    const isEnviada = status === 'enviada';
+    const isCancelada = status === 'cancelada';
+    const showFull = !isAssuncao;
+    const canReabrir = isFechada || isEnviada;
+    const hasAjuste = isFechada;
+    const boxOn = 'background:#16A34A;border-color:#16A34A';
+    const boxOff = '';
+    const nova = !!sel.nova;
+    const entradaBox = nova ? boxOff : boxOn;
+    const saidaBox = (nova || isAberta) ? boxOff : boxOn;
+    const criadoPorLabel = origem === 'sistema' ? '— (Sistema)' : (sel.criadoPor || 'Marcos');
+
+    // extras, ensaio e extensão saem da própria comanda — card e resumo leem a mesma fonte
+    const extrasSel = sel.extras || [];
+    const vExtras = extrasSel.reduce((a, ex) => a + num(ex.total), 0);
+    const vEnsaioPrevisto = 97;                       // serviço contratado, exibido sempre
+    const vEnsaio = nova ? 0 : vEnsaioPrevisto;       // só entra na conta quando o ensaio acontece
+    const vExtensao = nova ? 0 : 97;                  // idem: sem praticado, não há extensão
+    const vSubtotal = vEnsaio + vExtensao + vExtras;
+    const vAntecipado = (origem === 'sistema' && !nova) ? 97 : 0;
+    const vPagar = Math.max(0, vSubtotal - vAntecipado);
+    const origemLabel = origem === 'sistema' ? 'Sistema · não pago online' : 'Manual · atendente';
+
+    const reabrirNoteMap = {
+      fechada: 'Ensaio foi ontem — dentro de D+0 a D+2: reabre livre, sem aviso.',
+      enviada: 'Ensaio foi há 4 dias — a partir de D+3 reabrir alerta o Admin agora e registra o total anterior.',
+    };
+
+    const emprestimos = [
+      { nome: 'Rádio', entradaStyle: entradaBox, saidaStyle: saidaBox },
+      { nome: 'JBL', entradaStyle: entradaBox, saidaStyle: saidaBox },
+      { nome: 'Carregador JBL', entradaStyle: boxOff, saidaStyle: boxOff },
+      { nome: 'Carregador celular', entradaStyle: boxOff, saidaStyle: boxOff },
+      { nome: 'Controle do ar-condicionado', entradaStyle: entradaBox, saidaStyle: saidaBox },
+      { nome: 'Carregador de câmera', entradaStyle: boxOff, saidaStyle: boxOff },
+      { nome: 'Cabo Tether', entradaStyle: entradaBox, saidaStyle: saidaBox },
+    ];
+
+    const actions = [];
+    if (isAberta) {
+      actions.push({ label: 'Descartar', style: 'font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500', onClick: () => {} });
+      actions.push({ label: 'Fechar comanda', style: 'font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600', onClick: () => setStatus(sel.id, 'fechada') });
+    }
+
+    const estStyle = (on) => (on
+      ? 'font-size:11px;color:#0F172A;background:#F1F5F9;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500'
+      : 'font-size:11px;color:#64748B;background:none;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit');
+
+    const nextId = () => String(Math.max(...comandas.map(c => parseInt(c.id, 10))) + 1).padStart(4, '0');
+
+    const sync = this._syncInfo();
+    return {
+      syncStyle: 'color:' + sync.text + ';display:flex;align-items:center;gap:6px',
+      syncDotStyle: 'width:5px;height:5px;border-radius:50%;background:' + sync.dot + (sync.pulse ? ';animation:pulseDot 2.4s ease-in-out infinite' : ''),
+      syncLabel: sync.label,
+      isLista, isAdmin, isAssuncao, isAberta, isFechada, isEnviada, isCancelada, showFull, canReabrir, hasAjuste,
+      extras: extrasSel, pickerAberto, livre,
+      praticadoLabel: nova ? '—' : '20:15 – 22:05',
+      valEnsaioPrevisto: fmt(vEnsaioPrevisto),
+      valEnsaioPrevistoStyle: "font-family:'JetBrains Mono',monospace;white-space:nowrap;flex-shrink:0;color:" + (nova ? '#64748B' : '#0F172A'),
+      temPraticado: !nova,
+      valEnsaio: fmt(vEnsaio),
+      valExtensao: fmt(vExtensao),
+      valExtras: fmt(vExtras),
+      valSubtotal: fmt(vSubtotal),
+      valAntecipado: fmt(vAntecipado),
+      temAntecipado: vAntecipado > 0,
+      valPagar: fmt(vPagar),
+      catalogo: CATALOGO.map(it => ({ nome: it.nome, preco: fmt(it.preco), onClick: () => addExtra(it.nome, it.preco) })),
+      crumb: isLista ? 'COMANDAS' : ('COMANDA ' + sel.id),
+      isHistorico,
+      modos: [{ v: 'ativas', l: 'Abertas + hoje' }, { v: 'historico', l: 'Histórico' }].map(m => ({
+        label: m.l,
+        style: (m.v === modo
+          ? 'font-size:11px;color:#0F172A;background:#F1F5F9;border:1px solid #E2E8F0'
+          : 'font-size:11px;color:#64748B;background:none;border:1px solid #E2E8F0') + ';padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-family:inherit;font-weight:500;white-space:nowrap',
+        onClick: () => self.setState({ modo: m.v, page: 0, search: '', searchInput: '' }),
+      })),
+      pagInfo: { atual: pageClamped + 1, total: totalPages },
+      statusFiltros: [
+        { v: 'todas', l: 'Todas' }, { v: 'aberta', l: 'Aberta' }, { v: 'fechada', l: 'Fechada' },
+        { v: 'enviada', l: 'Enviada' }, { v: 'cancelada', l: 'Cancelada' },
+      ].map(f => ({
+        label: f.l,
+        style: 'font-size:10.5px;padding:5px 10px;border-radius:4px;cursor:pointer;white-space:nowrap;' + (statusFiltro === f.v ? 'background:#4F46E5;color:#FFFFFF;border:1px solid #4F46E5' : 'background:none;color:#64748B;border:1px solid #E2E8F0'),
+        onClick: () => self.setState({ statusFiltro: f.v, page: 0 }),
+      })),
+      listaSub: searching
+        ? ('Busca: "' + search + '"' + (isHistorico ? '' : ' · abertas em qualquer dia + achados de hoje'))
+        : (isHistorico ? (baseList.length + ' comanda' + (baseList.length === 1 ? '' : 's') + ' · ' + DATAS[dateIdx]) : (lista.length + ' comanda' + (lista.length === 1 ? '' : 's') + ' aberta ou de hoje')),
+      dataLabel: DATAS[dateIdx],
+      search, searchInput: this.state.searchInput, novo, form,
+      vazio: lista.length === 0,
+      vazioSub: searching ? 'Nenhuma comanda encontrada para essa busca.' : (isHistorico ? 'Sem comandas registradas neste dia.' : 'Nenhuma comanda aberta e nenhuma criada hoje.'),
+      lista,
+      sel: { id: sel.id, cliente: sel.cliente, estudio: sel.estudio, estudioTag: sel.estudio.toUpperCase(), horario: sel.horario, dataLabel: DATAS[sel.dateIdx] ?? sel.horario },
+      pill: pillMap[status],
+      emprestimos, criadoPorLabel, origemLabel,
+      reabrirNote: reabrirNoteMap[status] || '',
+      reabrirConfirmando: !!reabrirConfirmando,
+      valorAtual: sel ? sel.valor : '',
+      actions,
+      estudios: ['Acústico', 'Branco', 'Luz Natural', 'Loft', 'Quintal'].map(e => ({ label: e, style: estStyle(form.estudio === e) + ';white-space:nowrap', onClick: () => self.setState(s => ({ form: { ...s.form, estudio: e } })) })),
+      who: this._who(),
+      posse: { responsavelLabel: isAssuncao ? 'Paulo' : (isAdmin ? 'Paulo' : 'Você') },
+      perfis: this._perfilChip(),
+      handlers: {
+        diaAnterior: () => this.setState(s => ({ dateIdx: Math.min(DATAS.length - 1, s.dateIdx + 1), page: 0 })),
+        diaSeguinte: () => this.setState(s => ({ dateIdx: Math.max(0, s.dateIdx - 1), page: 0 })),
+        pagAnterior: () => self.setState(s => ({ page: Math.max(0, s.page - 1) })),
+        pagSeguinte: () => self.setState(s => ({ page: Math.min(totalPages - 1, s.page + 1) })),
+        setSearch: (e) => {
+          const v = e.target.value;
+          this.setState({ searchInput: v });
+          clearTimeout(this._sT);
+          this._sT = setTimeout(() => this.setState({ search: v, page: 0 }), 300);
+        },
+        toggleNovo: () => this.setState(s => ({ novo: !s.novo, form: { cliente: '', horaInicio: '', horaFim: '', estudio: 'Luz Natural' } })),
+        setCliente: (e) => this.setState(s => ({ form: { ...s.form, cliente: e.target.value } })),
+        setHoraInicio: (e) => this.setState(s => ({ form: { ...s.form, horaInicio: e.target.value } })),
+        setHoraFim: (e) => this.setState(s => ({ form: { ...s.form, horaFim: e.target.value } })),
+        criar: () => {
+          const id = nextId();
+          const cliente = form.cliente.trim() || 'Cliente sem nome';
+          const horario = (form.horaInicio.trim() && form.horaFim.trim()) ? (form.horaInicio.trim() + ' – ' + form.horaFim.trim()) : '—';
+          this.setState(s => ({
+            comandas: [...s.comandas, { id, dateIdx: s.dateIdx, cliente, estudio: form.estudio, horario, status: 'aberta', origem: 'manual', valor: '0,00', nova: true, criadoPor: this._eu(), extras: [] }],
+            novo: false, view: 'detalhe', selectedId: id,
+          }));
+        },
+        assumir: () => setStatus(sel.id, 'aberta'),
+        reabrir: () => isEnviada ? self.setState({ reabrirConfirmando: true }) : setStatus(sel.id, 'aberta'),
+        cancelarReabertura: () => self.setState({ reabrirConfirmando: false }),
+        confirmarReabertura: () => { setStatus(sel.id, 'aberta'); self.setState({ reabrirConfirmando: false }); },
+        goLista: () => this.setState({ view: 'lista', novo: false, reabrirConfirmando: false }),
+        togglePicker: () => this.setState(s => ({ pickerAberto: !s.pickerAberto })),
+        setLivreDescricao: (e) => this.setState(s => ({ livre: { ...s.livre, descricao: e.target.value } })),
+        setLivrePreco: (e) => this.setState(s => ({ livre: { ...s.livre, preco: e.target.value } })),
+        addLivre: () => {
+          const desc = livre.descricao.trim();
+          const precoNum = parseFloat(livre.preco.replace(',', '.'));
+          if (!desc || isNaN(precoNum)) return;
+          addExtra(desc, precoNum);
+        },
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

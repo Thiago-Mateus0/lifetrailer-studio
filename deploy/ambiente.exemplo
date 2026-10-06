@@ -1,0 +1,66 @@
+# Modelo do EnvironmentFile dos dois serviços (ADR 0063 §4).
+#
+#   sudo install -d -m 700 /etc/lifetrailer
+#   sudo install -m 600 deploy/ambiente.exemplo /etc/lifetrailer/ambiente
+#   sudo -e /etc/lifetrailer/ambiente
+#
+# ⚠ Este arquivo é MODELO e vai para o git. O de verdade mora em
+# /etc/lifetrailer/ambiente, modo 600, e nunca entra no repositório.
+
+# ---------------------------------------------------------------- Banco
+# O Managed Database da DigitalOcean, pela rede privada. A senha vem do painel.
+PGHOST=private-db-xxxxx.db.ondigitalocean.com
+PGPORT=25060
+PGDATABASE=defaultdb
+PGUSER=lifetrailer_app
+PGPASSWORD=
+PGSSLMODE=require
+# A CA do banco: painel → Databases → lifetrailer → "Download CA certificate".
+# Sem ela o app e o worker recusam a conexão (self-signed certificate).
+PGSSLROOTCERT=/etc/lifetrailer/ca-certificate.crt
+
+# O worker conecta com role próprio: escrita de webhook tem autoria nula, e a
+# fronteira é o role (ADR 0020 §1).
+LT_WEBHOOK_PGUSER=lifetrailer_job
+
+# ------------------------------------------------------------- Segredos
+# Os dois SEM os quais o processo não sobe. Mínimo de 32 caracteres cada.
+# Gere com: node -e "console.log(require('crypto').randomBytes(24).toString('base64url'))"
+LT_WEBHOOK_TOKEN=
+LT_CLAIM_SEGREDO=
+
+# ---------------------------------------------------------------- Altegio
+# O USER_TOKEN sai da conexão que o Wyll fez com a conta da empresa (G10 de
+# pendencias.md); o PARTNER_TOKEN, da conta de desenvolvedor que publicou o app.
+LT_ALTEGIO_PARTNER_TOKEN=
+LT_ALTEGIO_USER_TOKEN=
+LT_ALTEGIO_COMPANY_ID=
+
+# -------------------------------------------------------------- ManyChat
+# A chave da API: ManyChat → Settings → API (ADR 0076). Vazia, o botão Enviar
+# da Jana não aparece e ela segue pelo Copiar mensagem.
+LT_MANYCHAT_TOKEN=
+
+# ------------------------------------------------------------------ SMTP
+# A âncora semanal do audit log vai por e-mail (ADR 0038).
+LT_SMTP_HOST=
+LT_SMTP_PORTA=587
+LT_SMTP_USUARIO=
+LT_SMTP_SENHA=
+LT_SMTP_REMETENTE=
+LT_ANCORA_DESTINATARIOS=
+
+# ------------------------------------------------------------- Operação
+# Atrás do Caddy: sem isto o limitador por origem lê o IP do proxy e uma origem
+# só trava a equipe inteira (issue #78).
+LT_WEBHOOK_CONFIA_PROXY=1
+
+# Disco enquanto o R2 não entra (issue #136). ⚠ Este diretório NÃO está no
+# backup do ADR 0028 — ver a consequência registrada no ADR 0063.
+LT_MIDIA_DIR=/var/lib/lifetrailer/midia
+
+# Aparece no rodapé e no diagnóstico; o deploy preenche com o SHA do commit.
+LT_APP_VERSAO=
+
+# ⚠ NÃO ligue LT_APP_COOKIE_INSEGURO em produção. Ele existe para o dev local
+# sem TLS, e ligá-lo aqui desfaz a defesa do cookie do Admin (ADR 0047).

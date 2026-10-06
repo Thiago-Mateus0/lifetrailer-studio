@@ -1,0 +1,47 @@
+# TLS e roteamento (ADR 0063 §2 e §5).
+#
+# HTTPS não é conforto aqui: o token do webhook viaja NA URL porque a Altegio
+# não aceita header nem HMAC (ADR 0019), e o cookie do Admin é `Secure`
+# (ADR 0047) — sem TLS o login da administração simplesmente não funciona.
+#
+#   sudo cp deploy/Caddyfile /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# Troque o domínio abaixo. O Caddy tira o certificado sozinho no primeiro boot,
+# desde que o DNS já aponte para esta máquina.
+
+lifetrailer.exemplo.com.br {
+	encode zstd gzip
+
+	# O que o Node atende. São estes seis prefixos e mais nenhum: a lista sai de
+	# src/webhook/servidor.mjs e src/api/servidor.mjs, não de suposição.
+	@api path /webhook/altegio/* /tela/* /rpc/* /sessao /admin/sessao /midia /midia/* /comprovante /comprovante/*
+	handle @api {
+		reverse_proxy 127.0.0.1:8787
+	}
+
+	# Todo o resto é o bundle do front. `try_files` com fallback para index.html
+	# porque o app é SPA: a rota mora no cliente, e o servidor não a conhece.
+	handle {
+		# Fora de /assets/ (nome com hash, nunca muda) o navegador confere a cada
+		# abertura: com o index.html velho em cache, o tablet recarregava no
+		# bundle antigo sem parar depois do deploy de 06/10.
+		@semCache not path /assets/*
+		header @semCache Cache-Control "no-cache"
+		root * /opt/lifetrailer/src/app/dist
+		try_files {path} /index.html
+		file_server
+	}
+
+	# O log do webhook é append-only e de retenção permanente (ADR 0012), e o
+	# token está na URL — por isso o caminho NÃO entra no log do proxy.
+	log {
+		output file /var/log/caddy/lifetrailer.log
+		format filter {
+			wrap json
+			fields {
+				request>uri delete
+			}
+		}
+	}
+}

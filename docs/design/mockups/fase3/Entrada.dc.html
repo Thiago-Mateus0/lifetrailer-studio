@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#0B0B0D}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes shakeX{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+*:focus-visible{outline:2px solid #818CF8;outline-offset:2px}
+@keyframes glowPulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.6;transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (orientation:portrait){
+  .lt-logo{width:150px!important;margin-top:26px!important}
+  .lt-avatar-grid{gap:22px!important}
+  .lt-avatar-wrap{width:88px!important;height:88px!important}
+  .lt-keypad{max-width:300px!important}
+}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:radial-gradient(ellipse 80% 60% at 50% 0%,#1C1C21 0%,#0B0B0D 62%);display:flex;flex-direction:column;align-items:center;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#FFFFFF;position:relative;padding:34px 24px 60px;overflow:hidden">
+
+  <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:520px;height:280px;background:radial-gradient(ellipse,rgba(129,140,248,.16),transparent 70%);animation:glowPulse 5s ease-in-out infinite"></div>
+
+  <img class="lt-logo" src="./logo-lifetrailer-transparent.png" alt="Lifetrailer Studio" style="width:230px;height:auto;opacity:.97;margin-top:4px;position:relative;z-index:1">
+
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:760px;margin-top:20px">
+
+    <sc-if value="{{ etapaQuem }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;align-items:center;animation:riseIn .3s cubic-bezier(.22,.61,.36,1) both">
+        <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:32px;font-weight:600;letter-spacing:-.3px;margin:0;text-align:center">Quem está entrando?</h2>
+        <div class="lt-avatar-grid" style="display:flex;flex-wrap:wrap;justify-content:center;gap:34px;margin-top:44px">
+          <sc-for list="{{ pessoas }}" as="p" hint-placeholder-count="4">
+            <button onClick="{{ p.onPick }}" style="display:flex;flex-direction:column;align-items:center;gap:14px;border:none;background:none;font-family:inherit;cursor:pointer;padding:4px;transition:transform .12s ease" style-active="transform:scale(.92)">
+              <span class="lt-avatar-wrap" style="{{ p.avatarWrapStyle }}" style-hover="border-color:#818CF8;box-shadow:0 0 0 6px rgba(129,140,248,.12)" style-active="border-color:#818CF8;box-shadow:0 0 0 3px rgba(129,140,248,.25)">
+                <image-slot id="{{ p.fotoId }}" shape="circle" placeholder="Foto" style="width:100%;height:100%"></image-slot>
+              </span>
+              <span style="display:flex;flex-direction:column;align-items:center;gap:2px">
+                <span style="font-size:14.5px;font-weight:500;color:#E4E4E7">{{ p.nome }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:#A1A1AA">{{ p.papel }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="margin-top:46px;font-size:11.5px;color:#A1A1AA;line-height:1.5;text-align:center;max-width:420px">As fotos ficam guardadas no aparelho. Arraste a foto de cada um sobre o círculo para trocar.</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ etapaPin }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;align-items:center;animation:riseIn .3s cubic-bezier(.22,.61,.36,1) both">
+        <button onClick="{{ handlers.voltar }}" style="align-self:flex-start;font-size:11.5px;color:#A1A1AA;border:none;background:none;font-family:inherit;cursor:pointer;padding:0;margin-bottom:26px;display:flex;align-items:center;gap:5px">← Trocar de pessoa</button>
+
+        <span style="width:104px;height:104px;border-radius:50%;overflow:hidden;background:#27272A;flex-shrink:0;display:block;border:2px solid #3F3F46">
+          <image-slot id="{{ atual.fotoId }}" shape="circle" placeholder="Foto" style="width:100%;height:100%"></image-slot>
+        </span>
+        <div style="font-size:19px;font-weight:500;margin-top:16px">{{ atual.nome }}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#A1A1AA;margin-top:3px">Digite seu PIN</div>
+
+        <div style="{{ dotsWrapStyle }}">
+          <sc-for list="{{ dots }}" as="d" hint-placeholder-count="4">
+            <span style="{{ d.style }}"></span>
+          </sc-for>
+        </div>
+
+        <div style="{{ msgStyle }}">{{ msg }}</div>
+
+        <div class="lt-keypad" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:280px;width:100%;margin-top:20px">
+          <sc-for list="{{ teclas }}" as="k" hint-placeholder-count="12">
+            <button onClick="{{ k.onClick }}" style="{{ k.style }}" style-active="{{ k.activeStyle }}">{{ k.label }}</button>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#A1A1AA;letter-spacing:.5px">DEMO · PIN {{ atual.dica }}</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ etapaOk }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;animation:popIn .26s cubic-bezier(.22,.61,.36,1) both">
+        <span style="width:112px;height:112px;border-radius:50%;overflow:hidden;background:#27272A;display:block;border:2px solid #3F3F46">
+          <image-slot id="{{ atual.fotoId }}" shape="circle" placeholder="Foto" style="width:100%;height:100%"></image-slot>
+        </span>
+        <div style="text-align:center">
+          <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:26px;font-weight:600;letter-spacing:-.3px">Turno aberto, {{ atual.nome }}</div>
+          <div style="font-size:12.5px;color:#A1A1AA;margin-top:6px">Levando você para o Início…</div>
+        </div>
+        <a href="./Home.dc.html" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:#0B0B0D;background:#FFFFFF;border-radius:5px;padding:9px 14px;text-decoration:none;margin-top:6px">Entrar agora</a>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#A1A1AA">Recepção · Tablet 01 · 17 AGO 2026</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1064,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = { etapa: 'quem', quem: null, pin: '', erros: 0, msg: '', erro: false, travadoAte: 0, agora: Date.now(), pinsSalvos: {}, editPins: {}, salvo: false, auditoria: [] };
+
+  componentDidMount() {
+    this._t = setInterval(() => {
+      if (this.state.travadoAte > Date.now() || this.state.travadoAte) this.setState({ agora: Date.now() });
+    }, 500);
+    try {
+      const raw = localStorage.getItem('lt.pins');
+      if (raw) this.setState({ pinsSalvos: JSON.parse(raw) });
+      const rawLog = localStorage.getItem('lt.pins.log');
+      if (rawLog) this.setState({ auditoria: JSON.parse(rawLog) });
+    } catch (e) {}
+  }
+
+  abrirSessao(pessoa) {
+    const iniciais = pessoa.nome.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    const agora = new Date();
+    const hora = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
+    try {
+      localStorage.setItem('lt.sessao', JSON.stringify({
+        key: pessoa.key, nome: pessoa.nome, papel: pessoa.papel,
+        iniciais, fotoId: pessoa.fotoId, entrouEm: hora,
+      }));
+    } catch (e) {}
+  }
+
+  pinAtual(key, defaultPin) {
+    return this.state.pinsSalvos[key] || defaultPin;
+  }
+
+  salvarPins() {
+    const pins = Object.assign({}, this.state.pinsSalvos);
+    const alterados = [];
+    Object.keys(this.state.editPins).forEach(k => {
+      const v = this.state.editPins[k];
+      if (/^\d{4}$/.test(v)) { pins[k] = v; alterados.push(k); }
+    });
+    let log = this.state.auditoria;
+    if (alterados.length) {
+      const nomes = this.pessoas();
+      const agora = new Date();
+      const hora = String(agora.getHours()).padStart(2, '0') + ':' + String(agora.getMinutes()).padStart(2, '0');
+      const novos = alterados.map(k => ({
+        alvo: (nomes.find(p => p.key === k) || {}).nome || k,
+        por: 'Wyll', quando: hora,
+      }));
+      log = novos.concat(this.state.auditoria).slice(0, 5);
+      try { localStorage.setItem('lt.pins.log', JSON.stringify(log)); } catch (e) {}
+    }
+    try { localStorage.setItem('lt.pins', JSON.stringify(pins)); } catch (e) {}
+    this.setState({ pinsSalvos: pins, editPins: {}, salvo: true, auditoria: log });
+    clearTimeout(this._savedT);
+    this._savedT = setTimeout(() => this.setState({ salvo: false }), 2000);
+  }
+
+  componentWillUnmount() { clearInterval(this._t); clearTimeout(this._go); }
+
+  pessoas() {
+    return [
+      { key: 'thiago', nome: 'Thiago', papel: 'Atendente', pin: '1122', fotoId: 'foto-thiago' },
+      { key: 'paulo', nome: 'Paulo', papel: 'Atendente', pin: '2233', fotoId: 'foto-paulo' },
+      { key: 'marcos', nome: 'Marcos', papel: 'Atendente', pin: '3344', fotoId: 'foto-marcos' },
+      { key: 'jana', nome: 'Jana', papel: 'Admin', pin: '9090', fotoId: 'foto-jana' },
+      { key: 'lifetrailer', nome: 'Lifetrailer', papel: 'Sócios', pin: '5150', fotoId: 'foto-lifetrailer' },
+    ];
+  }
+
+  digitar(n) {
+    const s = this.state;
+    if (s.travadoAte > Date.now() || s.pin.length >= 4) return;
+    const pin = s.pin + n;
+    if (pin.length < 4) { this.setState({ pin, msg: '', erro: false }); return; }
+    const pessoa = this.pessoas().find(p => p.key === s.quem);
+    if (pessoa && pin === this.pinAtual(pessoa.key, pessoa.pin)) {
+      this.abrirSessao(pessoa);
+      this.setState({ pin, etapa: 'ok', msg: '', erro: false, erros: 0 });
+      this._go = setTimeout(() => { window.location.href = './Home.dc.html'; }, 1600);
+      return;
+    }
+    const erros = s.erros + 1;
+    if (erros >= 3) {
+      this.setState({ pin: '', erros: 0, erro: true, travadoAte: Date.now() + 60000, msg: 'Três tentativas erradas. Aguarde para tentar de novo.', agora: Date.now() });
+    } else {
+      this.setState({ pin: '', erros, erro: true, msg: 'PIN incorreto · ' + (3 - erros) + (3 - erros === 1 ? ' tentativa restante' : ' tentativas restantes') });
+    }
+  }
+
+  renderVals() {
+    const self = this;
+    const s = this.state;
+    const travado = s.travadoAte > Date.now();
+    const restam = travado ? Math.ceil((s.travadoAte - Date.now()) / 1000) : 0;
+    const atual = this.pessoas().find(p => p.key === s.quem) || this.pessoas()[0];
+
+    const tecla = (ativa) => 'height:56px;border-radius:8px;border:1px solid ' + (ativa ? '#27272A' : '#18181B')
+      + ';background:' + (ativa ? '#18181B' : '#0F0F11') + ';font-family:\'JetBrains Mono\',monospace;font-size:18px;font-weight:500;'
+      + 'color:' + (ativa ? '#E4E4E7' : '#3F3F46') + ';cursor:' + (ativa ? 'pointer' : 'not-allowed')
+      + ';transition:background .12s ease,border-color .12s ease,transform .12s ease';
+
+    const activeGlow = 'background:#27272A;border-color:#818CF8;transform:scale(.94)';
+    const activeGhost = 'background:#18181B;transform:scale(.94)';
+    const teclas = ['1','2','3','4','5','6','7','8','9'].map(n => ({
+      label: n, style: tecla(!travado), activeStyle: activeGlow, onClick: () => self.digitar(n),
+    }));
+    teclas.push({
+      label: 'limpar',
+      style: 'height:56px;border-radius:8px;border:1px solid #18181B;background:#0F0F11;font-family:inherit;font-size:11px;color:#A1A1AA;cursor:pointer;transition:background .15s ease,transform .12s ease',
+      activeStyle: activeGhost,
+      onClick: () => self.setState({ pin: '', msg: '', erro: false }),
+    });
+    teclas.push({ label: '0', style: tecla(!travado), activeStyle: activeGlow, onClick: () => self.digitar('0') });
+    teclas.push({
+      label: '←',
+      style: 'height:56px;border-radius:8px;border:1px solid #18181B;background:#0F0F11;font-family:inherit;font-size:16px;color:#A1A1AA;cursor:pointer;transition:background .15s ease,transform .12s ease',
+      activeStyle: activeGhost,
+      onClick: () => self.setState(st => ({ pin: st.pin.slice(0, -1), msg: '', erro: false })),
+    });
+
+    const dots = [0, 1, 2, 3].map(i => {
+      const cheio = i < s.pin.length;
+      return { style: 'width:14px;height:14px;border-radius:50%;transition:background .15s ease,transform .15s ease;transform:scale(' + (cheio ? 1 : .8) + ');background:'
+        + (s.erro ? '#EF4444' : (cheio ? '#818CF8' : '#27272A')) };
+    });
+
+    return {
+      etapaQuem: s.etapa === 'quem',
+      etapaPin: s.etapa === 'pin',
+      etapaOk: s.etapa === 'ok',
+      atual: { nome: atual.nome, papel: atual.papel, fotoId: atual.fotoId, dica: this.pinAtual(atual.key, atual.pin) },
+      etapaGerenciar: s.etapa === 'gerenciar',
+      auditoria: s.auditoria,
+      temAuditoria: s.auditoria.length > 0,
+      gerenciarLista: this.pessoas().map(p => ({
+        key: p.key, nome: p.key === 'lifetrailer' ? 'Lifetrailer (seu PIN)' : p.nome, papel: p.papel, fotoId: p.fotoId,
+        pinAtual: this.pinAtual(p.key, p.pin),
+        valor: s.editPins[p.key] !== undefined ? s.editPins[p.key] : '',
+        onChange: (e) => {
+          const v = e.target.value.replace(/\D/g, '').slice(0, 4);
+          self.setState(st => ({ editPins: Object.assign({}, st.editPins, { [p.key]: v }) }));
+        },
+      })),
+      salvo: s.salvo,
+      handlers2: {
+        salvarPins: () => self.salvarPins(),
+        irParaInicio: () => { window.location.href = './Home.dc.html'; },
+      },
+      pessoas: this.pessoas().map(p => ({
+        nome: p.nome, papel: p.papel, fotoId: p.fotoId,
+        avatarWrapStyle: 'position:relative;width:112px;height:112px;border-radius:50%;overflow:hidden;background:#27272A;display:block;flex-shrink:0;border:2px solid transparent;transition:border-color .18s ease,transform .18s ease',
+        onPick: () => self.setState({ etapa: 'pin', quem: p.key, pin: '', msg: '', erro: false }),
+      })),
+      dots,
+      dotsWrapStyle: 'display:flex;gap:11px;margin-top:22px;' + (s.erro ? 'animation:shakeX .38s ease' : ''),
+      msg: travado ? 'Bloqueado por ' + restam + 's' : (s.msg || 'Quatro dígitos'),
+      msgStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;margin-top:12px;min-height:14px;color:'
+        + (travado || s.erro ? '#F87171' : '#52525B'),
+      teclas,
+      handlers: {
+        voltar: () => self.setState({ etapa: 'quem', pin: '', msg: '', erro: false }),
+      },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

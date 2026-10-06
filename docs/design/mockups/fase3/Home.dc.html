@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F8FAFC}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <!-- viewer chrome: not part of the product -->
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="{{ sessaoChipStyle }}">
+        <span style="{{ sessaoAvatarStyle }}">{{ sessaoIniciais }}</span>
+        <span style="display:flex;flex-direction:column;line-height:1.25">
+          <span style="font-size:12px;font-weight:500">{{ sessaoNome }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#64748B">{{ sessaoMeta }}</span>
+        </span>
+      </div>
+      <a href="./Entrada.dc.html" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#64748B;text-decoration:none;border:1px solid #E2E8F0;border-radius:5px;padding:7px 10px">Trocar</a>
+    </div>
+  </div>
+
+  <!-- ============ product shell (tablet) ============ -->
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <!-- sidebar -->
+      <dc-import name="Sidebar" active="inicio" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <!-- main -->
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>INÍCIO<span style="color:#E2E8F0;margin:0 9px">·</span>{{ dataCurta }}<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}<div style="flex:1"></div><span style="color:#15803D;display:flex;align-items:center;gap:6px"><span style="width:5px;height:5px;border-radius:50%;background:#16A34A;animation:pulseDot 2.4s ease-in-out infinite"></span>ALTEGIO {{ syncHora }}</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">{{ saudacao }}</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:3px">{{ turnoResumo }}</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+            <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="3">
+              <button style="{{ f.style }}" onClick="{{ f.onClick }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1.45fr;gap:14px;align-items:start">
+
+          <!-- coluna contexto (agenda principal) -->
+          <div style="display:flex;flex-direction:column;gap:13px">
+
+            <a href="./Comanda.dc.html" style="display:block;padding:22px 24px 18px;background:#3F3F46;border-radius:9px;text-decoration:none;color:#FFFFFF;box-shadow:0 14px 30px -18px rgba(63,63,70,.6);transition:transform .12s,box-shadow .12s" style-hover="transform:translateY(-2px);box-shadow:0 20px 38px -18px rgba(63,63,70,.7)">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px">
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;opacity:.6">Operação do turno</div>
+                  <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:33px;font-weight:700;letter-spacing:-.7px;line-height:1;margin-top:7px">Comanda</div>
+                </div>
+                <div style="font-size:26px;opacity:.55;flex-shrink:0;line-height:1">→</div>
+              </div>
+              <div style="display:flex;gap:24px;margin-top:18px;padding-top:15px;border-top:1px solid rgba(255,255,255,.18)">
+                <sc-for list="{{ comandaStats }}" as="st" hint-placeholder-count="3">
+                  <div>
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:600;line-height:1">{{ st.valor }}</div>
+                    <div style="font-size:10.5px;opacity:.75;margin-top:5px;letter-spacing:.2px">{{ st.label }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </a>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+              <sc-for list="{{ rotina }}" as="r" hint-placeholder-count="2">
+                <div style="display:flex;flex-direction:column;min-height:158px;padding:17px 18px;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;transition:border-color .12s,box-shadow .12s" style-hover="border-color:#CBD5E1;box-shadow:0 10px 24px -18px rgba(15,23,42,.35)">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+                    <a href="{{ r.href }}" style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:20px;font-weight:600;letter-spacing:-.3px;color:#0F172A;text-decoration:none">{{ r.nome }}</a>
+                    <span style="{{ r.badgeStyle }}">{{ r.badge }}</span>
+                  </div>
+                  <div style="font-size:11.5px;color:#475569;margin-top:5px">{{ r.resumo }}</div>
+                  <div style="margin-top:13px;height:4px;border-radius:999px;background:#F1F5F9;overflow:hidden">
+                    <div style="{{ r.barStyle }}"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#64748B;margin-top:6px">
+                    <span>{{ r.progresso }}</span><span>{{ r.meta }}</span>
+                  </div>
+                  <div style="margin-top:auto;padding-top:11px;border-top:1px solid #F1F5F9;display:flex;flex-direction:column;gap:2px">
+                    <sc-for list="{{ r.itens }}" as="it" hint-placeholder-count="2">
+                      <button onClick="{{ it.onToggle }}" style="{{ it.rowStyle }}">
+                        <span style="{{ it.dotStyle }}"></span><span style="{{ it.textStyle }}">{{ it.texto }}</span><span style="{{ it.markStyle }}">{{ it.mark }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+          </div>
+
+          <!-- coluna de contexto -->
+          <div style="display:flex;flex-direction:column;gap:13px">
+
+            <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-radius:8px;padding:15px 17px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#64748B">Agenda de hoje</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#64748B">{{ agendaResumo }}</div>
+              </div>
+              <sc-for list="{{ agenda }}" as="a" hint-placeholder-count="5">
+                <div style="border-top:1px solid #F1F5F9">
+                  <button onClick="{{ a.onClick }}" style="{{ a.rowStyle }}" aria-expanded="{{ a.ariaExpanded }}">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#0F172A;width:38px;flex-shrink:0;text-align:left">{{ a.hora }}</span>
+                    <span style="{{ a.railStyle }}"></span>
+                    <span style="flex:1;min-width:0;text-align:left">
+                      <span style="display:block;font-size:12.5px;color:#0F172A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.cliente }}</span>
+                      <span style="display:block;font-size:10.5px;color:#64748B;margin-top:2px">{{ a.estudio }}</span>
+                    </span>
+                    <span style="{{ a.pillStyle }}">{{ a.status }}</span>
+                  </button>
+                  <sc-if value="{{ a.aberta }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:0 2px 12px 49px;display:flex;flex-direction:column;gap:7px">
+                      <div style="font-size:11.5px;color:#475569;line-height:1.45">{{ a.detalhe }}</div>
+                      <div style="display:flex;gap:7px;flex-wrap:wrap">
+                        <a href="./Comanda.dc.html" style="font-size:11.5px;color:#4338CA;text-decoration:none;border:1px solid #E2E8F0;border-radius:5px;padding:6px 10px;background:#EEF2FF">Abrir comanda</a>
+                        <a href="./Checklist.dc.html" style="font-size:11.5px;color:#475569;text-decoration:none;border:1px solid #E2E8F0;border-radius:5px;padding:6px 10px">Checklist da sala</a>
+                      </div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="background:#FFFFFF;border:1px solid #E2E8F0;border-left:3px solid #A16207;border-radius:8px;padding:14px 16px">
+              <button onClick="{{ handlers.toggleAvisos }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:none;border:none;padding:0;font-family:inherit;cursor:pointer">
+                <span style="display:flex;align-items:center;gap:8px">
+                  <span style="width:5px;height:5px;border-radius:50%;background:#A16207;animation:pulseDot 2s ease-in-out infinite"></span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#854D0E">Avisos</span>
+                </span>
+                <span style="display:flex;align-items:center;gap:8px">
+                  <span style="display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;font-size:10px;font-weight:600;color:#FFFFFF;background:#3F3F46">{{ avisosCount }}</span>
+                  <span style="{{ avisosChevron }}">›</span>
+                </span>
+              </button>
+              <div style="font-size:12.5px;line-height:1.45;margin-top:10px;color:#0F172A;text-align:left">{{ avisoDestaque.texto }}</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;margin-top:8px;color:#64748B">{{ avisoDestaque.meta }}</div>
+              <sc-if value="{{ avisosAberto }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:11px;padding-top:10px;border-top:1px solid #F1F5F9;display:flex;flex-direction:column;gap:9px">
+                  <sc-for list="{{ avisosResto }}" as="av" hint-placeholder-count="2">
+                    <div>
+                      <div style="font-size:12px;color:#0F172A;line-height:1.4">{{ av.texto }}</div>
+                      <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#64748B;margin-top:3px">{{ av.meta }}</div>
+                    </div>
+                  </sc-for>
+                  <a href="./Avisos.dc.html" style="font-size:11.5px;color:#4338CA;text-decoration:none;font-weight:500">Ver todos os avisos →</a>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:8px;padding:14px 16px;margin-top:14px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:#64748B;margin-bottom:9px">Consulta</div>
+              <div style="display:flex;flex-direction:column;gap:1px">
+                <sc-for list="{{ secundarios }}" as="s" hint-placeholder-count="4">
+                  <a href="{{ s.href }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:0 6px;margin:0 -6px;border-radius:5px;text-decoration:none;color:#475569;font-size:12.5px;border-top:1px solid #E2E8F0" style-hover="background:#FFFFFF;color:#0F172A">
+                    <span>{{ s.nome }}</span>
+                    <span style="display:flex;align-items:center;gap:9px">
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B">{{ s.nota }}</span>
+                      <sc-if value="{{ s.badge }}" hint-placeholder-val="{{ false }}">
+                        <span style="{{ s.badgeStyle }}">{{ s.badge }}</span>
+                      </sc-if>
+                    </span>
+                  </a>
+                </sc-for>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;color:#CBD5E1;padding:16px 2px 0">
+          <span>Recepção · Tablet 01</span><span>v0.9.3</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1064,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  state = {
+    sessao: null,
+    filtro: 'turno',
+    agendaAberta: null,
+    avisosAberto: false,
+    feitos: {},
+  };
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('lt.home.prefs');
+      if (raw) {
+        const p = JSON.parse(raw);
+        if (['turno', 'abertas', 'todas'].indexOf(p.filtro) > -1) this.setState({ filtro: p.filtro });
+      }
+      const sRaw = localStorage.getItem('lt.sessao');
+      if (sRaw) {
+        const ss = JSON.parse(sRaw);
+        if (ss && ss.nome) this.setState({ sessao: ss });
+      }
+    } catch (e) {}
+  }
+
+  persist(patch) {
+    this.setState(patch);
+    try {
+      const cur = { filtro: this.state.filtro };
+      localStorage.setItem('lt.home.prefs', JSON.stringify(Object.assign(cur, patch)));
+    } catch (e) {}
+  }
+
+  renderVals() {
+    const self = this;
+    const s = this.state;
+    const sessao = s.sessao;
+    const papel = sessao ? sessao.papel : 'Atendente';
+    const isAdmin = /admin|sócio|socio/i.test(papel);
+    const primeiroNome = sessao ? sessao.nome.split(' ')[0] : 'Visitante';
+    const countBadge = (bg) => 'display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;font-size:10px;font-weight:600;color:#FFFFFF;background:' + bg;
+    const soft = (bg, fg) => 'font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;white-space:nowrap;flex-shrink:0;background:' + bg + ';color:' + fg;
+    const dot = (bg) => 'width:5px;height:5px;border-radius:50%;flex-shrink:0;background:' + bg;
+    const rail = (bg) => 'width:2px;align-self:stretch;border-radius:999px;flex-shrink:0;background:' + bg;
+    const bar = (pct, bg) => 'width:' + pct + '%;height:100%;border-radius:999px;background:' + bg + ';transition:width .2s';
+    const vtStyle = (on) => 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid ' + (on ? '#4F46E5' : '#E2E8F0') + ';background:' + (on ? '#EEF2FF' : 'none') + ';color:' + (on ? '#4338CA' : '#64748B');
+    const chip = (on) => 'font-size:11.5px;padding:7px 12px;border-radius:5px;font-family:inherit;cursor:pointer;font-weight:500;white-space:nowrap;border:1px solid ' + (on ? '#4F46E5' : '#E2E8F0') + ';background:' + (on ? '#EEF2FF' : 'none') + ';color:' + (on ? '#4338CA' : '#475569');
+
+    // severidade: vermelho só bloqueia operação (checklist de entrada trava a abertura do estúdio);
+    // estoque acabando é atenção — não impede atender.
+    const barColorFor = () => '#475569';
+    const rotinaRaw = [
+      { key: 'ck', nome: 'Checklist', href: './Checklist.dc.html', badgeColor: '#DC2626',
+        total: 12, base: 8,
+        itens: [
+          { id: 'ck1', texto: 'Fundo infinito sem marca', color: '#DC2626' },
+          { id: 'ck2', texto: 'Rádio comunicador carregado', color: '#DC2626' },
+        ] },
+      { key: 'es', nome: 'Estoque', href: './Estoque.dc.html', badgeColor: '#D97706',
+        total: 20, base: 17,
+        itens: [
+          { id: 'es1', texto: 'Água sem gás · 2 restantes', color: '#D97706' },
+          { id: 'es2', texto: 'Doritos 32g · 4 restantes', color: '#D97706' },
+        ] },
+    ];
+
+    const rotina = rotinaRaw.map(r => {
+      const feitosAqui = r.itens.filter(it => s.feitos[it.id]).length;
+      const ok = r.base + feitosAqui;
+      const pendentes = r.total - ok;
+      const pct = Math.round((ok / r.total) * 100);
+      return {
+        nome: r.nome, href: r.href, badge: pendentes,
+        resumo: r.key === 'ck' ? 'Entrada do estúdio · ' + pendentes + ' pendentes' : 'Bomboniere · ' + pendentes + ' itens acabando',
+        progresso: r.key === 'ck' ? ok + ' de ' + r.total : ok + ' de ' + r.total + ' ok',
+        meta: pct + '%',
+        badgeStyle: countBadge(pendentes === 0 ? '#94A3B8' : r.badgeColor),
+        barStyle: bar(pct, barColorFor(pct)),
+        itens: r.itens.map(it => {
+          const feito = !!s.feitos[it.id];
+          return {
+            texto: it.texto,
+            dotStyle: dot(feito ? '#CBD5E1' : it.color),
+            rowStyle: 'display:flex;align-items:center;gap:7px;width:100%;padding:4px 5px;margin:0 -5px;border:none;background:none;font-family:inherit;font-size:11.5px;color:#475569;cursor:pointer;border-radius:4px;text-align:left',
+            textStyle: 'flex:1;min-width:0;' + (feito ? 'color:#64748B;text-decoration:line-through' : ''),
+            markStyle: 'font-family:\'JetBrains Mono\',monospace;font-size:10px;color:' + (feito ? '#64748B' : '#CBD5E1'),
+            mark: feito ? 'ok' : '+',
+            onToggle: () => self.setState(st => ({ feitos: Object.assign({}, st.feitos, { [it.id]: !st.feitos[it.id] }) })),
+          };
+        }),
+      };
+    });
+
+    const agendaRaw = [
+      // status da agenda = escala neutra zinc/slate. Indigo fica só para o que é clicável,
+      // vermelho/âmbar só para severidade de alerta.
+      { id: 'a1', hora: '09:00', cliente: 'Bianca Reis', estudio: 'Branco', status: 'enviada', bg: '#F1F5F9', fg: '#475569', railColor: '#CBD5E1',
+        detalhe: 'Ensaio concluído às 10:20. Comanda 0181 enviada por WhatsApp, sem pendência.' },
+      { id: 'a2', hora: '11:00', cliente: 'Renata Prado', estudio: 'Acústico', status: 'aberta', bg: '#3F3F46', fg: '#FFFFFF', railColor: '#3F3F46',
+        detalhe: 'Comanda 0184 aberta. 2 itens de bomboniere lançados, equipamento nenhum emprestado.' },
+      { id: 'a3', hora: '14:00', cliente: 'Marcos Lino', estudio: 'Luz Natural', status: 'aberta', bg: '#3F3F46', fg: '#FFFFFF', railColor: '#3F3F46',
+        detalhe: 'Comanda 0185 aberta na chegada. Cliente pediu fundo de papel cinza.' },
+      { id: 'a4', hora: '16:00', cliente: 'Estúdio Vega', estudio: 'Loft', status: 'agendada', bg: '#F8FAFC', fg: '#64748B', railColor: '#E2E8F0',
+        detalhe: 'Agendamento vindo da Altegio. Comanda é criada automaticamente na chegada.' },
+      { id: 'a5', hora: '18:30', cliente: 'Paula Menezes', estudio: 'Quintal', status: 'agendada', bg: '#F8FAFC', fg: '#64748B', railColor: '#E2E8F0',
+        detalhe: 'Última sessão do dia. Checklist de saída libera 1h após o fim.' },
+    ];
+
+    const filtrosDef = [
+      { v: 'turno', l: 'Meu turno' },
+      { v: 'abertas', l: 'Só abertas' },
+      { v: 'todas', l: 'Dia inteiro' },
+    ];
+    const agendaFiltrada = agendaRaw.filter(a => {
+      if (s.filtro === 'abertas') return a.status === 'aberta';
+      if (s.filtro === 'turno') return a.hora >= '09:00' && a.hora <= '16:00';
+      return true;
+    }).slice().sort((a, b) => a.hora.localeCompare(b.hora));
+
+    const avisosRaw = [
+      { texto: 'Fundo infinito branco em manutenção até sexta — não agendar sessão nele.', meta: 'Jana · 07:40' },
+      { texto: 'Propés acabando: usar os do armário 2 até a compra chegar.', meta: 'Jana · ontem 19:12' },
+      { texto: 'Sábado 22/08: abertura às 08:00 para ensaio externo.', meta: 'Sistema · ontem 08:00' },
+    ];
+
+    const secundarios = [
+      { nome: 'Escala', href: './Escala.dc.html', nota: '6 na semana' },
+      { nome: 'Horas extras', href: './Horas extras.dc.html', nota: '2 pendentes', badge: 2, badgeColor: '#D97706' },
+      { nome: 'Achados', href: './Achados.dc.html', nota: '5 guardados' },
+      { nome: 'Treinamento', href: './Treinamento.dc.html', nota: '9 vídeos' },
+    ];
+
+    const saudacao = 'Bom dia, ' + primeiroNome;
+
+    return {
+      logado: !!sessao,
+      sessaoNome: sessao ? sessao.nome : 'Ninguém autenticado',
+      sessaoMeta: sessao ? (papel + ' · entrou ' + sessao.entrouEm) : 'Entre com seu PIN',
+      sessaoIniciais: sessao ? sessao.iniciais : '—',
+      sessaoChipStyle: 'display:flex;align-items:center;gap:9px;padding:6px 11px 6px 7px;border:1px solid #E2E8F0;border-radius:999px;background:#FFFFFF;text-decoration:none;color:#0F172A',
+      sessaoAvatarStyle: 'width:26px;height:26px;border-radius:50%;background:#EEF2FF;color:#4338CA;display:flex;align-items:center;justify-content:center;font-family:\'JetBrains Mono\',monospace;font-size:10px;font-weight:600;flex-shrink:0',
+      who: sessao
+        ? { initials: sessao.iniciais, name: sessao.nome, sub: papel }
+        : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' },
+      saudacao,
+      turnoResumo: isAdmin ? 'Visão de toda a operação · 5 sessões hoje' : 'Turno da manhã · até 16:00 · 3 sessões suas',
+      dataCurta: '17 AGO 2026',
+      syncHora: '08:12',
+      filtros: filtrosDef.map(f => ({
+        label: f.l, style: chip(f.v === s.filtro), onClick: () => self.persist({ filtro: f.v, agendaAberta: null }),
+      })),
+      comandaStats: [
+        { valor: '3', label: 'abertas agora' },
+        { valor: '5', label: 'fechadas hoje' },
+        { valor: '14:00', label: 'próxima sessão' },
+      ],
+      rotina,
+      agendaResumo: agendaFiltrada.length + ' de ' + agendaRaw.length,
+      agenda: agendaFiltrada.map(a => ({
+        hora: a.hora, cliente: a.cliente, estudio: a.estudio, status: a.status, detalhe: a.detalhe,
+        aberta: s.agendaAberta === a.id,
+        ariaExpanded: s.agendaAberta === a.id ? 'true' : 'false',
+        pillStyle: soft(a.bg, a.fg),
+        railStyle: rail(a.railColor),
+        rowStyle: 'display:flex;gap:11px;align-items:center;width:100%;padding:8px 6px;margin:0 -6px;border:none;background:' + (s.agendaAberta === a.id ? '#F8FAFC' : 'none') + ';border-radius:5px;font-family:inherit;cursor:pointer',
+        onClick: () => self.setState(st => ({ agendaAberta: st.agendaAberta === a.id ? null : a.id })),
+      })),
+      avisosCount: avisosRaw.length,
+      avisoDestaque: avisosRaw[0],
+      avisosResto: avisosRaw.slice(1),
+      avisosAberto: s.avisosAberto,
+      avisosChevron: 'display:inline-block;color:#B45309;font-size:13px;transition:transform .15s;transform:rotate(' + (s.avisosAberto ? '90deg' : '0deg') + ')',
+      secundarios: secundarios.map(x => ({
+        nome: x.nome, href: x.href, nota: x.nota,
+        badge: x.badge || null,
+        badgeStyle: x.badge ? countBadge(x.badgeColor) : '',
+      })),
+      handlers: {
+        toggleAvisos: () => self.setState(st => ({ avisosAberto: !st.avisosAberto })),
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F8FAFC}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+input,textarea{font-family:inherit}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;gap:5px;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ perfis }}" as="pf" hint-placeholder-count="2">
+        <button style="{{ pf.tabStyle }}" onClick="{{ pf.onClick }}">{{ pf.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <dc-import name="Sidebar" active="treinamento" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto;animation:riseIn .34s cubic-bezier(.22,.61,.36,1) both">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>TREINAMENTO<span style="color:#E2E8F0;margin:0 9px">·</span>17 AGO 2026<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}<div style="flex:1"></div><span>09:40</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">Treinamento</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:4px">Como fazer as coisas da operação, num lugar só.</div>
+          </div>
+          <sc-if value="{{ podeEscrever }}" hint-placeholder-val="{{ false }}">
+            <button style="{{ btnRegistrar }}" onClick="{{ handlers.toggleRegistrar }}">Novo material</button>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ registrando }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #E2E8F0;border-radius:7px;overflow:hidden;margin-bottom:15px">
+            <div style="padding:11px 15px;background:#F1F5F9;font-size:13px;font-weight:500">Novo material</div>
+            <div style="padding:14px 15px">
+              <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:11px"><span style="font-size:11px;color:#475569">Título</span><input type="text" value="{{ form.titulo }}" onChange="{{ form.onTitulo }}" placeholder="ex. Como armar o softbox" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+                <span style="font-size:11px;color:#475569">Tipo</span>
+                <div style="display:flex;gap:6px;flex-wrap:wrap">
+                  <sc-for list="{{ form.tipos }}" as="t" hint-placeholder-count="2">
+                    <button style="{{ t.style }}" onClick="{{ t.onClick }}">{{ t.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+              <sc-if value="{{ form.ehVideo }}" hint-placeholder-val="{{ true }}">
+                <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"><span style="font-size:11px;color:#475569">Link do vídeo</span><input type="text" value="{{ form.url }}" onChange="{{ form.onUrl }}" placeholder="cole o link do vídeo" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+              </sc-if>
+              <sc-if value="{{ form.ehLink }}" hint-placeholder-val="{{ false }}">
+                <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px"><span style="font-size:11px;color:#475569">Link</span><input type="text" value="{{ form.url }}" onChange="{{ form.onUrl }}" placeholder="cole o link" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px"></label>
+              </sc-if>
+              <label style="display:flex;flex-direction:column;gap:5px;margin-bottom:13px"><span style="font-size:11px;color:#475569">Nota <span style="color:#64748B">— opcional</span></span><textarea rows="2" value="{{ form.nota }}" onChange="{{ form.onNota }}" placeholder="algo que ajuda antes de abrir" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:4px;padding:9px 10px;color:#0F172A;font-size:12.5px;line-height:1.5;resize:vertical"></textarea></label>
+              <div style="display:flex;justify-content:flex-end;gap:7px;padding-top:12px;border-top:1px solid #E2E8F0">
+                <button style="{{ btnGhost }}" onClick="{{ handlers.toggleRegistrar }}">Cancelar</button>
+                <button style="{{ form.salvarStyle }}" onClick="{{ form.salvar }}">Salvar</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vazio }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:110px 20px;color:#64748B">
+            <div style="width:64px;height:64px;margin:0 auto 22px;border:1.5px solid #E2E8F0;border-radius:6px"></div>
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:26px;font-weight:600;color:#CBD5E1;letter-spacing:-.3px;margin-bottom:8px">Nenhum material ainda</div>
+            <div style="font-size:12px">Adicione um vídeo ou link explicando como fazer algo.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ temLista }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px">
+            <sc-for list="{{ lista }}" as="m" hint-placeholder-count="6">
+              <div style-hover="border-color:#CBD5E1;box-shadow:0 10px 24px -18px rgba(15,23,42,.35);transform:translateY(-2px)" style="border:1px solid #E2E8F0;border-radius:8px;background:#FFFFFF;overflow:hidden;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease" onClick="{{ m.abrir }}">
+                <div style="width:100%;aspect-ratio:16/10;background:#F8FAFC;display:flex;align-items:center;justify-content:center;position:relative">
+                  <span style="font-size:26px;color:#CBD5E1">{{ m.icone }}</span>
+                  <span style="position:absolute;top:7px;right:7px;{{ m.tipoStyle }}">{{ m.tipoLabel }}</span>
+                </div>
+                <div style="padding:10px 11px 12px">
+                  <div style="font-size:12.5px;font-weight:500;line-height:1.35">{{ m.titulo }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<sc-if value="{{ selecionado }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:50;padding:24px" onClick="{{ selecionado.fechar }}">
+    <div style="width:100%;max-width:640px;max-height:88vh;overflow:auto;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:10px;box-shadow:0 40px 80px -30px rgba(15,23,42,.16)" onClick="{{ pararPropagacao }}">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #E2E8F0">
+        <div style="display:flex;align-items:center;gap:9px">
+          <span style="{{ selecionado.tipoStyle }}">{{ selecionado.tipoLabel }}</span>
+          <h3 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:17px;font-weight:600;margin:0">{{ selecionado.titulo }}</h3>
+        </div>
+        <button style="width:40px;height:40px;border-radius:5px;background:transparent;border:1px solid #E2E8F0;color:#475569;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center" onClick="{{ selecionado.fechar }}">✕</button>
+      </div>
+      <div style="padding:18px">
+        <sc-if value="{{ selecionado.ehVideo }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ selecionado.embedUrl }}" hint-placeholder-val="{{ false }}">
+            <div style="width:100%;aspect-ratio:16/9;background:#0F172A;border-radius:6px;overflow:hidden">
+              <iframe src="{{ selecionado.embedUrl }}" style="width:100%;height:100%;border:0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen="true"></iframe>
+            </div>
+          </sc-if>
+          <sc-if value="{{ selecionado.semEmbed }}" hint-placeholder-val="{{ false }}">
+            <div style="width:100%;aspect-ratio:16/9;background:#F8FAFC;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px">
+              <span style="font-size:30px;color:#CBD5E1">▶</span>
+              <a href="{{ selecionado.url }}" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:11.5px">Abrir vídeo em nova aba</a>
+            </div>
+          </sc-if>
+        </sc-if>
+        <sc-if value="{{ selecionado.ehLink }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #E2E8F0;border-radius:6px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;word-break:break-all">{{ selecionado.url }}</span>
+            <a href="{{ selecionado.url }}" target="_blank" style="{{ btnOuroLink }}">Abrir link ↗</a>
+          </div>
+        </sc-if>
+        <sc-if value="{{ selecionado.temNota }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12.5px;color:#475569;line-height:1.55;margin-top:14px">{{ selecionado.nota }}</div>
+        </sc-if>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:14px;padding-top:12px;border-top:1px solid #E2E8F0">{{ selecionado.meta }}</div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1064,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  _sessao() {
+    if (this.__ss === undefined) {
+      try { const r = localStorage.getItem('lt.sessao'); this.__ss = r ? JSON.parse(r) : null; } catch (e) { this.__ss = null; }
+    }
+    return this.__ss;
+  }
+
+  _who() {
+    const ss = this._sessao();
+    return ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' };
+  }
+
+  _isAdmin() { return /admin|sócio|socio/i.test((this._sessao() || {}).papel || 'Atendente'); }
+
+  _eu() { return (this._sessao() || {}).nome || 'Ninguém autenticado'; }
+
+  _perfilChip() {
+    const ss = this._sessao();
+    return [{
+      value: 'sessao', label: ss ? ss.nome : 'Entrar',
+      tabStyle: 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid #E2E8F0;background:#FFFFFF;color:#475569',
+      onClick: function(){ window.location.href = './Entrada.dc.html'; },
+    }];
+  }
+
+  state = {
+    perfil: 'admin',
+    registrando: false,
+    aberto: null,
+    extras: [],
+    titulo: '',
+    tipo: 'video',
+    url: '',
+    nota: '',
+  };
+
+  renderVals() {
+    const self = this;
+    const s = this.state;
+    const isAdmin = this._isAdmin();
+    const eu = this._eu();
+
+    const btn = function(bg, bd, fg) {
+      return 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;white-space:nowrap;background:' + bg + ';border:1px solid ' + bd + ';color:' + fg;
+    };
+    const btnGhost = btn('transparent', '#CBD5E1', '#475569');
+    const btnOuro = btn('#4F46E5', '#4F46E5', '#F8FAFC');
+    const btnOuroFraco = btn('#EEF2FF', '#EEF2FF', '#4338CA');
+    const btnMorto = btn('transparent', '#E2E8F0', '#CBD5E1') + ';cursor:not-allowed';
+    const tab = function(on) {
+      return on
+        ? 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;background:#EEF2FF;border:1px solid #CBD5E1;color:#0F172A'
+        : 'font-family:\'JetBrains Mono\',monospace;font-size:10.5px;letter-spacing:.4px;padding:6px 11px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;background:transparent;border:1px solid transparent;color:#64748B';
+    };
+    const pill = function(bg, bd, fg) {
+      return 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:' + bg + ';color:' + fg;
+    };
+    const linkBtn = btn('#4F46E5', '#4F46E5', '#F8FAFC') + ';text-decoration:none;display:inline-block';
+
+    const embedDoYoutube = function(url) {
+      const m = url.match(/(?:youtu\.be\/|v=|embed\/)([a-zA-Z0-9_-]{6,})/);
+      return m ? 'https://www.youtube.com/embed/' + m[1] : null;
+    };
+
+    const BASE = [
+      { id: 't1', titulo: 'Nome dos modificadores de luz', tipo: 'video', url: 'https://youtu.be/dQw4w9WgXcQ', nota: 'Softbox, octabox, rebatedor, difusor — como cada um é chamado no estúdio.', por: 'Jana', data: '10/08' },
+      { id: 't2', titulo: 'Como armar o softbox 90cm', tipo: 'video', url: 'https://youtu.be/dQw4w9WgXcQ', nota: '', por: 'Jana', data: '08/08' },
+      { id: 't3', titulo: 'Como regar as plantas da recepção', tipo: 'link', url: 'https://docs.google.com/document/d/exemplo', nota: 'Duas vezes por semana, menos no inverno.', por: 'Marcos', data: '05/08' },
+      { id: 't4', titulo: 'Montagem do fundo infinito', tipo: 'video', url: 'https://youtu.be/dQw4w9WgXcQ', nota: '', por: 'Jana', data: '01/08' },
+    ];
+
+    const todos = BASE.concat(s.extras);
+
+    const construirItem = function(m) {
+      const ehVideo = m.tipo === 'video';
+      const embedUrl = ehVideo ? embedDoYoutube(m.url) : null;
+      return {
+        id: m.id,
+        titulo: m.titulo,
+        icone: ehVideo ? '▶' : '↗',
+        tipoLabel: ehVideo ? 'Vídeo' : 'Link',
+        tipoStyle: ehVideo ? pill('#F1F5F9', '#F1F5F9', '#475569') : pill('transparent', '#E2E8F0', '#475569'),
+        ehVideo: ehVideo,
+        ehLink: !ehVideo,
+        embedUrl: embedUrl,
+        semEmbed: ehVideo && !embedUrl,
+        url: m.url,
+        temNota: !!m.nota,
+        nota: m.nota,
+        meta: 'Adicionado por ' + m.por + ' · ' + m.data,
+        abrir: function() { self.setState({ aberto: m.id }); },
+        fechar: function() { self.setState({ aberto: null }); },
+      };
+    };
+
+    const lista = todos.map(construirItem);
+    const itemAberto = s.aberto ? todos.filter(function(m) { return m.id === s.aberto; })[0] : null;
+    const selecionado = itemAberto ? construirItem(itemAberto) : null;
+
+    const podeSalvar = s.titulo.trim().length > 0 && s.url.trim().length > 0;
+
+    return {
+      who: this._who(),
+      perfis: this._perfilChip(),
+      podeEscrever: isAdmin,
+      btnRegistrar: s.registrando ? btnOuroFraco : btnOuro,
+      btnGhost: btnGhost,
+      btnOuroLink: linkBtn,
+      registrando: s.registrando,
+      handlers: {
+        toggleRegistrar: function() { self.setState(function(p) { return { registrando: !p.registrando }; }); },
+      },
+      form: {
+        titulo: s.titulo,
+        url: s.url,
+        nota: s.nota,
+        onTitulo: function(e) { self.setState({ titulo: e.target.value }); },
+        onUrl: function(e) { self.setState({ url: e.target.value }); },
+        onNota: function(e) { self.setState({ nota: e.target.value }); },
+        ehVideo: s.tipo === 'video',
+        ehLink: s.tipo === 'link',
+        tipos: [{ v: 'video', l: 'Vídeo' }, { v: 'link', l: 'Link' }].map(function(t) {
+          return { label: t.l, style: t.v === s.tipo ? btnOuroFraco : btnGhost, onClick: function() { self.setState({ tipo: t.v }); } };
+        }),
+        salvarStyle: podeSalvar ? btnOuro : btnMorto,
+        salvar: function() {
+          if (!podeSalvar) return;
+          self.setState(function(p) {
+            return {
+              extras: p.extras.concat([{
+                id: 'novo' + p.extras.length, titulo: p.titulo.trim(), tipo: p.tipo, url: p.url.trim(),
+                nota: p.nota.trim(), por: eu, data: '17/08',
+              }]),
+              titulo: '', url: '', nota: '', tipo: 'video', registrando: false,
+            };
+          });
+        },
+      },
+      lista: lista,
+      temLista: lista.length > 0,
+      vazio: lista.length === 0,
+      selecionado: selecionado,
+      pararPropagacao: function(e) { e.stopPropagation(); },
+    };
+  }
+}
+
+</script>
+</body>
+</html>

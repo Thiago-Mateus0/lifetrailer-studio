@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#F8FAFC}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;gap:3px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ fases }}" as="f" hint-placeholder-count="2">
+        <button style="{{ f.tabStyle }}" onClick="{{ f.onClick }}">{{ f.label }}</button>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:5px;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ perfis }}" as="pf" hint-placeholder-count="2">
+        <button style="{{ pf.tabStyle }}" onClick="{{ pf.onClick }}">{{ pf.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <dc-import name="Sidebar" active="checklist" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto;animation:riseIn .34s cubic-bezier(.22,.61,.36,1) both">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>{{ edgeLabel }}<span style="color:#E2E8F0;margin:0 9px">·</span>07 AGO 2026<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}<div style="flex:1"></div><span style="{{ syncStyle }}"><span style="{{ syncDotStyle }}"></span>{{ syncLabel }}</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">{{ headTitle }}</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:4px">{{ headSub }}</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button style="white-space:nowrap;font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500">◄ 6 ago</button>
+            <sc-if value="{{ isEntrada }}" hint-placeholder-val="{{ true }}">
+              <button style="white-space:nowrap;font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500" onClick="{{ handlers.verSaida }}">Ver saída</button>
+            </sc-if>
+            <sc-if value="{{ !isEntrada }}" hint-placeholder-val="{{ false }}">
+              <button style="white-space:nowrap;font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500" onClick="{{ handlers.verEntrada }}">Ver entrada</button>
+            </sc-if>
+            <sc-if value="{{ !isAdmin }}" hint-placeholder-val="{{ true }}">
+              <button style="white-space:nowrap;{{ concluirStyle }}" onClick="{{ handlers.concluir }}">{{ concluirLabel }}</button>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:11px;align-items:center;margin:15px 0 17px">
+          <div style="height:5px;background:#E2E8F0;border-radius:3px;overflow:hidden;flex:1"><div style="display:block;height:100%;background:{{ counts.barColor }};width:{{ counts.pct }}%;transition:width .2s,background .2s"></div></div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#475569;white-space:nowrap">{{ counts.tratados }}/{{ counts.total }}</span>
+        </div>
+
+        <sc-if value="{{ erroConcluir }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FEF2F2;border-left:2px solid #DC2626;padding:10px 13px;font-size:12px;color:#B91C1C;line-height:1.55;border-radius:0 5px 5px 0;margin-bottom:16px">
+            Não é possível concluir: faltam {{ erroConcluir.faltam }} {{ erroConcluir.faltamLabel }} sem marcar ou justificar.
+            <sc-for list="{{ erroConcluir.exemplos }}" as="ex" hint-placeholder-count="2">
+              <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;margin-top:4px;opacity:.85">· {{ ex }}</span>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+            <sc-for list="{{ monitorSalas }}" as="ms" hint-placeholder-count="6">
+              <div style="border:1px solid #E2E8F0;border-radius:7px;padding:12px 13px">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px">
+                  <span style="font-size:12.5px;font-weight:500">{{ ms.nome }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#475569">{{ ms.contagem }}</span>
+                </div>
+                <div style="height:4px;background:#F1F5F9;border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="height:100%;background:{{ ms.barColor }};width:{{ ms.pct }}%"></div></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B">{{ ms.ultimaAtualizacao }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mostrarBloqueio }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ bloqueio.bannerStyle }}">{{ bloqueio.bannerTexto }}</div>
+        </sc-if>
+
+        <sc-if value="{{ mostrarListaEditavel }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+            <div>
+              <sc-for list="{{ colA }}" as="sala" hint-placeholder-count="3">
+                <div style="border:1px solid #E2E8F0;border-radius:7px;margin-bottom:9px;overflow:hidden">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#F1F5F9;font-size:13px;font-weight:500">
+                    <span style="{{ sala.tagStyle }}">{{ sala.nome }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;font-weight:400">{{ sala.contagem }}</span>
+                  </div>
+                  <div>
+                    <sc-for list="{{ sala.itens }}" as="it" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;font-size:12.5px;border-top:1px solid #E2E8F0">
+                        <button onClick="{{ it.onToggle }}" style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;background:none;border:none;padding:0;font-family:inherit;text-align:left;cursor:pointer" style-hover="{{ it.hoverBg }}">
+                          <span style="width:20px;height:20px;border:1.5px solid #CBD5E1;border-radius:3px;flex-shrink:0;{{ it.boxStyle }}"></span>
+                          <span style="flex:1;min-width:0;font-size:12.5px;color:#0F172A">{{ it.nome }}</span>
+                        </button>
+                        <sc-if value="{{ it.justificado }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#FFFBEB;color:#B45309">justificado</span>
+                          <button onClick="{{ it.onVerJustificativa }}" style="font-size:11px;color:#64748B;border:none;background:none;font-family:inherit;cursor:pointer;text-decoration:underline;white-space:nowrap;padding:0" style-hover="color:#475569">ver</button>
+                        </sc-if>
+                        <sc-if value="{{ it.mostrarHora }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#64748B;flex-shrink:0">{{ it.hora }}</span>
+                        </sc-if>
+                        <sc-if value="{{ it.mostrarJustificar }}" hint-placeholder-val="{{ false }}">
+                          <button onClick="{{ it.onJustificar }}" style="font-size:10.5px;color:#64748B;border:1px solid #E2E8F0;background:none;font-family:inherit;cursor:pointer;white-space:nowrap;padding:4px 9px;border-radius:4px;transition:background .18s ease,border-color .18s ease,color .18s ease" style-hover="background:#F8FAFC;border-color:#CBD5E1;color:#475569">justificar</button>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div>
+              <sc-for list="{{ colB }}" as="sala" hint-placeholder-count="3">
+                <div style="border:1px solid #E2E8F0;border-radius:7px;margin-bottom:9px;overflow:hidden">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#F1F5F9;font-size:13px;font-weight:500">
+                    <span style="{{ sala.tagStyle }}">{{ sala.nome }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;font-weight:400">{{ sala.contagem }}</span>
+                  </div>
+                  <div>
+                    <sc-for list="{{ sala.itens }}" as="it" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;font-size:12.5px;border-top:1px solid #E2E8F0">
+                        <button onClick="{{ it.onToggle }}" style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;background:none;border:none;padding:0;font-family:inherit;text-align:left;cursor:pointer" style-hover="{{ it.hoverBg }}">
+                          <span style="width:20px;height:20px;border:1.5px solid #CBD5E1;border-radius:3px;flex-shrink:0;{{ it.boxStyle }}"></span>
+                          <span style="flex:1;min-width:0;font-size:12.5px;color:#0F172A">{{ it.nome }}</span>
+                        </button>
+                        <sc-if value="{{ it.justificado }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#FFFBEB;color:#B45309">justificado</span>
+                          <button onClick="{{ it.onVerJustificativa }}" style="font-size:11px;color:#64748B;border:none;background:none;font-family:inherit;cursor:pointer;text-decoration:underline;white-space:nowrap;padding:0" style-hover="color:#475569">ver</button>
+                        </sc-if>
+                        <sc-if value="{{ it.mostrarHora }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#64748B;flex-shrink:0">{{ it.hora }}</span>
+                        </sc-if>
+                        <sc-if value="{{ it.mostrarJustificar }}" hint-placeholder-val="{{ false }}">
+                          <button onClick="{{ it.onJustificar }}" style="font-size:10.5px;color:#64748B;border:1px solid #E2E8F0;background:none;font-family:inherit;cursor:pointer;white-space:nowrap;padding:4px 9px;border-radius:4px;transition:background .18s ease,border-color .18s ease,color .18s ease" style-hover="background:#F8FAFC;border-color:#CBD5E1;color:#475569">justificar</button>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ mostrarTrancado }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:90px 20px;color:#64748B">
+            <div style="width:52px;height:52px;margin:0 auto 18px;border:1.5px solid #E2E8F0;border-radius:8px;position:relative">
+              <span style="position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);width:16px;height:12px;border:1.5px solid #CBD5E1;border-radius:2px"></span>
+              <span style="position:absolute;left:50%;top:38%;transform:translate(-50%,-50%);width:10px;height:10px;border:1.5px solid #CBD5E1;border-bottom:none;border-radius:6px 6px 0 0"></span>
+            </div>
+            <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;color:#CBD5E1;letter-spacing:-.3px;margin-bottom:8px">{{ bloqueio.titulo }}</div>
+            <div style="font-size:12.5px;max-width:340px;margin:0 auto 18px;line-height:1.5">{{ bloqueio.texto }}</div>
+            <sc-if value="{{ bloqueio.temBotao }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ bloqueio.onBotao }}" style="font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 16px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;font-weight:600">{{ bloqueio.botaoLabel }}</button>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <div style="font-size:11px;color:#64748B;margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0">Item impossível de fazer é justificado com foto obrigatória (texto opcional) e conta para os 100%. "Marcar todos" exige confirmação e fica sinalizado no histórico como lote.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<sc-if value="{{ modalAberto }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ handlers.fecharModal }}" style="position:fixed;inset:0;z-index:60;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;padding:26px;animation:riseIn .2s ease both">
+    <div onClick="{{ handlers.pararPropagacao }}" style="width:100%;max-width:420px;background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(15,23,42,.4)">
+      <div style="padding:16px 18px;border-bottom:1px solid #E2E8F0">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:#64748B">{{ modal.modoLabel }}</div>
+        <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:18px;font-weight:600;margin-top:4px">{{ modal.nome }}</div>
+      </div>
+      <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px">
+        <div>
+          <div style="font-size:11px;color:#475569;margin-bottom:6px">Foto {{ modal.fotoObrigLabel }}</div>
+          <div style="width:100%;aspect-ratio:16/10;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:6px;overflow:hidden">
+            <image-slot id="{{ modal.fotoId }}" shape="rect" placeholder="Arraste a foto aqui" style="width:100%;height:100%"></image-slot>
+          </div>
+        </div>
+        <sc-if value="{{ modal.editavel }}" hint-placeholder-val="{{ true }}">
+          <label style="display:flex;flex-direction:column;gap:5px">
+            <span style="font-size:11px;color:#475569">Motivo (opcional)</span>
+            <textarea rows="3" placeholder="Ex: sem energia na tomada até a manutenção passar" value="{{ modal.texto }}" onChange="{{ handlers.setModalTexto }}" style="font-size:12.5px;padding:9px 10px;border:1px solid #E2E8F0;border-radius:5px;font-family:inherit;resize:vertical"></textarea>
+          </label>
+        </sc-if>
+        <sc-if value="{{ !modal.editavel }}" hint-placeholder-val="{{ false }}">
+          <div>
+            <div style="font-size:11px;color:#475569;margin-bottom:4px">Motivo</div>
+            <div style="font-size:12.5px;color:#0F172A;line-height:1.5">{{ modal.texto }}</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:6px">{{ modal.meta }}</div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:8px;padding:14px 18px;border-top:1px solid #E2E8F0">
+        <sc-if value="{{ modal.editavel }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ handlers.fecharModal }}" style="font-size:12px;color:#475569;border:1px solid #E2E8F0;background:none;border-radius:5px;padding:8px 13px;font-family:inherit;cursor:pointer">Cancelar</button>
+          <button onClick="{{ handlers.confirmarJustificativa }}" style="font-size:12px;color:#FFFFFF;border:1px solid #4F46E5;background:#4F46E5;border-radius:5px;padding:8px 14px;font-family:inherit;cursor:pointer;font-weight:600">Confirmar justificativa</button>
+        </sc-if>
+        <sc-if value="{{ !modal.editavel }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ handlers.removerJustificativa }}" style="font-size:12px;color:#B91C1C;border:1px solid #FEE2E2;background:none;border-radius:5px;padding:8px 13px;font-family:inherit;cursor:pointer">Remover justificativa</button>
+          <button onClick="{{ handlers.fecharModal }}" style="font-size:12px;color:#475569;border:1px solid #E2E8F0;background:none;border-radius:5px;padding:8px 14px;font-family:inherit;cursor:pointer">Fechar</button>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  _sessao() {
+    if (this.__ss === undefined) {
+      try { const r = localStorage.getItem('lt.sessao'); this.__ss = r ? JSON.parse(r) : null; } catch (e) { this.__ss = null; }
+    }
+    return this.__ss;
+  }
+
+  _who() {
+    const ss = this._sessao();
+    return ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' };
+  }
+
+  _isAdmin() { return /admin|sócio|socio/i.test((this._sessao() || {}).papel || 'Atendente'); }
+
+  _eu() { return (this._sessao() || {}).nome || 'Ninguém autenticado'; }
+
+  _perfilChip() {
+    const ss = this._sessao();
+    return [{
+      value: 'sessao', label: ss ? ss.nome : 'Entrar',
+      tabStyle: 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid #E2E8F0;background:#FFFFFF;color:#475569',
+      onClick: function(){ window.location.href = './Entrada.dc.html'; },
+    }];
+  }
+
+  // TODO: quando a outbox real (IndexedDB) existir, syncState deve vir do status da fila, não de um valor semeado
+  _syncInfo() {
+    const map = { ok: { label: 'sincronizado', dot: '#16A34A', text: '#15803D', pulse: false }, pending: { label: 'sincronizando…', dot: '#D97706', text: '#B45309', pulse: true }, offline: { label: 'sem conexão', dot: '#DC2626', text: '#B91C1C', pulse: false } };
+    return map[this.state.syncState] || map.ok;
+  }
+
+  state = {
+    syncState: 'pending',
+    fase: new URLSearchParams(location.search).get('fase') || 'entrada',
+    perfil: 'atendente',
+    erroConcluir: null,
+    done: {
+      'entrada|acu|0': true, 'entrada|acu|1': true, 'entrada|acu|2': true, 'entrada|acu|3': true,
+      'entrada|bra|0': true, 'entrada|bra|1': true, 'entrada|bra|2': true, 'entrada|bra|3': true,
+      'entrada|luz|0': true,
+      'entrada|lof|0': true, 'entrada|lof|1': true, 'entrada|lof|2': true, 'entrada|lof|3': true,
+      'entrada|qui|0': true, 'entrada|qui|1': true, 'entrada|qui|2': true,
+      'entrada|geral|0': true,
+    },
+    doneAt: {
+      'entrada|acu|0': '07:41', 'entrada|acu|1': '07:41', 'entrada|acu|2': '07:42', 'entrada|acu|3': '07:42',
+      'entrada|bra|0': '07:44', 'entrada|bra|1': '07:44', 'entrada|bra|2': '07:45', 'entrada|bra|3': '07:45',
+      'entrada|luz|0': '07:48',
+      'entrada|lof|0': '07:50', 'entrada|lof|1': '07:50', 'entrada|lof|2': '07:51', 'entrada|lof|3': '07:51',
+      'entrada|qui|0': '07:55', 'entrada|qui|1': '07:55', 'entrada|qui|2': '07:56',
+      'entrada|geral|0': '08:00',
+    },
+    justificativas: {
+      'entrada|luz|1': { texto: 'Produto em falta no estoque — comprado à tarde e reposto.', meta: 'Marcos · 07:52', fotoId: 'just-entrada-luz-1' },
+    },
+    modalAberto: null,
+  };
+
+  key(fase, salaKey, idx) { return fase + '|' + salaKey + '|' + idx; }
+
+  componentDidMount() {
+    this._esc = (e) => { if (e.key === 'Escape' && this.state.modalAberto) this.setState({ modalAberto: null }); };
+    window.addEventListener('keydown', this._esc);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._esc);
+  }
+
+  renderVals() {
+    const self = this;
+    const { fase, perfil, done, doneAt, justificativas, modalAberto } = this.state;
+    const isEntrada = fase === 'entrada';
+    const isAdmin = this._isAdmin();
+
+    const FASES = [{ value: 'entrada', label: 'Entrada' }, { value: 'saida', label: 'Saída' }];
+    const PERFIS = [{ value: 'atendente', label: 'Atendente' }, { value: 'admin', label: 'Admin' }];
+    const tabStyle = (on) => (on
+      ? 'font-size:11px;color:#0F172A;background:#F1F5F9;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-family:inherit;font-weight:500'
+      : 'font-size:11px;color:#64748B;background:none;border:1px solid transparent;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-family:inherit') + ';white-space:nowrap;flex-shrink:0';
+    const vtStyle = (on) => (on
+      ? 'font-size:11px;color:#F8FAFC;background:#0F172A;border:1px solid #0F172A;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-family:inherit;font-weight:500'
+      : 'font-size:11px;color:#64748B;background:none;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-family:inherit') + ';white-space:nowrap;flex-shrink:0';
+
+    // tags de sala são identidade, não severidade — sem cor semântica (COR.md §3, regra 1)
+    const tagBg = () => 'background:#F1F5F9;color:#475569';
+
+    const SALAS_ENTRADA = [
+      { key: 'acu', nome: 'Acústico', tag: 'acu', itens: ['Ar-condicionado · checar', 'Luzes, tomadas · checar', 'Desumidificador · tirar água', 'Organização · checar', 'Mesa · lustrar móvel', 'Perfume/odorizador · aplicar'] },
+      { key: 'bra', nome: 'Branco', tag: 'bra', itens: ['Ar-condicionado · checar', 'Perfume/odorizador · aplicar', 'Organização · checar', 'Luzes, tomadas · checar', 'Piso · checar/lavar', 'Kit café · repor', 'Propé · repor', 'Espelho · limpar', 'Mesa · lustrar móveis'] },
+      { key: 'luz', nome: 'Luz Natural', tag: 'luz', itens: ['Ar-condicionado · checar', 'Luzes, tomadas · checar', 'Organização · checar', 'Mesa · lustrar móvel', 'Perfume/odorizador · aplicar'] },
+      { key: 'lof', nome: 'Loft', tag: 'lof', itens: ['Ar-condicionado · checar', 'Perfume/odorizador · aplicar', 'Organização · checar', 'Luzes, tomadas · checar', 'Piso · checar/lavar', 'Kit café · repor', 'Propé · repor', 'Espelho · limpar', 'Mesas · lustrar móvel'] },
+      { key: 'qui', nome: 'Quintal', tag: 'qui', itens: ['Ar-condicionado · checar', 'Luzes, tomadas · checar', 'Camarim · organizar/guardar', 'Estúdio · organizar/guardar', 'Seixos · checar', 'Porta quintal · abrir', 'Poeira · faxineira varrer'] },
+      { key: 'geral', nome: 'Geral', tag: null, itens: ['Janelão sala · abrir', 'Banheiro masc · checar/organizar', 'Banheiro fem · checar/organizar', 'Banheiro geral · checar/organizar', 'Cafeteira · repor água/ligar', 'Garrafas de água · checar', 'Bomboniere · repor', 'Rampa/entrada · varrer/enxugar', 'Pia · guardar', 'Ração gata · checar/repor', 'Areia gata · trocar', 'Plantas interior · aguar'] },
+    ];
+    const SALAS_SAIDA = [
+      { key: 'acu', nome: 'Acústico', tag: 'acu', itens: ['Ar condicionado · desligar', 'Atendimento ant · organizar/guardar', 'Tomadas · desconectar aparelhos', 'Luzes · desligar', 'Porta · fechar'] },
+      { key: 'bra', nome: 'Branco', tag: 'bra', itens: ['Ar condicionados · desligar', 'Atendimento ant · organizar/guardar', 'Tomadas · desconectar aparelhos', 'Piso · lavar', 'Luzes · desligar', 'Porta · trancar'] },
+      { key: 'luz', nome: 'Luz Natural', tag: 'luz', itens: ['Ar condicionado · desligar', 'Atendimento ant · organizar/guardar', 'Tomadas · desconectar aparelhos', 'Luzes · desligar', 'Porta quintal · trancar', 'Porta corredor · abrir'] },
+      { key: 'lof', nome: 'Loft', tag: 'lof', itens: ['Ar condicionados · desligar', 'Atendimento ant · organizar/guardar', 'Tomadas · desconectar aparelhos', 'Piso · lavar', 'Luzes · desligar', 'Porta · fechar'] },
+      { key: 'qui', nome: 'Quintal', tag: 'qui', itens: ['Ar condicionado · desligar', 'Atendimento ant · organizar/guardar', 'Camarim · organizar/guardar', 'Tomadas · desconectar aparelhos', 'Luzes · desligar', 'Porta quintal · trancar', 'Porta corredor · abrir'] },
+      { key: 'geral', nome: 'Geral', tag: null, itens: ['Plantas exterior 16h · aguar', 'Citronela 16h · passar na calçada', 'Lixo 18h seg/qua/sex · tirar lateral', 'Cafeteira · lavar/desligar', 'Pia · lavar', 'Ração gata · checar/repor', 'Garrafas de água · repor', 'Janelão sala · fechar', 'Banheiro masc · checar descarga', 'Banheiro fem · checar descarga', 'Banheiro geral · checar descarga', 'Porta da cozinha · trancar', 'Sala equip · luz/tomada/desum/trancar'] },
+    ];
+
+    const build = (list, faseKey, editable) => list.map((sala) => {
+      const itens = sala.itens.map((nome, i) => {
+        const k = self.key(faseKey, sala.key, i);
+        const isDone = !!done[k];
+        const just = justificativas[k];
+        const tratado = isDone || !!just;
+        return {
+          nome,
+          justificado: !!just,
+          mostrarHora: isDone && !just,
+          hora: doneAt[k] || '',
+          mostrarJustificar: editable && !tratado,
+          boxStyle: (just || isDone) ? 'background:#334155;border-color:#334155' : '',
+          hoverBg: editable && !just ? 'background:#F8FAFC' : '',
+          onToggle: () => {
+            if (!editable || just) return;
+            self.setState((s) => {
+              const d = { ...s.done }, da = { ...s.doneAt };
+              if (d[k]) { delete d[k]; delete da[k]; } else { d[k] = true; da[k] = new Date().toTimeString().slice(0, 5); }
+              return { done: d, doneAt: da, erroConcluir: null };
+            });
+          },
+          onJustificar: (e) => { if (e) e.stopPropagation(); self.setState({ modalAberto: { key: k, nome, faseKey, salaKey: sala.key, idx: i, novo: true, texto: '' } }); },
+          onVerJustificativa: (e) => { if (e) e.stopPropagation(); self.setState({ modalAberto: { key: k, nome, faseKey, salaKey: sala.key, idx: i, novo: false } }); },
+          _tratado: tratado,
+        };
+      });
+      const total = itens.length;
+      const tratadoCount = itens.filter((it) => it._tratado).length;
+      return { nome: sala.nome, tagStyle: sala.tag ? ('font-size:10px;padding:1px 7px;border-radius:3px;font-weight:600;letter-spacing:.3px;font-family:\'JetBrains Mono\',monospace;' + tagBg(sala.tag)) : '', contagem: tratadoCount + '/' + total + (tratadoCount === total ? ' ✓' : ''), itens };
+    });
+
+    const entradaTotal = SALAS_ENTRADA.reduce((s, r) => s + r.itens.length, 0);
+    const saidaTotal = SALAS_SAIDA.reduce((s, r) => s + r.itens.length, 0);
+    const countTratados = (list, faseKey) => list.reduce((s, sala) => s + sala.itens.filter((_, i) => {
+      const k = self.key(faseKey, sala.key, i); return !!done[k] || !!justificativas[k];
+    }).length, 0);
+    const entradaTratados = countTratados(SALAS_ENTRADA, 'entrada');
+    const saidaTratados = countTratados(SALAS_SAIDA, 'saida');
+    const entradaCompleta = entradaTratados === entradaTotal;
+    const saidaCompleta = saidaTotal > 0 && saidaTratados === saidaTotal;
+
+    const saidaBloqueadaAtendente = !entradaCompleta;
+    const entradaBloqueadaAtendente = saidaCompleta;
+    const bloqueadoAgora = !isAdmin && (isEntrada ? entradaBloqueadaAtendente : saidaBloqueadaAtendente);
+
+    const salasAtuais = build(isEntrada ? SALAS_ENTRADA : SALAS_SAIDA, fase, !bloqueadoAgora);
+    const total = isEntrada ? entradaTotal : saidaTotal;
+    const tratados = isEntrada ? entradaTratados : saidaTratados;
+    const pct = total ? Math.round((tratados / total) * 100) : 0;
+    const concluido = total > 0 && tratados === total;
+
+    let bloqueio = null;
+    if (isEntrada && entradaBloqueadaAtendente) {
+      bloqueio = { titulo: 'Turno encerrado', texto: 'A saída já foi concluída — a entrada fica bloqueada até o próximo turno. Peça a um admin para reabrir se precisar corrigir algo.', temBotao: false };
+    } else if (!isEntrada && saidaBloqueadaAtendente) {
+      const faltam = entradaTotal - entradaTratados;
+      bloqueio = { titulo: 'Saída bloqueada', texto: 'Conclua a entrada primeiro. Faltam ' + faltam + ' ' + (faltam === 1 ? 'item' : 'itens') + ' (ou justificativa) para liberar a saída.', temBotao: true, botaoLabel: 'Ir para entrada', onBotao: () => self.setState({ fase: 'entrada' }) };
+    }
+    const bannerAdminAviso = isAdmin && ((isEntrada && entradaBloqueadaAtendente) || (!isEntrada && saidaBloqueadaAtendente));
+
+    let modal = null;
+    if (modalAberto) {
+      const just = justificativas[modalAberto.key];
+      const editavel = modalAberto.novo || !just;
+      modal = {
+        modoLabel: editavel ? 'Justificar item' : 'Justificativa registrada',
+        nome: modalAberto.nome,
+        fotoId: 'just-' + modalAberto.key.replace(/\|/g, '-'),
+        fotoObrigLabel: editavel ? 'obrigatória' : '',
+        editavel,
+        texto: editavel ? (this.state._modalTexto ?? '') : (just ? just.texto : ''),
+        meta: just ? just.meta : '',
+      };
+    }
+
+    const sync = this._syncInfo();
+    return {
+      syncStyle: 'color:' + sync.text + ';display:flex;align-items:center;gap:6px',
+      syncDotStyle: 'width:5px;height:5px;border-radius:50%;background:' + sync.dot + (sync.pulse ? ';animation:pulseDot 2.4s ease-in-out infinite' : ''),
+      syncLabel: sync.label,
+      isEntrada, isAdmin,
+      edgeLabel: isEntrada ? 'CHECKLIST ENTRADA' : 'CHECKLIST SAÍDA',
+      headTitle: isEntrada ? 'Checklist de entrada' : 'Checklist de saída',
+      headSub: isEntrada ? 'Sexta, 7 de agosto · limite 10:00 · saída libera ao concluir' : 'Sexta, 7 de agosto · libera ao fim do último ensaio + 1h',
+      concluirLabel: concluido ? (isEntrada ? 'Entrada concluída ✓' : 'Saída concluída ✓') : (isEntrada ? 'Concluir entrada' : 'Concluir saída'),
+      concluirStyle: concluido
+        ? 'font-size:12.5px;color:#475569;border:1px solid #F1F5F9;padding:10px 15px;border-radius:5px;background:#F1F5F9;font-family:inherit;cursor:default;font-weight:500'
+        : 'font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-weight:600',
+      counts: { total, tratados, pct, barColor: '#475569' },
+      erroConcluir: this.state.erroConcluir,
+      mostrarBloqueio: bannerAdminAviso,
+      bloqueio: bloqueio ? { ...bloqueio, bannerStyle: 'background:#FFFBEB;border:1px solid #FDE68A;border-radius:6px;padding:10px 13px;font-size:11.5px;color:#B45309;margin-bottom:16px', bannerTexto: '⚠ Normalmente bloqueado para atendentes — editando como admin. ' + bloqueio.texto } : { bannerStyle: '', bannerTexto: '' },
+      mostrarListaEditavel: !bloqueadoAgora && !isAdmin,
+      mostrarTrancado: bloqueadoAgora,
+      colA: [salasAtuais[0], salasAtuais[1], salasAtuais[2]],
+      colB: [salasAtuais[3], salasAtuais[4], salasAtuais[5]],
+      monitorSalas: (isEntrada ? SALAS_ENTRADA : SALAS_SAIDA).map((sala) => {
+        const itens = sala.itens.map((_, i) => self.key(fase, sala.key, i));
+        const tratadosSala = itens.filter((k) => !!done[k] || !!justificativas[k]).length;
+        const totalSala = itens.length;
+        const pctSala = totalSala ? Math.round((tratadosSala / totalSala) * 100) : 0;
+        const horas = itens.map((k) => doneAt[k]).filter(Boolean).sort();
+        return {
+          nome: sala.nome, contagem: tratadosSala + '/' + totalSala, pct: pctSala,
+          barColor: '#475569',
+          ultimaAtualizacao: horas.length ? ('última marcação ' + horas[horas.length - 1]) : 'nenhuma marcação ainda',
+        };
+      }),
+      who: this._who(),
+      fases: FASES.map((f) => ({ value: f.value, label: f.label, tabStyle: tabStyle(f.value === fase), onClick: () => self.setState({ fase: f.value }) })),
+      perfis: this._perfilChip(),
+      modalAberto: !!modalAberto,
+      modal: modal || { modoLabel: '', nome: '', fotoId: 'just-none', fotoObrigLabel: '', editavel: true, texto: '', meta: '' },
+      handlers: {
+        verSaida: () => self.setState({ fase: 'saida' }),
+        verEntrada: () => self.setState({ fase: 'entrada' }),
+        concluir: () => {
+          if (concluido) return;
+          const salas = isEntrada ? SALAS_ENTRADA : SALAS_SAIDA;
+          const pendentesNomes = [];
+          salas.forEach((sala) => sala.itens.forEach((nome, i) => {
+            const k = self.key(fase, sala.key, i);
+            if (!done[k] && !justificativas[k]) pendentesNomes.push(sala.nome + ' · ' + nome);
+          }));
+          const faltam = total - tratados;
+          self.setState({ erroConcluir: { faltam, faltamLabel: faltam === 1 ? 'item está' : 'itens estão', exemplos: pendentesNomes.slice(0, 3) } });
+        },
+        fecharModal: () => self.setState({ modalAberto: null, _modalTexto: '' }),
+        pararPropagacao: (e) => { if (e) e.stopPropagation(); },
+        setModalTexto: (e) => self.setState({ _modalTexto: e.target.value }),
+        confirmarJustificativa: () => {
+          if (!modalAberto) return;
+          const texto = (this.state._modalTexto || '').trim() || 'Sem motivo informado.';
+          const meta = self._eu() + ' · ' + new Date().toTimeString().slice(0, 5);
+          self.setState((s) => ({ justificativas: { ...s.justificativas, [modalAberto.key]: { texto, meta, fotoId: 'just-' + modalAberto.key.replace(/\|/g, '-') } }, modalAberto: null, _modalTexto: '' }));
+        },
+        removerJustificativa: () => {
+          if (!modalAberto) return;
+          self.setState((s) => { const j = { ...s.justificativas }; delete j[modalAberto.key]; return { justificativas: j, modalAberto: null }; });
+        },
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
