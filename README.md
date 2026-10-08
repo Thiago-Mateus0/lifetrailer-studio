@@ -17,6 +17,18 @@ Está **em produção**, usado pela equipe do estúdio. O repositório é uma c�
 | **Horas extras** | Cálculo por turno, com regras de borda (saída antecipada, posse do turno). |
 | **Avisos e Achados e Perdidos** | Comunicação interna com confirmação de leitura; registro de objetos com foto. |
 
+## Telas
+
+Tablet em modo kiosk (capturas em 1280×800, com os dados de demonstração de `scripts/seed-demo*.sql`).
+
+| | |
+|---|---|
+| ![Entrada](docs/img/entrada.jpg) **Entrada**: login do administrador; o tablet só mostra a equipe depois de registrado | ![Início](docs/img/home.png) **Início**: agenda do dia por estúdio, com a cor da Comanda de cada ensaio |
+| ![Comandas](docs/img/comandas.png) **Comandas**: filtro por estado da máquina de estados | ![Comanda](docs/img/comanda-detalhe.png) **Comanda**: responsável, ensaio, extras e subtotal |
+| ![Checklist](docs/img/checklist.png) **Checklist** de entrada por estúdio, com justificativa | ![Escala](docs/img/escala.png) **Escala**: calendário com trocas, ausências e domingos extras |
+| ![Avisos](docs/img/avisos.png) **Avisos** com confirmação de leitura | ![Achados](docs/img/achados.png) **Achados e perdidos** |
+| ![Bomboniere](docs/img/bomboniere.png) **Bomboniere**: baixa automática ao fechar a Comanda | |
+
 ## Arquitetura
 
 ```
@@ -71,6 +83,21 @@ node src/db/carga.mjs                  # catálogos iniciais (dados fictícios e
 LT_WEBHOOK_TOKEN=... LT_CLAIM_SEGREDO=... node src/webhook/index.mjs
 npm --prefix src/app run dev           # front com Vite
 ```
+
+Para ver o sistema com dados (tudo fictício), num banco descartável:
+
+```bash
+export PGHOST=127.0.0.1 PGUSER=postgres PGDATABASE=lifetrailer_demo
+psql -d postgres -c "create database lifetrailer_demo"
+node src/db/migrate.mjs && node src/db/carga.mjs
+psql -v ON_ERROR_STOP=1 -f scripts/seed-demo.sql         # equipe, escala, agenda de hoje, checklist
+psql -v ON_ERROR_STOP=1 -f scripts/seed-demo-vida.sql    # comandas, avisos, achados, checklist parcial
+node src/db/dispositivo.mjs registrar "Tablet 01"        # imprime a chave do aparelho (uma vez)
+```
+
+Suba o servidor como `lifetrailer_app` (`PGUSER=lifetrailer_app`, mais os dois segredos) e o front com Vite.
+Cole a chave em "Registrar este aparelho". Atendentes: Marcos `1111`, Paulo `2222`, Dev `3333`.
+Administradores: usuário `helena` ou `rafael`, senha `demo-portfolio-2026`.
 
 Testes:
 
