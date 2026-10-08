@@ -1,6 +1,6 @@
 -- 0047 — Sócio: o Administrador que é dono (ADR 0050).
 --
--- Os donos (Wyll, Rafael e Paulo) e a gerente (Helena) são todos
+-- Os donos (Wyll, Rafael e Carlos) e a gerente (Helena) são todos
 -- Administradores. O que só o dono faz é dar acesso (definir PIN e senha de
 -- outras pessoas) e ler o registro de auditoria.
 --

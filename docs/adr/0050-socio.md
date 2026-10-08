@@ -14,7 +14,7 @@ ali qualquer Administrador definia PIN e senha de outros e lia o registro de aud
 O domínio tinha três níveis — Administrador, Desenvolvedor, Atendente — e tratava
 todo Administrador igual. Na operação real são duas coisas diferentes:
 
-- **Sócios**, os donos: Wyll, Rafael e Paulo.
+- **Sócios**, os donos: Wyll, Rafael e Carlos.
 - **Gerente**: a Helena, que opera a administração do dia a dia.
 
 Os mockups da Fase 3 já apontavam isso ("Admin consulta os PINs, alteração é do

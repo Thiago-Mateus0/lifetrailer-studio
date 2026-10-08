@@ -58,9 +58,9 @@ outros.
 | Thiago | Atendente | tablet (PIN) | `3333` |
 | Rafael | Administrador · Sócio | computador (login) | usuário `rafael`, senha `ensaio-demo-2026` |
 | Helena | Administrador · Gerente (não é sócia) | computador (login) | senha redefinida neste ensaio para `ensaio-demo-2026` |
-| Wyll / Paulo | Administrador · Sócio | computador (login) | senha não alterada neste ensaio — desconhecida, redefinir por SQL se precisar (`update colaborador set senha_hash = crypt('...', gen_salt('bf', 12)) where login = '...'`) |
+| Wyll / Carlos | Administrador · Sócio | computador (login) | senha não alterada neste ensaio — desconhecida, redefinir por SQL se precisar (`update colaborador set senha_hash = crypt('...', gen_salt('bf', 12)) where login = '...'`) |
 
-Só **sócio** (Wyll, Rafael, Paulo) edita PIN em Ajustes — Helena
+Só **sócio** (Wyll, Rafael, Carlos) edita PIN em Ajustes — Helena
 (Gerente) vê a tela mas não edita (ADR 0050). Só **Atendente** entra pelo
 PIN do tablet.
 
@@ -111,9 +111,9 @@ PIN do tablet.
 Criados durante o ensaio e **não revertidos** (ficam como exemplo, no mesmo
 espírito da Comanda #34 de sessões anteriores):
 
-- Comanda do ensaio de "mirely evelyn" (10:30–11:30) — aberta, com um item de
+- Comanda do ensaio de "cliente demo" (10:30–11:30) — aberta, com um item de
   Bomboniere, fechada e enviada.
-- Achado "Casaco jeans azul" — entregue a "Mirely Evelyn".
+- Achado "Casaco jeans azul" — entregue a "Cliente Demo".
 - Achado "Guarda-chuva preto" — doado para "ONG do bairro".
 - Aviso "Ensaio da demo" — publicado por Marcos, confirmado por Paulo.
 - Dois itens do Checklist de hoje (Acústico) — um marcado feito, outro
