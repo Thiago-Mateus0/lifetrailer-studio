@@ -1,0 +1,34 @@
+# Worker: fila do webhook, vigia, carteiro e reconciliação.
+#
+# Serviço SEPARADO do app de propósito (ADR 0063 §3): ele conecta como
+# lifetrailer_job, não lifetrailer_app. Aplicar evento de webhook é escrita com
+# autoria nula, e a fronteira disso é o role (ADR 0020 §1) — o quiosque não tem
+# esta porta. Juntar os dois num processo só apagaria essa fronteira.
+
+[Unit]
+Description=Lifetrailer — worker da fila e jobs
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lifetrailer
+WorkingDirectory=/opt/lifetrailer
+EnvironmentFile=/etc/lifetrailer/ambiente
+EnvironmentFile=/etc/lifetrailer/worker
+
+ExecStart=/usr/bin/node src/webhook/processador.mjs
+
+# Sem credencial da Altegio o worker NÃO cai — ele grita a cada intervalo
+# (lição da PR #74). Por isso `always`: o que se quer é que ele continue
+# tentando, não que o systemd desista junto.
+Restart=always
+RestartSec=10s
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

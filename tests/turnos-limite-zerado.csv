@@ -1,0 +1,7 @@
+dia_semana,turno,hora_inicio,hora_fim,hora_fim_calculo,janela_posse_inicio,janela_posse_fim,vigencia_inicio,vigencia_fim
+seg-sex,Manha,08:00,14:00,,06:00,14:00,2026-01-01,
+seg-sex,Tarde-noite,14:00,23:00,23:00,14:00,06:00,2026-01-01,
+sab,Manha,08:00,14:00,,06:00,14:00,2026-01-01,
+sab,Tarde-noite,14:00,18:00,18:00,14:00,06:00,2026-01-01,
+sab,Tarde-noite,14:00,18:00,,14:00,06:00,2026-08-20,
+dom,Extra,,,,primeiro_ensaio,06:00,2026-01-01,

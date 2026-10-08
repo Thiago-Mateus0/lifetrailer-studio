@@ -1,0 +1,20 @@
+# Segredos que SÓ o worker lê (ADR 0063 §3). O app atende o tablet e não pode
+# ter a senha do lifetrailer_job nem a do doadmin: por isso arquivo separado,
+# carregado depois do `ambiente` só pelo lifetrailer-worker.service.
+#
+#   sudo install -m 600 deploy/worker.exemplo /etc/lifetrailer/worker
+#   sudo -e /etc/lifetrailer/worker
+
+# Senha do lifetrailer_job (o worker não usa o PGPASSWORD do app).
+LT_WEBHOOK_PGPASSWORD=
+
+# ---------------------------------------------------------------- Backup
+# pg_dump horário para o bucket lifetrailer-backup (ADR 0028 §2, ADR 0074).
+# A URL é de um usuário que lê o banco inteiro (o doadmin do painel): o
+# lifetrailer_job não enxerga todas as tabelas. O pg_dump do postgresql-client
+# tem de ter a versão maior do servidor, ou mais nova.
+# O token é o `backup` do R2; o endpoint é https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+LT_BACKUP_DATABASE_URL=
+LT_BACKUP_R2_ENDPOINT=
+LT_BACKUP_R2_ACCESS_KEY_ID=
+LT_BACKUP_R2_SECRET_ACCESS_KEY=

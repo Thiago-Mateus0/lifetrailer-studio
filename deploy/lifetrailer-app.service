@@ -1,0 +1,41 @@
+# HTTP: recebe o webhook da Altegio e serve o app, na mesma porta (ADR 0042 §1).
+# Fica ATRÁS do Caddy — a porta 8787 não é publicada na internet.
+#
+#   sudo cp deploy/lifetrailer-app.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now lifetrailer-app
+
+[Unit]
+Description=Lifetrailer — webhook da Altegio e app
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=lifetrailer
+WorkingDirectory=/opt/lifetrailer
+
+# Fora do repositório e legível só pelo dono. O processo não sobe sem
+# LT_WEBHOOK_TOKEN nem sem LT_CLAIM_SEGREDO, e isso é defesa: meia porta
+# aberta é o modo de falha mais caro que existe aqui.
+EnvironmentFile=/etc/lifetrailer/ambiente
+
+ExecStart=/usr/bin/node src/webhook/index.mjs
+
+Restart=on-failure
+RestartSec=5s
+
+# Encerra pelo SIGTERM que o index.mjs já trata: fecha o servidor, drena o pool
+# e sai. Matar antes disso deixaria requisição pela metade.
+KillSignal=SIGTERM
+TimeoutStopSec=30s
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+# A mídia grava em disco enquanto o R2 não entra (issue #136) — é o único
+# caminho que este serviço precisa escrever.
+ReadWritePaths=/var/lib/lifetrailer/midia
+
+[Install]
+WantedBy=multi-user.target

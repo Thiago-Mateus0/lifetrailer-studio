@@ -1,0 +1,202 @@
+# CI — a suíte roda no repositório, não na máquina de quem abriu o PR.
+#
+# Até aqui todo "519 pgTAP verdes" desta base saiu da máquina de um agente ou da
+# minha. Isso não é verificação: é relato. Este workflow existe pra que o verde
+# do PR seja um fato que qualquer um pode reexecutar.
+#
+# ⚠ O banco sobe pelo docker-compose.yml DO PRÓPRIO REPOSITÓRIO, e não por um
+# `services:` do Actions. É de propósito: o compose é o mesmo arquivo que o dev
+# usa (com pgTAP e, a partir do PR do agendador, pg_cron). Um serviço declarado
+# aqui seria um segundo ambiente pra manter — e a primeira divergência entre os
+# dois só apareceria como "passa no meu e falha no CI".
+#
+# O banco nasce vazio a cada execução, então cada PR prova o que a memória do
+# projeto já registrava como regra: verde em cada branch não prova nada, verde
+# com as migrations aplicadas do zero, na ordem, prova.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Um PR que recebe push novo cancela a execução anterior: fila de CI não é
+# recurso infinito e o resultado velho não interessa mais.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  banco:
+    name: Migrations + pgTAP
+    runs-on: ubuntu-24.04
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGDATABASE: lifetrailer
+    steps:
+      # fetch-depth 0: a conferência de colisão compara este branch com a base
+      # do PR, e pra isso precisa do histórico dos dois lados.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Barato e antes de tudo: número de migration repetido e — o padrão que
+      # custou o PR #22 — a mesma função reescrita por duas migrations que ainda
+      # não se encontraram. Em `push` para o main não há base a comparar.
+      - name: Conferência das migrations
+        if: github.base_ref != ''
+        env:
+          BASE: ${{ github.base_ref }}
+        run: bash scripts/conferir-migrations.sh "origin/$BASE"
+
+      # Os runners trazem cliente do Postgres, mas não necessariamente o 16.
+      # Versão de cliente diferente da do servidor cala erro em canto errado.
+      - name: Cliente do Postgres 16
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client-16
+          psql --version
+
+      - name: Sobe o banco de dev (o mesmo compose que a máquina do dev usa)
+        run: docker compose up -d --wait
+
+      - name: Extensões disponíveis
+        run: psql -Atc "select extname, extversion from pg_extension order by 1"
+
+      - name: Migrations num banco criado do zero
+        run: node src/db/migrate.mjs
+
+      # Rodar duas vezes é o teste do próprio runner: migration é append-only e
+      # o migrate.mjs recusa arquivo já aplicado que mudou de conteúdo.
+      - name: E a segunda passada não reaplica nada
+        run: node src/db/migrate.mjs
+
+      - name: Migrations como o doadmin da DigitalOcean (sem superuser)
+        run: bash scripts/conferir-migrations-sem-superuser.sh
+
+      - name: pgTAP
+        run: node --test tests/db/runner.mjs
+
+      # Os casos de tests/extensao.yaml contra app.extensao_calcular (0050).
+      # Aqui e nao no job `node` porque precisa de Postgres; la ele se declara
+      # skipped. Antes da carga: o proprio teste semeia os catalogos que le.
+      - name: Extensao de ensaio (yaml x banco)
+        run: node --test tests/db/extensao.test.mjs
+
+      # As consultas das telas (ADR 0042 §2) contra o banco de verdade, sob o
+      # role da app. Aqui e nao no job `node` porque precisam de Postgres; la
+      # elas se declaram skipped. So a da Home rodava aqui, e a #176 entrou com
+      # tres testes de Avisos vermelhos e a CI verde (issue #180). Antes da
+      # carga pela mesma razao que o pgTAP: contam linhas que a carga povoa.
+      - name: Consulta das telas
+        run: node --test 'tests/api/*.test.mjs'
+
+      # DEPOIS do pgTAP, e nao antes: a carga povoa tabelas que varios testes
+      # contam globalmente, entao roda-la antes reprova a suite por dado de
+      # catalogo legitimo. A ordem aqui e o teste: banco vazio -> migrations ->
+      # pgTAP -> carga.
+      #
+      # Isto e o unico lugar que prova que um ambiente NOVO consegue rodar. Foi
+      # a lacuna da issue #65: o banco subia com as migrations e zero linha de
+      # catalogo, e nenhum agendamento entrava.
+      - name: Carga inicial num banco que nunca a viu
+        run: node src/db/carga.mjs
+
+      # Reexecutar tem de ser inerte. `--conferir` sai 1 se houvesse algo a
+      # inserir ou se alguma linha divergisse.
+      - name: E a segunda passada nao insere nada
+        run: |
+          node src/db/carga.mjs --conferir | tee /tmp/conferir.txt
+          grep -q '0 inserida(s)' /tmp/conferir.txt
+        shell: bash
+
+      # A migration mais nova sobre banco que já tem a carga, como a produção
+      # a receberia. Banco vazio deixou passar a 0068 (issue #159).
+      - name: Migration nova sobre banco com carga
+        run: bash scripts/test-db.sh atualizar
+
+  node:
+    name: Webhook, jobs e domínio
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Estes rodam sem banco e sem dependência instalada, de propósito — é o
+      # mesmo desenho do servidor.mjs e do processador.mjs (import dinâmico).
+      - name: Testes do webhook
+        run: node --test 'tests/webhook/*.test.mjs'
+
+      # A fronteira do ADR 0042: claim, allow-list, roteador e a montagem das
+      # telas. Sem banco e sem dependência instalada — o `pg` só aparece no
+      # index.mjs, e nenhum destes o importa. A consulta que precisa de Postgres
+      # roda no job `banco` e aqui se declara skipped.
+      - name: Testes do app (claim, rotas e montagem das telas)
+        run: |
+          if compgen -G 'tests/api/*.test.mjs' > /dev/null; then
+            node --test 'tests/api/*.test.mjs'
+          else
+            echo "sem tests/api/ nesta branch"
+          fi
+        shell: bash
+
+      # A pasta pode não existir ainda em branch antiga; o glob vazio faria o
+      # node --test falhar, e falhar por ausência de teste não é sinal.
+      - name: Testes dos jobs
+        run: |
+          if compgen -G 'tests/jobs/*.test.mjs' > /dev/null; then
+            node --test 'tests/jobs/*.test.mjs'
+          else
+            echo "sem tests/jobs/ nesta branch"
+          fi
+        shell: bash
+
+      # Regra 1 da casa: número vem do CSV, nunca do texto. É esta suíte que
+      # confere isso — e por isso ela é parte do CI, não um script de conveniência.
+      - name: Testes de domínio (CSV × docs)
+        run: python3 tests/runner.py
+
+      # O mapa dos catálogos: que o CSV vira as linhas certas e que nenhuma
+      # coluna ficou sem valor nem resolvedor. Sem banco.
+      - name: Testes da carga inicial
+        run: |
+          if compgen -G 'tests/carga/*.test.mjs' > /dev/null; then
+            node --test 'tests/carga/*.test.mjs'
+          else
+            echo "sem tests/carga/ nesta branch"
+          fi
+        shell: bash
+
+  front:
+    name: Front (tipos, build e testes)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: src/app/package-lock.json
+
+      - name: Instala
+        run: npm --prefix src/app ci
+
+      # `build` é `tsc --noEmit && vite build`: erro de tipo reprova o PR.
+      - name: Tipos e build
+        run: npm --prefix src/app run build
+
+      # Sem este passo, o número de testes do front era afirmação de quem abriu
+      # o PR, não fato verificado — o build passa com o componente errado desde
+      # que os tipos fechem. É o mesmo papel que o pgTAP faz pro banco.
+      - name: Testes do front
+        run: npm --prefix src/app run test

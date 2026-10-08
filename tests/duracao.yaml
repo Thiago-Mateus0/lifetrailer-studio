@@ -1,0 +1,44 @@
+# Validação de duração contra a tabela — ADR 0008, D1
+# buffer global vigente: 1800s · duracao_min = (seance_length - buffer) / 60
+#
+# Estes casos NÃO rodavam antes: o runner só carregava extensao.yaml, e o
+# parser quebrava em `int('true')`. Quatro casos que pareciam cobertura.
+
+casos:
+  - id: DUR-01
+    nome: 1h — caso tabelado normal
+    seance_length: 5400
+    espera: {duracao_min: 60, tabelada: true, bloqueia_comanda: false, flag: null}
+
+  - id: DUR-02
+    nome: 7h — eliminada a interpolação, sem substituta
+    seance_length: 27000
+    espera: {duracao_min: 420, tabelada: false, bloqueia_comanda: true, flag: duracao_nao_tabelada}
+
+  - id: DUR-03
+    nome: buffer igual ao seance_length — o furo que zerava a tabela
+    seance_length: 1800
+    espera: {duracao_min: 0, tabelada: false, bloqueia_comanda: true, flag: duracao_invalida}
+
+  - id: DUR-04
+    nome: acima de 12h
+    seance_length: 52200
+    espera: {duracao_min: 840, tabelada: false, bloqueia_comanda: true, flag: duracao_nao_tabelada}
+
+  - id: DUR-05
+    nome: buffer MAIOR que o seance_length — duração negativa
+    seance_length: 900
+    espera: {duracao_min: -15, tabelada: false, bloqueia_comanda: true, flag: duracao_invalida}
+
+  - id: DUR-06
+    nome: 8h — faixa longa, tabelada
+    seance_length: 30600
+    espera: {duracao_min: 480, tabelada: true, bloqueia_comanda: false, flag: null}
+
+  - id: DUR-07
+    nome: duração some da tabela quando a vigência expira
+    seance_length: 12600
+    estudio: Acustico
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    espera: {duracao_min: 180, tabelada: false, bloqueia_comanda: true, flag: duracao_nao_tabelada}

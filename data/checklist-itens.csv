@@ -1,0 +1,92 @@
+secao,fase,nome,acao,dias_aplicaveis,horario_referencia,ordem,ativo
+Acustico,Entrada,Ar condicionado,Checar,todos,,1,true
+Acustico,Entrada,"Luzes, tomadas",Checar,todos,,2,true
+Acustico,Entrada,Desumidificador,Tirar água,todos,,3,true
+Acustico,Entrada,Organização,Checar,todos,,4,true
+Acustico,Entrada,Mesa,Lustra móvel,todos,,5,true
+Acustico,Entrada,Perfume/Odorizador,Aplicar,todos,,6,true
+Branco,Entrada,Ar condicionado,Checar,todos,,1,true
+Branco,Entrada,Perfume/Odorizador,Aplicar,todos,,2,true
+Branco,Entrada,Organização,Checar,todos,,3,true
+Branco,Entrada,"Luzes, tomadas",Checar,todos,,4,true
+Branco,Entrada,Piso,Checar/Lavar,todos,,5,true
+Branco,Entrada,Kit café,Repor,todos,,6,true
+Branco,Entrada,Propé,Repor,todos,,7,true
+Branco,Entrada,Espelho,Limpar,todos,,8,true
+Branco,Entrada,Mesa,Lustra móveis,todos,,9,true
+Luz Natural,Entrada,Ar condicionado,Checar,todos,,1,true
+Luz Natural,Entrada,"Luzes, tomadas",Checar,todos,,2,true
+Luz Natural,Entrada,Organização,Checar,todos,,3,true
+Luz Natural,Entrada,Mesa,Lustra móvel,todos,,4,true
+Luz Natural,Entrada,Perfume/Odorizador,Aplicar,todos,,5,true
+Loft,Entrada,Ar condicionado,Checar,todos,,1,true
+Loft,Entrada,Perfume/Odorizador,Aplicar,todos,,2,true
+Loft,Entrada,Organização,Checar,todos,,3,true
+Loft,Entrada,"Luzes, tomadas",Checar,todos,,4,true
+Loft,Entrada,Piso,Checar/Lavar,todos,,5,true
+Loft,Entrada,Kit café,Repor,todos,,6,true
+Loft,Entrada,Propé,Repor,todos,,7,true
+Loft,Entrada,Espelho,Limpar,todos,,8,true
+Loft,Entrada,Mesas,Lustra móvel,todos,,9,true
+Quintal,Entrada,Ar condicionado,Checar,todos,,1,true
+Quintal,Entrada,"Luzes, tomadas",Checar,todos,,2,true
+Quintal,Entrada,Camarim,Organizar/Guardar,todos,,3,true
+Quintal,Entrada,Estúdio,Organizar/Guardar,todos,,4,true
+Quintal,Entrada,Seixos,Checar,todos,,5,true
+Quintal,Entrada,Porta quintal,Abrir,todos,,6,true
+Quintal,Entrada,Poeira,Faxineira varrer,todos,,7,true
+,Entrada,Janelão sala,Abrir,todos,,1,true
+,Entrada,Banheiro masc,Checar/Organizar,todos,,2,true
+,Entrada,Banheiro fem,Checar/Organizar,todos,,3,true
+,Entrada,Banheiro geral,Checar/Organizar,todos,,4,true
+,Entrada,Cafeteira,Repor água/Ligar,todos,,5,true
+,Entrada,Garrafas de água,Checar,todos,,6,true
+,Entrada,Bomboniere,Repor,todos,,7,true
+,Entrada,Rampa/Entrada,Varrer/Enxugar,todos,,8,true
+,Entrada,Pia,Guardar,todos,,9,true
+,Entrada,Ração gata,Checar/Repor,todos,,10,true
+,Entrada,Areia gata,Trocar,todos,,11,true
+,Entrada,Plantas interior,Aguar,todos,,12,true
+Acustico,Saida,Ar condicionado,Desligar,todos,,1,true
+Acustico,Saida,Atendimento ant,Organizar/Guardar,todos,,2,true
+Acustico,Saida,Tomadas,Desconectar aparelhos,todos,,3,true
+Acustico,Saida,Luzes,Desligar,todos,,4,true
+Acustico,Saida,Porta,Fechar,todos,,5,true
+Branco,Saida,Ar condicionados,Desligar,todos,,1,true
+Branco,Saida,Atendimento ant,Organizar/Guardar,todos,,2,true
+Branco,Saida,Tomadas,Desconectar aparelhos,todos,,3,true
+Branco,Saida,Piso,Lavar,todos,,4,true
+Branco,Saida,Luzes,Desligar,todos,,5,true
+Branco,Saida,Porta,Trancar,todos,,6,true
+Luz Natural,Saida,Ar condicionado,Desligar,todos,,1,true
+Luz Natural,Saida,Atendimento ant,Organizar/Guardar,todos,,2,true
+Luz Natural,Saida,Tomadas,Desconectar aparelhos,todos,,3,true
+Luz Natural,Saida,Luzes,Desligar,todos,,4,true
+Luz Natural,Saida,Porta quintal,Trancar,todos,,5,true
+Luz Natural,Saida,Porta corredor,Abrir,todos,,6,true
+Loft,Saida,Ar condicionados,Desligar,todos,,1,true
+Loft,Saida,Atendimento ant,Organizar/Guardar,todos,,2,true
+Loft,Saida,Tomadas,Desconectar aparelhos,todos,,3,true
+Loft,Saida,Piso,Lavar,todos,,4,true
+Loft,Saida,Luzes,Desligar,todos,,5,true
+Loft,Saida,Porta,Fechar,todos,,6,true
+Quintal,Saida,Ar condicionado,Desligar,todos,,1,true
+Quintal,Saida,Atendimento ant,Organizar/Guardar,todos,,2,true
+Quintal,Saida,Camarim,Organizar/Guardar,todos,,3,true
+Quintal,Saida,Tomadas,Desconectar aparelhos,todos,,4,true
+Quintal,Saida,Luzes,Desligar,todos,,5,true
+Quintal,Saida,Porta quintal,Trancar,todos,,6,true
+Quintal,Saida,Porta corredor,Abrir,todos,,7,true
+,Saida,Plantas exterior,Aguar,todos,16:00,1,true
+,Saida,Citronela,Passar na calçada,todos,16:00,2,true
+,Saida,Lixo,Tirar lateral,"seg,qua,sex",18:00,3,true
+,Saida,Cafeteira,Lavar/Desligar,todos,,4,true
+,Saida,Pia,Lavar,todos,,5,true
+,Saida,Ração gata,Checar/Repor,todos,,6,true
+,Saida,Garrafas de água,Repor,todos,,7,true
+,Saida,Janelão sala,Fechar,todos,,8,true
+,Saida,Banheiro masc,Checar descarga,todos,,9,true
+,Saida,Banheiro fem,Checar descarga,todos,,10,true
+,Saida,Banheiro geral,Checar descarga,todos,,11,true
+,Saida,Porta da cozinha,Trancar,todos,,12,true
+,Saida,Sala equip,Luz/Tomada/Desum/Trancar,todos,,13,true

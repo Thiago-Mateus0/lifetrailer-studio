@@ -1,0 +1,403 @@
+# Cálculo de extensão de ensaio — ADR 0008
+# Limite noturno: `hora_fim_calculo` de `data/turnos.csv`, resolvido na data do
+# ensaio; domingo é integral por regra (ADR 0008), não por dado. Os casos abaixo
+# que citam horário no nome leem a fixture declarada em `fonte_turnos`.
+# Bloco = 30 min · Tolerância: 0-14 min não cobra · corte nos 15 min de cada faixa
+#
+# Casos com `sensivel_a` dependem de decisão de negócio ainda em aberto.
+# O runner verifica AS DUAS leituras e reporta PENDENTE em vez de escolher.
+# Ver docs/decisoes-abertas.md
+
+casos:
+  # ─── Faixas e arredondamento ────────────────────────────────────────────
+  - id: EXT-01
+    nome: dentro da tolerância
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:14"
+    espera: {minutos: 14, blocos: 0, blocos_noturnos: 0, base: 0.00, acrescimo: 0.00, total: 0.00}
+
+  - id: EXT-02
+    nome: primeiro minuto cobrável
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:15"
+    espera: {minutos: 15, blocos: 1, blocos_noturnos: 0, base: 38.00, acrescimo: 0.00, total: 38.00}
+
+  - id: EXT-03
+    nome: topo da primeira faixa
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:44"
+    espera: {minutos: 44, blocos: 1, blocos_noturnos: 0, base: 38.00, acrescimo: 0.00, total: 38.00}
+
+  - id: EXT-04
+    nome: virada para dois blocos
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:45"
+    espera: {minutos: 45, blocos: 2, blocos_noturnos: 0, base: 83.00, acrescimo: 0.00, total: 83.00}
+
+  - id: EXT-09
+    nome: saiu no horário
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:00"
+    espera: {minutos: 0, blocos: 0, blocos_noturnos: 0, base: 0.00, acrescimo: 0.00, total: 0.00}
+
+  # ─── Limite noturno ─────────────────────────────────────────────────────
+  - id: EXT-05
+    nome: CASO MISTO — o que o Rev6 não respondia
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:30"
+    fim_praticado: "23:20"
+    espera: {minutos: 50, blocos: 2, blocos_noturnos: 1, base: 83.00, acrescimo: 25.00, total: 108.00}
+
+  - id: EXT-06
+    nome: integralmente noturno
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "23:00"
+    fim_praticado: "23:30"
+    espera: {minutos: 30, blocos: 1, blocos_noturnos: 1, base: 38.00, acrescimo: 25.00, total: 63.00}
+
+  - id: EXT-07
+    nome: limite de sábado é 18h
+    estudio: Loft
+    duracao_agendada: 60
+    dia_semana: sab
+    fim_agendado: "17:30"
+    fim_praticado: "18:50"
+    espera: {minutos: 80, blocos: 3, blocos_noturnos: 2, base: 173.00, acrescimo: 50.00, total: 223.00}
+
+  - id: EXT-08
+    nome: bloco noturno no fim de três
+    estudio: Branco
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "23:20"
+    espera: {minutos: 80, blocos: 3, blocos_noturnos: 1, base: 137.50, acrescimo: 25.00, total: 162.50}
+
+  - id: EXT-10
+    nome: domingo — todo bloco é noturno
+    estudio: Quintal
+    duracao_agendada: 60
+    dia_semana: dom
+    fim_agendado: "15:00"
+    fim_praticado: "15:30"
+    espera: {minutos: 30, blocos: 1, blocos_noturnos: 1, base: 53.00, acrescimo: 25.00, total: 78.00}
+
+  - id: EXT-15
+    nome: Luz Natural — estúdio sem cobertura até aqui
+    estudio: Luz Natural
+    duracao_agendada: 60
+    dia_semana: qua
+    fim_agendado: "23:00"
+    fim_praticado: "23:30"
+    espera: {minutos: 30, blocos: 1, blocos_noturnos: 1, base: 38.00, acrescimo: 25.00, total: 63.00}
+
+  # ─── Vigência de preço (regra global 4) ─────────────────────────────────
+  # Data antes de 2026-08-10 exige fixture para os TRÊS parâmetros: os CSVs
+  # reais de data/ só têm vigência a partir dessa data, e parâmetro sem
+  # vigência na data do evento é erro, não fallback (ADR 0025).
+  - id: EXT-16
+    nome: usa o preço vigente NA DATA DO ENSAIO, não o de hoje
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:15"
+    data: 2026-07-15
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-vigencia.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    espera: {minutos: 15, blocos: 1, blocos_noturnos: 0, base: 35.00, acrescimo: 0.00, total: 35.00}
+
+  - id: EXT-17
+    nome: mesmo ensaio na vigência nova — controle do EXT-16
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:15"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-vigencia.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    espera: {minutos: 15, blocos: 1, blocos_noturnos: 0, base: 38.00, acrescimo: 0.00, total: 38.00}
+
+  # ─── Vigência do ACRÉSCIMO noturno (ADR 0025) ───────────────────────────
+  # Sem estes dois, mover o R$25 pro CSV não estaria verificado — e regra 4 da
+  # casa existe porque dez testes na mesma leitura não provam nada. O campo
+  # que isola a mudança é `acrescimo`: 20.00 na vigência antiga, 25.00 na nova.
+  # Dois blocos, o das 22h40 diurno e o das 23h10 noturno.
+  - id: EXT-18
+    nome: acréscimo usa o valor vigente NA DATA DO ENSAIO — vigência antiga
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:40"
+    fim_praticado: "23:25"
+    data: 2026-07-15
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-vigencia.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    espera: {minutos: 45, blocos: 2, blocos_noturnos: 1, base: 79.50, acrescimo: 20.00, total: 99.50}
+
+  - id: EXT-19
+    nome: mesmo ensaio na vigência nova — controle do EXT-18
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:40"
+    fim_praticado: "23:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-vigencia.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    espera: {minutos: 45, blocos: 2, blocos_noturnos: 1, base: 86.50, acrescimo: 25.00, total: 111.50}
+
+  # ─── Vigência do LIMITE noturno (ADR 0025 §2) ───────────────────────────
+  # `tests/turnos-vigencia.csv` repete os horários de produção, então EXT-16..19
+  # passariam mesmo se `limites_noturnos` ignorasse vigência e pegasse a
+  # primeira linha que visse. Estes dois usam uma fixture onde o limite de
+  # seg-sex MUDA (22:00 até 2026-08-09, 23:00 depois): o mesmo ensaio, às 22:00
+  # em ponto, cai de um lado da linha em cada vigência.
+  # O campo que isola a mudança é `blocos_noturnos`.
+  - id: EXT-20
+    nome: limite noturno vigente na data — vigência antiga, 22:00 já é noturno
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:15"
+    data: 2026-07-15
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-limite-mudou.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    espera: {minutos: 15, blocos: 1, blocos_noturnos: 1, base: 35.00, acrescimo: 20.00, total: 55.00}
+
+  - id: EXT-21
+    nome: mesmo ensaio na vigência nova — controle do EXT-20, 22:00 é diurno
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:00"
+    fim_praticado: "22:15"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-limite-mudou.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    espera: {minutos: 15, blocos: 1, blocos_noturnos: 0, base: 38.00, acrescimo: 0.00, total: 38.00}
+
+  # ─── Guardas do ADR 0025 — o que tem que LEVANTAR ───────────────────────
+  # As guardas decidem dinheiro em silêncio quando falham, e eram a metade do
+  # runner sem cobertura: nenhum fixture pedia que alguma delas disparasse.
+  # `erro_esperado` casa um trecho da mensagem; se o cálculo devolver número em
+  # vez de levantar, o caso FALHA.
+  - id: EXT-22
+    nome: vigência sobreposta no limite noturno — linha nova aberta sem fechar a anterior
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:40"
+    fim_praticado: "23:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-sobreposto.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    erro_esperado: "2 linhas vigentes"
+
+  - id: EXT-23
+    nome: vigência sobreposta no acréscimo — o valor velho venceria em silêncio
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:40"
+    fim_praticado: "23:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-vigencia.csv
+    fonte_acrescimo: tests/acrescimo-sobreposto.csv
+    erro_esperado: "acrescimo noturno"
+
+  - id: EXT-24
+    nome: dia perdeu o limite no CSV — sem a guarda, o dia inteiro vira noturno
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: sab
+    fim_agendado: "17:40"
+    fim_praticado: "18:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-sem-limite.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    erro_esperado: "sem `hora_fim_calculo` vigente"
+
+  - id: EXT-25
+    nome: CSV dá limite ao domingo, que o ADR 0008 define como integral
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: dom
+    fim_agendado: "14:40"
+    fim_praticado: "15:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-conflito.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    erro_esperado: "noturno o dia inteiro"
+
+  - id: EXT-26
+    nome: vigência sobreposta no preço — a única guarda de vigência sem fixture
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:40"
+    fim_praticado: "23:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-sobreposto.csv
+    fonte_turnos: tests/turnos-vigencia.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    erro_esperado: "Acustico 60min"
+
+  - id: EXT-27
+    nome: dia_semana fora do vocabulário — a linha sumia calada, sem mudar limite nenhum
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:40"
+    fim_praticado: "23:25"
+    data: 2026-08-11
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-dia-invalido.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    erro_esperado: "nao e dia conhecido"
+
+  - id: EXT-28
+    nome: linha nova ZERA o limite sem fechar a anterior — o filtro de branco escondia
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: sab
+    fim_agendado: "17:40"
+    fim_praticado: "18:25"
+    data: 2026-08-25
+    fonte_precos: tests/precos-vigencia.csv
+    fonte_turnos: tests/turnos-limite-zerado.csv
+    fonte_acrescimo: tests/acrescimo-vigencia.csv
+    erro_esperado: "2 linhas vigentes"
+
+  # ─── D-A · offset do bloco — DECIDIDO em 2026-08-12 (ADR 0013) ──────────
+  # A cortesia de 15 min decide SE cobra, não desloca ONDE a classificação
+  # noturna começa a contar. Bloco começa no fim do agendamento (offset 0).
+  - id: EXT-11
+    nome: "sessão terminando perto das 23h — sem cortesia adicional no limite"
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:20"
+    fim_praticado: "23:20"
+    espera: {minutos: 60, blocos: 2, blocos_noturnos: 0, base: 83.00, acrescimo: 0.00, total: 83.00}
+
+  - id: EXT-12
+    nome: "mesmo efeito no limite de sábado"
+    estudio: Loft
+    duracao_agendada: 60
+    dia_semana: sab
+    fim_agendado: "17:50"
+    fim_praticado: "18:20"
+    espera: {minutos: 30, blocos: 1, blocos_noturnos: 0, base: 53.00, acrescimo: 0.00, total: 53.00}
+
+  # ─── D-B · classificação após a meia-noite — DECIDIDO em 2026-08-12 (ADR 0013) ─
+  # O ensaio pertence ao dia em que começou. Ensaio que atravessa a meia-noite é
+  # raro e, quando acontece, estende no máximo 2-3h — não chega perto da janela
+  # de posse tarde/noite, que só vira às 6h.
+  - id: EXT-13
+    nome: "sexta atravessando a meia-noite — pertence a sexta"
+    estudio: Acustico
+    duracao_agendada: 60
+    dia_semana: sex
+    fim_agendado: "23:40"
+    fim_praticado: "00:40"
+    espera: {minutos: 60, blocos: 2, blocos_noturnos: 2, base: 83.00, acrescimo: 50.00, total: 133.00}
+
+  - id: EXT-14
+    nome: "domingo entrando na segunda — pertence a domingo"
+    estudio: Quintal
+    duracao_agendada: 60
+    dia_semana: dom
+    fim_agendado: "23:40"
+    fim_praticado: "00:40"
+    espera: {minutos: 60, blocos: 2, blocos_noturnos: 2, base: 113.00, acrescimo: 50.00, total: 163.00}
+
+
+  # ─── ADR 0078 · a extensão é a diferença entre pacotes ───────────────────
+  # O cliente paga o preço da duração total menos o do pacote agendado. Duração
+  # sem linha na tabela fica proporcional entre as duas linhas vizinhas; acima
+  # da maior linha, meia hora avulsa por bloco.
+  - id: EXT-29
+    nome: "Loft de 1h que ficou mais 2h — o exemplo do Thiago, 3h menos 1h"
+    estudio: Loft
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "16:30"
+    fim_praticado: "18:30"
+    espera: {minutos: 120, blocos: 4, blocos_noturnos: 0, base: 233.00, acrescimo: 0.00, total: 233.00}
+
+  - id: EXT-30
+    nome: "Branco de 2h que virou 2h30 — sem linha, metade do caminho até 3h"
+    estudio: Branco
+    duracao_agendada: 120
+    dia_semana: ter
+    fim_agendado: "16:00"
+    fim_praticado: "16:30"
+    espera: {minutos: 30, blocos: 1, blocos_noturnos: 0, base: 45.50, acrescimo: 0.00, total: 45.50}
+
+  - id: EXT-31
+    nome: "Branco de 6h que virou 7h — dois dos quatro blocos entre 6h e 8h"
+    estudio: Branco
+    duracao_agendada: 360
+    dia_semana: ter
+    fim_agendado: "16:00"
+    fim_praticado: "17:00"
+    espera: {minutos: 60, blocos: 2, blocos_noturnos: 0, base: 72.50, acrescimo: 0.00, total: 72.50}
+
+  - id: EXT-32
+    nome: "Loft de 1h30 que chegou a 3h — cai exatamente num pacote"
+    estudio: Loft
+    duracao_agendada: 90
+    dia_semana: ter
+    fim_agendado: "16:00"
+    fim_praticado: "17:30"
+    espera: {minutos: 90, blocos: 3, blocos_noturnos: 0, base: 180.00, acrescimo: 0.00, total: 180.00}
+
+  - id: EXT-33
+    nome: "Acústico de 12h que passou 1h — acima da maior linha, meia hora avulsa por bloco"
+    estudio: Acustico
+    duracao_agendada: 720
+    dia_semana: ter
+    fim_agendado: "20:00"
+    fim_praticado: "21:00"
+    espera: {minutos: 60, blocos: 2, blocos_noturnos: 0, base: 97.00, acrescimo: 0.00, total: 97.00}
+
+  - id: EXT-34
+    nome: "diferença de pacotes com acréscimo noturno por cima"
+    estudio: Loft
+    duracao_agendada: 60
+    dia_semana: ter
+    fim_agendado: "22:30"
+    fim_praticado: "23:30"
+    espera: {minutos: 60, blocos: 2, blocos_noturnos: 1, base: 113.00, acrescimo: 25.00, total: 138.00}

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="true">
+<link href="https://api.fontshare.com/v2/css?f%5B%5D=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F8FAFC}
+@keyframes riseIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.35}}
+a{color:#4F46E5}
+a:hover{color:#4338CA}
+*:focus-visible{outline:2px solid #4F46E5;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;padding:26px 20px;font-family:'General Sans',ui-sans-serif,system-ui,sans-serif;color:#0F172A;font-feature-settings:'tnum' 1">
+<div style="max-width:1024px;margin:0 auto">
+
+  <!-- viewer chrome: not part of the product -->
+  <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px;flex-wrap:wrap;padding-bottom:12px;margin-bottom:18px;border-bottom:1px solid #E2E8F0">
+    <div style="display:flex;gap:5px;font-family:'JetBrains Mono',monospace">
+      <sc-for list="{{ perfis }}" as="pf" hint-placeholder-count="2">
+        <button style="{{ pf.tabStyle }}" onClick="{{ pf.onClick }}">{{ pf.label }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ============ product shell (tablet) ============ -->
+  <div style="position:relative;display:flex;background:#FFFFFF;border-radius:9px;overflow:hidden;border:1px solid #E2E8F0;max-width:1024px;min-height:680px;box-shadow:0 30px 60px -30px rgba(15,23,42,.14)">
+    <div style="display:flex;flex:1;min-height:0">
+
+      <!-- sidebar -->
+      <dc-import name="Sidebar" active="estoque" who-name="{{ who.name }}" who-sub="{{ who.sub }}" who-initials="{{ who.initials }}" hint-size="56px,100%"></dc-import>
+
+      <!-- main -->
+      <div style="flex:1;padding:19px 20px;min-width:0;overflow:auto;animation:riseIn .34s cubic-bezier(.22,.61,.36,1) both">
+        <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;color:#64748B;background:#F8FAFC;padding:9px 16px;text-transform:uppercase;border-bottom:1px solid #E2E8F0;margin:0 -20px">
+          <b style="color:#475569;font-weight:500">LIFETRAILER</b><span style="color:#E2E8F0;margin:0 9px">·</span>{{ edgeLabel }}<span style="color:#E2E8F0;margin:0 9px">·</span>07 AGO 2026<span style="color:#E2E8F0;margin:0 9px">·</span>{{ who.initials }}<div style="flex:1"></div><span style="{{ syncStyle }}"><span style="{{ syncDotStyle }}"></span>{{ syncLabel }}</span>
+        </div>
+        <div style="height:19px"></div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:17px;gap:14px;flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:22px;font-weight:600;letter-spacing:-.2px;margin:0">{{ headTitle }}</h2>
+            <div style="font-size:12px;color:#64748B;margin-top:4px">{{ headSub }}</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">
+            <sc-if value="{{ mostrarEditar }}" hint-placeholder-val="{{ true }}">
+              <button style="{{ btnEditar }}" onClick="{{ edit.abrir }}">Editar quantidades</button>
+              <span style="width:1px;height:22px;background:#E2E8F0"></span>
+            </sc-if>
+            <sc-if value="{{ editando }}" hint-placeholder-val="{{ false }}">
+              <button style="{{ btnCancelar }}" onClick="{{ edit.cancelar }}">Cancelar</button>
+              <button style="{{ btnConfirmar }}" onClick="{{ edit.confirmar }}">Confirmar</button>
+              <span style="width:1px;height:22px;background:#E2E8F0"></span>
+            </sc-if>
+            <button style="white-space:nowrap;{{ btn.conferir }}" onClick="{{ handlers.viewConferir }}">Conferir</button>
+            <button style="white-space:nowrap;{{ btn.compra }}" onClick="{{ handlers.viewCompra }}">Compra {{ counts.compraSuffix }}</button>
+            <button style="white-space:nowrap;{{ btn.bomboniere }}" onClick="{{ handlers.viewBomboniere }}">Bomboniere</button>
+          </div>
+        </div>
+
+        <!-- ===== CONFERIR: quantidade por item, criticidade derivada ===== -->
+        <sc-if value="{{ isConferir }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:#F1F5F9;border-left:2px solid #94A3B8;padding:10px 13px;border-radius:0 5px 5px 0;margin-bottom:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#475569">
+            <span>{{ counts.conferidos }} de {{ counts.total }} conferidos</span>
+            <span style="color:#B91C1C">{{ counts.urgentes }} zerados</span>
+            <span style="color:#B45309">{{ counts.atencao }} na última unidade</span>
+            <span style="color:#64748B">{{ counts.naoConferidos }} não conferidos</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+            <div>
+              <sc-for list="{{ colA }}" as="g" hint-placeholder-count="2">
+                <div style="border:1px solid #E2E8F0;border-radius:7px;margin-bottom:9px;overflow:hidden">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#F1F5F9;font-size:13px;font-weight:500">
+                    <span>{{ g.nome }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;font-weight:400;white-space:nowrap">{{ g.resumo }}</span>
+                  </div>
+                  <div>
+                    <sc-for list="{{ g.itens }}" as="it" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;gap:10px;padding:11px 15px;font-size:12.5px;border-top:1px solid #E2E8F0">
+                        <span style="width:3px;height:26px;border-radius:2px;flex-shrink:0;{{ it.markStyle }}"></span>
+                        <button onClick="{{ it.abrirFoto }}" aria-label="Ver foto" style="position:relative;width:44px;height:44px;border-radius:5px;overflow:hidden;border:1px solid #E2E8F0;background:#F8FAFC;padding:0;flex-shrink:0;cursor:pointer;transition:border-color .18s ease,transform .16s ease" style-hover="border-color:#CBD5E1;transform:scale(1.07)">
+                          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#CBD5E1;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.4px;pointer-events:none">FOTO</span><span style="position:absolute;inset:0;pointer-events:none"><image-slot id="{{ it.fotoId }}" shape="rect" placeholder="" style="width:100%;height:100%"></image-slot></span>
+                        </button>
+                        <span style="flex:1;min-width:0">{{ it.nome }} <span style="color:#64748B;font-family:'JetBrains Mono',monospace;font-size:10.5px">{{ it.unidade }}</span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:2px">{{ it.meta }}</span></span>
+                        <sc-if value="{{ it.temPill }}" hint-placeholder-val="{{ false }}"><span style="{{ it.pillStyle }}">{{ it.pillLabel }}</span></sc-if>
+                        <div style="display:flex;align-items:center;gap:2px;flex-shrink:0">
+                          <sc-if value="{{ it.editando }}" hint-placeholder-val="{{ false }}">
+                            <button style-hover="background:#EEF2FF;border-color:#C7CDF7;color:#4338CA" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #E2E8F0;background:none;color:#475569;font-family:inherit;font-size:14px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;line-height:1" onClick="{{ it.dec }}">−</button>
+                          </sc-if>
+                          <span style="min-width:34px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px;{{ it.qtdStyle }}">{{ it.qtdLabel }}</span>
+                          <sc-if value="{{ it.editando }}" hint-placeholder-val="{{ false }}">
+                            <button style-hover="background:#EEF2FF;border-color:#C7CDF7;color:#4338CA" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #E2E8F0;background:none;color:#475569;font-family:inherit;font-size:14px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;line-height:1;margin-left:2px" onClick="{{ it.inc }}">+</button>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div>
+              <sc-for list="{{ colB }}" as="g" hint-placeholder-count="2">
+                <div style="border:1px solid #E2E8F0;border-radius:7px;margin-bottom:9px;overflow:hidden">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#F1F5F9;font-size:13px;font-weight:500">
+                    <span>{{ g.nome }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;font-weight:400;white-space:nowrap">{{ g.resumo }}</span>
+                  </div>
+                  <div>
+                    <sc-for list="{{ g.itens }}" as="it" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;gap:10px;padding:11px 15px;font-size:12.5px;border-top:1px solid #E2E8F0">
+                        <span style="width:3px;height:26px;border-radius:2px;flex-shrink:0;{{ it.markStyle }}"></span>
+                        <button onClick="{{ it.abrirFoto }}" aria-label="Ver foto" style="position:relative;width:44px;height:44px;border-radius:5px;overflow:hidden;border:1px solid #E2E8F0;background:#F8FAFC;padding:0;flex-shrink:0;cursor:pointer;transition:border-color .18s ease,transform .16s ease" style-hover="border-color:#CBD5E1;transform:scale(1.07)">
+                          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#CBD5E1;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.4px;pointer-events:none">FOTO</span><span style="position:absolute;inset:0;pointer-events:none"><image-slot id="{{ it.fotoId }}" shape="rect" placeholder="" style="width:100%;height:100%"></image-slot></span>
+                        </button>
+                        <span style="flex:1;min-width:0">{{ it.nome }} <span style="color:#64748B;font-family:'JetBrains Mono',monospace;font-size:10.5px">{{ it.unidade }}</span><span style="display:block;font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:2px">{{ it.meta }}</span></span>
+                        <sc-if value="{{ it.temPill }}" hint-placeholder-val="{{ false }}"><span style="{{ it.pillStyle }}">{{ it.pillLabel }}</span></sc-if>
+                        <div style="display:flex;align-items:center;gap:2px;flex-shrink:0">
+                          <sc-if value="{{ it.editando }}" hint-placeholder-val="{{ false }}">
+                            <button style-hover="background:#EEF2FF;border-color:#C7CDF7;color:#4338CA" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #E2E8F0;background:none;color:#475569;font-family:inherit;font-size:14px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;line-height:1" onClick="{{ it.dec }}">−</button>
+                          </sc-if>
+                          <span style="min-width:34px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:13px;{{ it.qtdStyle }}">{{ it.qtdLabel }}</span>
+                          <sc-if value="{{ it.editando }}" hint-placeholder-val="{{ false }}">
+                            <button style-hover="background:#EEF2FF;border-color:#C7CDF7;color:#4338CA" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #E2E8F0;background:none;color:#475569;font-family:inherit;font-size:14px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;line-height:1;margin-left:2px" onClick="{{ it.inc }}">+</button>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11px;color:#64748B;margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0">Item sem conferência fica cinza — não alerta e não entra na lista de compra. Zero pinta urgente, uma unidade pinta atenção, duas ou mais fica normal. A unidade é a do cadastro, não uma contagem exata do conteúdo.</div>
+        </sc-if>
+
+        <!-- ===== COMPRA: por fornecedor, só zerados e última unidade ===== -->
+        <sc-if value="{{ isCompra }}" hint-placeholder-val="{{ false }}">
+          <sc-if value="{{ counts.compraVazia }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:120px 20px;color:#64748B">
+              <div style="width:64px;height:64px;margin:0 auto 22px;border:1.5px solid #E2E8F0;border-radius:6px"></div>
+              <div style="font-family:'IBM Plex Sans Condensed',sans-serif;font-size:26px;font-weight:600;color:#CBD5E1;letter-spacing:-.3px;margin-bottom:8px">Nada para comprar</div>
+              <div style="font-size:12px">Nenhum item conferido está em zero ou na última unidade.</div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ !counts.compraVazia }}" hint-placeholder-val="{{ true }}">
+            <sc-for list="{{ compra }}" as="f" hint-placeholder-count="3">
+              <div style="border:1px solid #E2E8F0;border-radius:7px;margin-bottom:9px;overflow:hidden">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 15px;background:#F1F5F9;font-size:13px;font-weight:500">
+                  <span>{{ f.nome }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;font-weight:400;white-space:nowrap">{{ f.resumo }}</span>
+                </div>
+                <div>
+                  <sc-for list="{{ f.itens }}" as="it" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:12px;padding:13px 15px;font-size:12.5px;border-top:1px solid #E2E8F0">
+                      <span style="width:3px;height:26px;border-radius:2px;flex-shrink:0;{{ it.markStyle }}"></span>
+                        <button onClick="{{ it.abrirFoto }}" aria-label="Ver foto" style="position:relative;width:44px;height:44px;border-radius:5px;overflow:hidden;border:1px solid #E2E8F0;background:#F8FAFC;padding:0;flex-shrink:0;cursor:pointer;transition:border-color .18s ease,transform .16s ease" style-hover="border-color:#CBD5E1;transform:scale(1.07)">
+                          <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#CBD5E1;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.4px;pointer-events:none">FOTO</span><span style="position:absolute;inset:0;pointer-events:none"><image-slot id="{{ it.fotoId }}" shape="rect" placeholder="" style="width:100%;height:100%"></image-slot></span>
+                        </button>
+                      <span style="flex:1;min-width:0">{{ it.nome }} <span style="color:#64748B">{{ it.pedido }}</span></span>
+                      <span style="{{ it.pillStyle }}">{{ it.pillLabel }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#475569;flex-shrink:0;min-width:74px;text-align:right">{{ it.qtdLabel }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#64748B;flex-shrink:0;min-width:82px;text-align:right">{{ it.conferido }}</span>
+                    </div>
+                    <div style="display:flex;gap:5px;padding:0 15px 11px 65px;flex-wrap:wrap">
+                      <sc-for list="{{ it.fornOpcoes }}" as="fo" hint-placeholder-count="3">
+                        <button style="{{ fo.style }}" onClick="{{ fo.onClick }}">{{ fo.label }}</button>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+            <div style="font-size:11px;color:#64748B;margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0">Ordem dentro do fornecedor segue a severidade do cadastro. Três fornecedores ainda estão sem nome no quadro — pendência aberta. A quantidade sai da conferência do turno; a data mostra quando foi vista.</div>
+          </sc-if>
+        </sc-if>
+
+        <!-- ===== BOMBONIERE: livro-razão ===== -->
+        <sc-if value="{{ isBomboniere }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid #E2E8F0;border-radius:8px;overflow:hidden">
+            <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+              <thead>
+                <tr>
+                  <th style="text-align:left;font-weight:500;color:#475569;font-size:10px;padding:9px 13px;border-bottom:1px solid #E2E8F0;text-transform:uppercase;letter-spacing:.7px;font-family:'JetBrains Mono',monospace">Item</th>
+                  <th style="text-align:left;font-weight:500;color:#475569;font-size:10px;padding:9px 13px;border-bottom:1px solid #E2E8F0;text-transform:uppercase;letter-spacing:.7px;font-family:'JetBrains Mono',monospace">Categoria</th>
+                  <th style="text-align:right;font-weight:500;color:#475569;font-size:10px;padding:9px 13px;border-bottom:1px solid #E2E8F0;text-transform:uppercase;letter-spacing:.7px;font-family:'JetBrains Mono',monospace">Preço</th>
+                  <th style="text-align:right;font-weight:500;color:#475569;font-size:10px;padding:9px 13px;border-bottom:1px solid #E2E8F0;text-transform:uppercase;letter-spacing:.7px;font-family:'JetBrains Mono',monospace">Saldo</th>
+                  <th style="border-bottom:1px solid #E2E8F0;padding:9px 13px"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ bomboniere }}" as="b" hint-placeholder-count="6">
+                  <tr>
+                    <td style="padding:9px 13px;border-bottom:1px solid #E2E8F0"><span style="display:flex;align-items:center;gap:10px"><button onClick="{{ b.abrirFoto }}" aria-label="Ver foto" style="position:relative;width:44px;height:44px;border-radius:5px;overflow:hidden;border:1px solid #E2E8F0;background:#F8FAFC;padding:0;flex-shrink:0;cursor:pointer;transition:border-color .18s ease,transform .16s ease" style-hover="border-color:#CBD5E1;transform:scale(1.07)"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#CBD5E1;font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.4px;pointer-events:none">FOTO</span><span style="position:absolute;inset:0;pointer-events:none"><image-slot id="{{ b.fotoId }}" shape="rect" placeholder="" style="width:100%;height:100%"></image-slot></span></button><span>{{ b.nome }}</span></span></td>
+                    <td style="padding:11px 13px;border-bottom:1px solid #E2E8F0;color:#475569">{{ b.categoria }}</td>
+                    <td style="padding:11px 13px;border-bottom:1px solid #E2E8F0;font-family:'JetBrains Mono',monospace;text-align:right">{{ b.precoFmt }}</td>
+                    <td style="padding:11px 13px;border-bottom:1px solid #E2E8F0;font-family:'JetBrains Mono',monospace;text-align:right;{{ b.saldoStyle }}">{{ b.saldo }}</td>
+                    <sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+                      <td style="padding:11px 13px;border-bottom:1px solid #E2E8F0;text-align:right">
+                        <sc-if value="{{ !b.ajustando }}" hint-placeholder-val="{{ true }}">
+                          <button onClick="{{ b.abrirAjuste }}" style="font-size:11px;color:#4338CA;border:1px solid #C7CDF7;background:#EEF2FF;padding:4px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease;font-weight:500;white-space:nowrap">Repor / ajustar</button>
+                        </sc-if>
+                        <sc-if value="{{ b.ajustando }}" hint-placeholder-val="{{ false }}">
+                          <span style="display:inline-flex;align-items:center;gap:4px">
+                            <button onClick="{{ b.dec }}" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #E2E8F0;background:none;color:#475569;font-family:inherit;font-size:13px;cursor:pointer">−</button>
+                            <span style="min-width:26px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ b.saldoDraft }}</span>
+                            <button onClick="{{ b.inc }}" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #E2E8F0;background:none;color:#475569;font-family:inherit;font-size:13px;cursor:pointer">+</button>
+                            <button onClick="{{ b.confirmarAjuste }}" style="margin-left:4px;font-size:10.5px;color:#FFFFFF;background:#4F46E5;border:1px solid #4F46E5;border-radius:4px;padding:6px 8px;font-family:inherit;cursor:pointer;font-weight:600">OK</button>
+                          </span>
+                        </sc-if>
+                      </td>
+                    </sc-if>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <div style="font-size:11px;color:#64748B;margin-top:16px;padding-top:14px;border-top:1px solid #E2E8F0">Bomboniere mantém livro-razão: saldo dá baixa automática ao fechar a Comanda. Saldo negativo é permitido — fechar nunca bloqueia por falta. Catálogo de exemplo: a seção Bomboniere/Outros do quadro está em branco.</div>
+        </sc-if>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<sc-if value="{{ fotoAberta }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ handlers.fecharFoto }}" style="position:fixed;inset:0;z-index:60;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;padding:26px;animation:riseIn .2s ease both">
+    <div style="width:100%;max-width:420px;background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(15,23,42,.4)">
+      <div style="position:relative;width:100%;aspect-ratio:1/1;background:#F8FAFC">
+        <image-slot id="{{ foto.fotoId }}" shape="rect" placeholder="Arraste a foto do item" style="width:100%;height:100%"></image-slot>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-top:1px solid #E2E8F0">
+        <div style="min-width:0">
+          <div style="font-size:14px;font-weight:500">{{ foto.nome }}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#64748B;margin-top:3px">{{ foto.meta }}</div>
+        </div>
+        <button onClick="{{ handlers.fecharFoto }}" style="font-size:11.5px;color:#475569;border:1px solid #E2E8F0;background:none;border-radius:5px;padding:8px 13px;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease" style-hover="background:#F8FAFC;border-color:#CBD5E1">Fechar</button>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;limiarAtencao&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:1,&quot;max&quot;:3,&quot;section&quot;:&quot;Regra de criticidade&quot;},&quot;mostrarUnidade&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Regra de criticidade&quot;}}">
+class Component extends DCLogic {
+  _sessao() {
+    if (this.__ss === undefined) {
+      try { const r = localStorage.getItem('lt.sessao'); this.__ss = r ? JSON.parse(r) : null; } catch (e) { this.__ss = null; }
+    }
+    return this.__ss;
+  }
+
+  _who() {
+    const ss = this._sessao();
+    return ss ? { initials: ss.iniciais, name: ss.nome, sub: ss.papel }
+              : { initials: '—', name: 'Ninguém autenticado', sub: 'Entre com seu PIN' };
+  }
+
+  _isAdmin() { return /admin|sócio|socio/i.test((this._sessao() || {}).papel || 'Atendente'); }
+
+  _eu() { return (this._sessao() || {}).nome || 'Ninguém autenticado'; }
+
+  _perfilChip() {
+    const ss = this._sessao();
+    return [{
+      value: 'sessao', label: ss ? ss.nome : 'Entrar',
+      tabStyle: 'font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;padding:6px 11px;border-radius:5px;font-family:inherit;cursor:pointer;border:1px solid #E2E8F0;background:#FFFFFF;color:#475569',
+      onClick: function(){ window.location.href = './Entrada.dc.html'; },
+    }];
+  }
+
+  // TODO: quando a outbox real (IndexedDB) existir, syncState deve vir do status da fila, não de um valor semeado
+  _syncInfo() {
+    const map = { ok: { label: 'sincronizado', dot: '#16A34A', text: '#15803D', pulse: false }, pending: { label: 'sincronizando…', dot: '#D97706', text: '#B45309', pulse: true }, offline: { label: 'sem conexão', dot: '#DC2626', text: '#B91C1C', pulse: false } };
+    return map[this.state.syncState] || map.ok;
+  }
+
+  state = {
+    syncState: 'offline',
+    view: new URLSearchParams(location.search).get('view') || 'conferir',
+    fotoAberta: null,
+    perfil: 'atendente',
+    editando: false,
+    draft: null,
+    fornecedores: {},
+    ajustandoBomb: null,
+    ajusteBombDraft: 0,
+    saldosBomb: {},
+    // key -> { qtd, dias }  (ausente = não conferido)
+    q: {
+      'limpeza:Propés': { qtd: 0, dias: 1 },
+      'limpeza:Papel higiênico': { qtd: 1, dias: 2 },
+      'limpeza:Desinfetante': { qtd: 3, dias: 1 },
+      'limpeza:Sabão em pedra': { qtd: 1, dias: 4 },
+      'gata:Ração gata': { qtd: 0, dias: 0 },
+      'gata:Areia gata': { qtd: 2, dias: 0 },
+      'estudio:Saco lixo 50L preto': { qtd: 1, dias: 0 },
+      'estudio:Álcool gel': { qtd: 4, dias: 3 },
+      'cafe:Café grão': { qtd: 2, dias: 1 },
+    },
+  };
+
+  componentDidMount() {
+    this._esc = (e) => { if (e.key === 'Escape' && this.state.fotoAberta) this.setState({ fotoAberta: null }); };
+    window.addEventListener('keydown', this._esc);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._esc);
+  }
+
+  renderVals() {
+    const self = this;
+    const view = this.state.view;
+    const perfil = this.state.perfil;
+    const isAdmin = this._isAdmin();
+    const limiar = this.props.limiarAtencao ?? 1;
+    const mostrarUnidade = this.props.mostrarUnidade ?? true;
+
+    const PERFIS = [{ value: 'atendente', label: 'Atendente' }, { value: 'admin', label: 'Admin' }];
+    const vtStyle = function(on){
+      return (on
+        ? 'font-size:11px;color:#F8FAFC;background:#0F172A;border:1px solid #0F172A;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit;font-weight:500'
+        : 'font-size:11px;color:#64748B;background:none;border:1px solid #E2E8F0;padding:6px 10px;border-radius:4px;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-family:inherit') + ';white-space:nowrap;flex-shrink:0';
+    };
+    const btnOn = 'font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600';
+    const btnOff = 'font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500';
+
+    const pill = {
+      urgente: 'font-size:11px;font-weight:600;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#DC2626;color:#FFFFFF',
+      atencao: 'font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px;border:none;white-space:nowrap;background:#FFFBEB;color:#B45309',
+    };
+    const mark = { urgente: 'background:#DC2626', atencao: 'background:#D97706', normal: 'background:#E2E8F0', neutro: 'background:#E2E8F0' };
+
+    // data/insumos.csv (ativo), agrupado por categoria; fornecedor guardado para a aba de compra
+    const RAW = [
+      { cat:'limpeza', catNome:'Limpeza', nome:'Propés', un:'sacos', esp:'2 sacos', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Esponja piso', un:'un', esp:'2 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Papel toalha', un:'un', esp:'2 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Papel higiênico', un:'un', esp:'3 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'CIF', un:'un', esp:'', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Vanish', un:'un', esp:'', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Desinfetante', un:'L', esp:'1L', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Água sanitária', un:'L', esp:'1L', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Sabonete líquido mãos', un:'L', esp:'1L', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Papel H. Premium', un:'un', esp:'3 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Esponja pratos', un:'un', esp:'2 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Limpa laminado', un:'un', esp:'1 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Tinta piso branco', un:'un', esp:'', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Tintas Quintal', un:'un', esp:'', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Detergente', un:'un', esp:'1 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Lustra móveis', un:'un', esp:'1/2 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Pastilha adesiva', un:'un', esp:'2 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Limpa vidros', un:'un', esp:'1/2 un', sev:'U', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Algodão', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Sabão em pedra', un:'un', esp:'1 un', sev:'A', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Lenço umedecido', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Sabão em pó', un:'kg', esp:'1 kg', sev:'A', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Freeco', un:'un', esp:'1 un', sev:'A', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Fita crepe/durex/auto', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'limpeza', catNome:'Limpeza', nome:'Odorizador', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'gata', catNome:'Gata', nome:'Ração gata', un:'kg', esp:'1 kg', sev:'U', forn:'pendente' },
+      { cat:'gata', catNome:'Gata', nome:'Areia gata', un:'kg', esp:'1 kg', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Saco lixo 15L branco', un:'pacotes', esp:'', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Saco lixo 30L azul', un:'pacotes', esp:'', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Saco lixo 50L preto', un:'pacotes', esp:'', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Saco lixo 200L preto', un:'pacotes', esp:'', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Fundos fotográficos', un:'un', esp:'', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Copo 180ml', un:'sacos', esp:'1 saco', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Veja banheiro', un:'un', esp:'1 un', sev:'U', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Álcool gel', un:'un', esp:'1 un', sev:'A', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Álcool 70%', un:'un', esp:'1/2 un', sev:'A', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Aromas estúdios', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Cotonete', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Panos', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Balinhas', un:'sacos', esp:'1 saco', sev:'A', forn:'pendente' },
+      { cat:'estudio', catNome:'Estúdio', nome:'Refil filtro de água', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Café grão', un:'kg', esp:'1 kg', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Café moído', un:'kg', esp:'1 kg', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Açúcar', un:'kg', esp:'1 kg', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Açúcar sachê', un:'caixas', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Adoçante sachê', un:'caixas', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Filtro café 102', un:'un', esp:'1 un', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Filtro V60', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Copo to go 100ml', un:'sacos', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Copo to go 200ml', un:'sacos', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Filtro máquina espresso', un:'un', esp:'', sev:'A', forn:'pendente' },
+      { cat:'cafe', catNome:'Café', nome:'Mexedor', un:'caixas', esp:'', sev:'A', forn:'pendente' },
+    ];
+    const FORN_NOME = { percarbonato:'Percarbonato', tuff:'Tuff', cafe:'Café', pendente:'Sem fornecedor definido' };
+    const FORN_OPCOES = ['percarbonato', 'tuff', 'cafe'];
+    const fornOverride = this.state.fornecedores;
+    function fornDe(key, raw) { return fornOverride[key] || raw.forn; }
+
+    const editando = this.state.editando;
+    const fonte = editando ? (this.state.draft || this.state.q) : this.state.q;
+
+    function setQtd(key, next){
+      self.setState(function(s){
+        const d = { ...(s.draft || s.q) };
+        if (next === null) { delete d[key]; }
+        else { d[key] = { qtd: next, dias: 0 }; }
+        return { draft: d };
+      });
+    }
+
+    const items = RAW.map(function(raw){
+      const key = raw.cat + ':' + raw.nome;
+      const rec = fonte[key];
+      const conferido = !!rec;
+      const qtd = conferido ? rec.qtd : null;
+      const crit = !conferido ? null : (qtd === 0 ? 'urgente' : (qtd <= limiar ? 'atencao' : 'normal'));
+      const dias = conferido ? rec.dias : null;
+      return {
+        raw, key, conferido, qtd, crit, dias,
+        row: {
+          nome: raw.nome,
+          unidade: mostrarUnidade ? raw.un : '',
+          meta: !conferido ? 'não conferido' : ('conferido ' + (dias === 0 ? 'hoje' : (dias === 1 ? 'ontem' : 'há ' + dias + ' dias'))),
+          markStyle: mark[crit || 'neutro'],
+          temPill: crit === 'urgente' || crit === 'atencao',
+          pillLabel: crit === 'urgente' ? 'urgente' : 'atenção',
+          pillStyle: crit === 'urgente' ? pill.urgente : pill.atencao,
+          qtdLabel: conferido ? String(qtd) : '—',
+          qtdStyle: !conferido ? 'color:#64748B' : (crit === 'urgente' ? 'color:#B91C1C;font-weight:600' : (crit === 'atencao' ? 'color:#B45309;font-weight:600' : 'color:#0F172A')),
+          editando: editando,
+          fotoId: 'estoque-' + key,
+          abrirFoto: function(){ self.setState({ fotoAberta: { nome: raw.nome, fotoId: 'estoque-' + key, meta: raw.catNome + ' · ' + raw.un } }); },
+          dec: function(){ setQtd(key, qtd === null ? 0 : Math.max(0, qtd - 1)); },
+          inc: function(){ setQtd(key, qtd === null ? 1 : qtd + 1); },
+        },
+      };
+    });
+
+    // agrupamento por categoria
+    const order = [];
+    const byCat = {};
+    items.forEach(function(it){
+      if (!byCat[it.raw.cat]) { byCat[it.raw.cat] = []; order.push(it.raw.cat); }
+      byCat[it.raw.cat].push(it);
+    });
+    const groups = order.map(function(ck){
+      const rows = byCat[ck];
+      const urg = rows.filter(function(r){ return r.crit === 'urgente'; }).length;
+      const at = rows.filter(function(r){ return r.crit === 'atencao'; }).length;
+      const naoConf = rows.filter(function(r){ return !r.conferido; }).length;
+      let resumo;
+      if (urg + at > 0) resumo = (urg + at) + ' para comprar';
+      else if (naoConf === rows.length) resumo = rows.length + ' não conferidos';
+      else if (naoConf > 0) resumo = naoConf + ' não conferidos';
+      else resumo = 'ok';
+      return { nome: rows[0].raw.catNome, resumo: resumo, itens: rows.map(function(r){ return r.row; }) };
+    });
+
+    // aba de compra: só conferidos em zero ou na última unidade, por fornecedor
+    const paraComprar = items.filter(function(it){ return it.crit === 'urgente' || it.crit === 'atencao'; });
+    const fOrder = [];
+    const byForn = {};
+    paraComprar.forEach(function(it){
+      const fk = fornDe(it.key, it.raw);
+      if (!byForn[fk]) { byForn[fk] = []; fOrder.push(fk); }
+      byForn[fk].push(it);
+    });
+    const chipFornStyle = (on) => 'font-size:10px;padding:3px 8px;border-radius:4px;font-family:\'JetBrains Mono\',monospace;cursor:pointer;white-space:nowrap;' + (on ? 'background:#0F172A;color:#FFFFFF;border:1px solid #0F172A' : 'background:none;color:#64748B;border:1px solid #E2E8F0');
+    const compra = fOrder.map(function(fk){
+      const rows = byForn[fk].slice().sort(function(a, b){
+        if (a.raw.sev !== b.raw.sev) return a.raw.sev === 'U' ? -1 : 1;
+        return a.crit === b.crit ? 0 : (a.crit === 'urgente' ? -1 : 1);
+      });
+      return {
+        nome: FORN_NOME[fk] || fk,
+        resumo: rows.length + (rows.length === 1 ? ' item' : ' itens'),
+        itens: rows.map(function(it){
+          const fid = 'estoque-' + it.key;
+          return {
+            nome: it.raw.nome,
+            fotoId: fid,
+            abrirFoto: function(){ self.setState({ fotoAberta: { nome: it.raw.nome, fotoId: fid, meta: it.raw.catNome + ' · ' + it.raw.un } }); },
+            pedido: it.raw.esp ? ('· pedir ' + it.raw.esp) : '',
+            markStyle: mark[it.crit],
+            pillLabel: it.crit === 'urgente' ? 'urgente' : 'atenção',
+            pillStyle: it.crit === 'urgente' ? pill.urgente : pill.atencao,
+            qtdLabel: it.qtd + ' ' + it.raw.un,
+            conferido: it.dias === 0 ? 'hoje' : (it.dias === 1 ? 'ontem' : 'há ' + it.dias + ' dias'),
+            fornOpcoes: FORN_OPCOES.map((fo) => ({
+              label: FORN_NOME[fo], style: chipFornStyle(fornDe(it.key, it.raw) === fo),
+              onClick: () => self.setState((s) => ({ fornecedores: Object.assign({}, s.fornecedores, { [it.key]: fo }) })),
+            })),
+          };
+        }),
+      };
+    });
+
+    const conferidos = items.filter(function(it){ return it.conferido; }).length;
+    const urgentes = items.filter(function(it){ return it.crit === 'urgente'; }).length;
+    const atencao = items.filter(function(it){ return it.crit === 'atencao'; }).length;
+
+    const BOMBONIERE = [
+      { nome: 'Doritos 32g', categoria: 'Salgadinhos', preco: 7.90, saldo: 14 },
+      { nome: 'Amendoim', categoria: 'Salgadinhos', preco: 6.50, saldo: 18 },
+      { nome: 'Água sem gás 500ml', categoria: 'Bebidas', preco: 3.50, saldo: 22 },
+      { nome: 'Água com gás 500ml', categoria: 'Bebidas', preco: 4.00, saldo: 12 },
+      { nome: 'Refrigerante lata', categoria: 'Bebidas', preco: 6.00, saldo: -2 },
+      { nome: 'Suco caixinha', categoria: 'Bebidas', preco: 5.50, saldo: 6 },
+      { nome: 'Chocolate ao leite', categoria: 'Doces', preco: 8.50, saldo: 9 },
+      { nome: 'Bala de goma', categoria: 'Doces', preco: 5.00, saldo: 30 },
+    ].map(function(b){
+      const fid = 'bomboniere-' + b.nome.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const key = b.nome;
+      const saldoAtual = self.state.saldosBomb[key] !== undefined ? self.state.saldosBomb[key] : b.saldo;
+      const ajustando = self.state.ajustandoBomb === key;
+      return { nome: b.nome, categoria: b.categoria, precoFmt: b.preco.toFixed(2).replace('.', ','), saldo: saldoAtual, saldoStyle: saldoAtual < 0 ? 'color:#B91C1C' : '',
+        fotoId: fid,
+        ajustando, saldoDraft: ajustando ? self.state.ajusteBombDraft : saldoAtual,
+        abrirAjuste: function(){ self.setState({ ajustandoBomb: key, ajusteBombDraft: saldoAtual }); },
+        dec: function(){ self.setState(function(s){ return { ajusteBombDraft: s.ajusteBombDraft - 1 }; }); },
+        inc: function(){ self.setState(function(s){ return { ajusteBombDraft: s.ajusteBombDraft + 1 }; }); },
+        confirmarAjuste: function(){ self.setState(function(s){ const sb = { ...s.saldosBomb }; sb[key] = s.ajusteBombDraft; return { saldosBomb: sb, ajustandoBomb: null }; }); },
+        abrirFoto: function(){ self.setState({ fotoAberta: { nome: b.nome, fotoId: fid, meta: b.categoria + ' · R$ ' + b.preco.toFixed(2).replace('.', ',') } }); } };
+    });
+
+    const heads = {
+      conferir: { edge: 'ESTOQUE · CONFERÊNCIA', title: 'Estoque de insumos', sub: 'Informe quanto tem. O sistema decide o que é urgente.' },
+      compra: { edge: 'ESTOQUE · LISTA DE COMPRA', title: 'Lista de compra', sub: 'Por fornecedor, como a compra é feita.' },
+      bomboniere: { edge: 'ESTOQUE · BOMBONIERE', title: 'Bomboniere', sub: 'Saldo dá baixa automática ao fechar a Comanda.' },
+    };
+    const h = heads[view];
+
+    const sync = this._syncInfo();
+    return {
+      syncStyle: 'color:' + sync.text + ';display:flex;align-items:center;gap:6px',
+      syncDotStyle: 'width:5px;height:5px;border-radius:50%;background:' + sync.dot + (sync.pulse ? ';animation:pulseDot 2.4s ease-in-out infinite' : ''),
+      syncLabel: sync.label,
+      editando,
+      mostrarEditar: view === 'conferir' && !editando,
+      btnEditar: 'font-size:12.5px;color:#475569;border:1px solid #E2E8F0;padding:10px 15px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap',
+      btnConfirmar: 'font-size:12.5px;color:#F8FAFC;border:1px solid #4F46E5;padding:10px 15px;border-radius:5px;background:#4F46E5;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:600;white-space:nowrap',
+      btnCancelar: 'font-size:12.5px;color:#64748B;border:1px solid transparent;padding:10px 12px;border-radius:5px;background:none;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap',
+      edit: {
+        abrir: function(){ self.setState(function(s){ return { editando: true, draft: { ...s.q } }; }); },
+        confirmar: function(){ self.setState(function(s){ return { editando: false, q: s.draft || s.q, draft: null }; }); },
+        cancelar: function(){ self.setState({ editando: false, draft: null }); },
+      },
+      fotoAberta: !!this.state.fotoAberta,
+      foto: this.state.fotoAberta || { nome: '', fotoId: 'estoque-none', meta: '' },
+      isConferir: view === 'conferir',
+      isCompra: view === 'compra',
+      isBomboniere: view === 'bomboniere',
+      isAdmin,
+      edgeLabel: h.edge, headTitle: h.title, headSub: h.sub,
+      btn: {
+        conferir: view === 'conferir' ? btnOn : btnOff,
+        compra: view === 'compra' ? btnOn : btnOff,
+        bomboniere: view === 'bomboniere' ? btnOn : btnOff,
+      },
+      colA: [groups[0], groups[1]].filter(Boolean),
+      colB: [groups[2], groups[3]].filter(Boolean),
+      compra: compra,
+      bomboniere: BOMBONIERE,
+      counts: {
+        total: items.length, conferidos, urgentes, atencao,
+        naoConferidos: items.length - conferidos,
+        badge: urgentes + atencao,
+        compraSuffix: paraComprar.length ? '· ' + paraComprar.length : '',
+        compraVazia: paraComprar.length === 0,
+      },
+      who: this._who(),
+      perfis: this._perfilChip(),
+      handlers: {
+        fecharFoto: function(){ self.setState({ fotoAberta: null }); },
+        viewConferir: function(){ self.setState({ view: 'conferir' }); },
+        viewCompra: function(){ self.setState({ view: 'compra' }); },
+        viewBomboniere: function(){ self.setState({ view: 'bomboniere' }); },
+      },
+    };
+  }
+}
+
+</script>
+</body>
+</html>
