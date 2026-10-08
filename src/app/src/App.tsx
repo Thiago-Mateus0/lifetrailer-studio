@@ -1078,7 +1078,7 @@ function LoginPorSenha({ aoEntrar, aoRegistrarAparelho }: { aoEntrar: (sessao: S
             definirEnviando(true)
             definirRecusa(null)
             try {
-              // Os logins são minúsculos (wyll, paulo.holanda); "Wyll " não pode virar senha errada.
+              // Os logins são minúsculos (wyll, carlos); "Wyll " não pode virar senha errada.
               aoEntrar(await entrarComSenha(login.trim().toLowerCase(), senha))
             } catch (erro) {
               definirSenha('')

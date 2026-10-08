@@ -195,4 +195,4 @@ comment on function app.audit_log_consultar(timestamptz, timestamptz, uuid, text
 -- ao banco, uma vez:
 --
 --   update colaborador set socio = true
---    where nivel_acesso = 'administrador' and login in ('wyll', 'rafael', 'paulo.holanda');
+--    where nivel_acesso = 'administrador' and login in ('wyll', 'rafael', 'carlos');
