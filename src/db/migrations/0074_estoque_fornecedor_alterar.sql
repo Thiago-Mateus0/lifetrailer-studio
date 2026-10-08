@@ -32,7 +32,7 @@ begin
     raise exception 'insumo % esta inativo', i.nome using errcode = 'LT002';
   end if;
 
-  -- A conferência da equipe também sobe a versão: a Jana pode estar com a tela
+  -- A conferência da equipe também sobe a versão: a Helena pode estar com a tela
   -- aberta enquanto alguém conta este insumo no tablet.
   if i.versao is distinct from p_versao_esperada then
     raise exception 'este registro foi alterado por outra pessoa'

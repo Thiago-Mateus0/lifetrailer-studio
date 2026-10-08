@@ -2,7 +2,7 @@
 // servidor.mjs, como o da mídia.
 //
 // Não há tabela de comprovante: o id é derivado do estado da Comanda no
-// instante em que a Jana copia a mensagem — `<comanda>-<nº do envio>-<fechado_em>`.
+// instante em que a Helena copia a mensagem — `<comanda>-<nº do envio>-<fechado_em>`.
 // É o que faz "copiar de novo" achar o mesmo arquivo (ADR 0073 §3–§4):
 //   - Fechada e Enviada logo depois do mesmo envio dão o mesmo id, porque
 //     `enviar` grava o envio e o PDF daquele envio já levava o número dele;

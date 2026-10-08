@@ -11,7 +11,7 @@ begin;
 select plan(42);
 \ir _fixtures.psql
 
-\set JANA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS  '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO   '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set THIAGO '\'aaaaaaaa-0000-0000-0000-000000000005\''
@@ -76,7 +76,7 @@ select throws_ok($$ select pg_temp.acionar(pg_temp.dom(1), 'Paulo') $$,
 -- ------------------------------------------------ validacoes
 select throws_ok($$ select pg_temp.acionar(pg_temp.dom(1) + 1, 'Marcos') $$,
   'LT003', null, 'dia que nao e domingo e LT003');
-select throws_ok($$ select pg_temp.acionar(pg_temp.dom(2), 'Jana') $$,
+select throws_ok($$ select pg_temp.acionar(pg_temp.dom(2), 'Helena') $$,
   'LT003', null, 'quem faz o extra e Atendente, como na troca');
 select throws_ok($$ select pg_temp.acionar(pg_temp.dom(2), 'Saiu') $$,
   'LT003', null, 'desativado nao faz extra');
@@ -91,7 +91,7 @@ select throws_ok($$ select pg_temp.acionar(app.domingo_recente(), 'Marcos') $$,
 select throws_ok($$ select pg_temp.acionar(pg_temp.dom(5), 'Marcos') $$,
   'LT005', null, 'nem fora da janela de 28 dias (materializacao sob demanda e do Admin)');
 
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select pg_temp.acionar(app.domingo_recente(), 'Paulo');
 select ok(exists (select 1 from checklist_dia where data = app.domingo_recente()),
   'o Admin aciona o domingo do dia — o caso das 9h, depois do cron — e o Checklist aparece');
@@ -130,7 +130,7 @@ select pg_temp.desfazer(pg_temp.dom(2)) as r \gset
 select is((:'r'::jsonb) ->> 'checklist', 'mantido', 'com marcacao, o desfazer responde mantido');
 select ok(pg_temp.extra(pg_temp.dom(2)) is null, 'o turno sai da escala mesmo assim');
 select is(pg_temp.itens(pg_temp.dom(2)), 3, 'mas o Checklist fica, inteiro');
-select is((select count(*)::int from notificacao where destinatario_id = :JANA and categoria = 'escala'
+select is((select count(*)::int from notificacao where destinatario_id = :HELENA and categoria = 'escala'
             and referencia_ativo = 'checklist_dia'), 1, 'e o Admin e avisado');
 
 -- --------------------------------------------------- o que nao e extra

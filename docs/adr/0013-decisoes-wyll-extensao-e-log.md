@@ -78,7 +78,7 @@ como diurno, porque tecnicamente antes das 18h de sábado.
 
 **D-C, Opção 1 (só Admin).** Mais coerente com a diretriz de segurança em
 isolamento, mas tira do Dev a única ferramenta de investigar problema
-relatado pela equipe sem pedir para a Jana toda vez.
+relatado pela equipe sem pedir para a Helena toda vez.
 
 **D-C, Opção 2 (Admin e Dev, sem registro).** Prático, mas reabre exatamente o
 ponto cego que o ADR 0010 já tinha identificado como risco — o Dev veria

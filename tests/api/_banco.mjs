@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
-export const JANA = 'aaaaaaaa-0000-0000-0000-000000000001';
+export const HELENA = 'aaaaaaaa-0000-0000-0000-000000000001';
 export const MARCOS = 'aaaaaaaa-0000-0000-0000-000000000002';
 export const PAULO = 'aaaaaaaa-0000-0000-0000-000000000003';
 

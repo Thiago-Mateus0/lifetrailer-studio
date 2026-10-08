@@ -5,7 +5,7 @@
 **Fase:** 6 — go-live
 **Decidido por:** Thiago, aceito no chat de 01/10 ("aceito"). O pedido veio do
 Thiago e do Wyll no mesmo dia: "o botão de pago seria para ter certeza que já
-foi pago após a Jana enviar para o cliente e receber o comprovante de
+foi pago após a Helena enviar para o cliente e receber o comprovante de
 pagamento. Ou até mesmo às vezes o cliente paga na empresa".
 **Toca:** [comanda.md](../spec/comanda.md) (ciclo de vida e tabela de
 transições), [ADR 0073](0073-comprovante-pelo-manychat.md) (Enviada),
@@ -18,7 +18,7 @@ O "pago" que o sistema conhece hoje vem da Altegio (`prepaid_confirmed`,
 agenda. Na Comanda, essa reserva aparece como "Pago antecipado".
 
 O que a Comanda cobra além disso ("A pagar agora") é pago por fora: o cliente
-paga depois que a Jana manda o comprovante, ou paga no balcão. Nenhum estado
+paga depois que a Helena manda o comprovante, ou paga no balcão. Nenhum estado
 registra esse pagamento. Hoje Fechada ou Enviada não diz se o dinheiro entrou.
 
 ## Decisão
@@ -30,7 +30,7 @@ registra esse pagamento. Hoje Fechada ou Enviada não diz se o dinheiro entrou.
 
    | Estado atual | Evento | Estado resultante | Guarda |
    |---|---|---|---|
-   | Enviada | Recebi | Paga | Jana recebeu o comprovante do cliente · só o Admin |
+   | Enviada | Recebi | Paga | Helena recebeu o comprovante do cliente · só o Admin |
    | Fechada | Recebi | Paga | cliente pagou no balcão, sem envio · qualquer Atendente no tablet |
    | Paga | Desfazer "Recebi" | estado de onde veio (Fechada ou Enviada) | só o Admin |
    | Paga | attendance → -1 | Cancelada (reversível) | igual a Fechada e Enviada |

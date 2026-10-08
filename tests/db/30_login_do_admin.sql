@@ -19,18 +19,18 @@ select has_function('app', 'senha_definir',    'app.senha_definir() existe');
 -- o bootstrap. `crypt('qualquer', 'x')` LEVANTA "invalid salt": sem a guarda de
 -- prefixo, tentar entrar antes de haver senha viraria 500 — e a tentativa nem
 -- chegaria a virar linha.
-update colaborador set login = 'jana' where id = 'aaaaaaaa-0000-0000-0000-000000000001';
+update colaborador set login = 'helena' where id = 'aaaaaaaa-0000-0000-0000-000000000001';
 
 select lives_ok(
-  $$ select app.admin_autenticar('jana', 'qualquer-coisa') $$,
+  $$ select app.admin_autenticar('helena', 'qualquer-coisa') $$,
   'hash que nao e bcrypt nao estoura — crypt() com salt invalido levantaria');
-select is((app.admin_autenticar('jana', 'qualquer-coisa')) ->> 'motivo', 'invalido',
+select is((app.admin_autenticar('helena', 'qualquer-coisa')) ->> 'motivo', 'invalido',
   'e responde `invalido`, que e a direcao segura');
 
 -- ============================================================= senha_definir
 select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000002', true);
 select throws_matching(
-  $$ select app.senha_definir('aaaaaaaa-0000-0000-0000-000000000001', 'jana',
+  $$ select app.senha_definir('aaaaaaaa-0000-0000-0000-000000000001', 'helena',
                               'uma-senha-bem-longa', 'aaaaaaaa-0000-0000-0000-000000000002') $$,
   'administrador', 'atendente nao define senha de ninguem');
 
@@ -41,30 +41,30 @@ select throws_matching(
   'Atendente', 'o Atendente nao tem senha: entra por PIN (ADR 0042 §4, ADR 0049)');
 
 select throws_matching(
-  $$ select app.senha_definir('aaaaaaaa-0000-0000-0000-000000000001', 'jana',
+  $$ select app.senha_definir('aaaaaaaa-0000-0000-0000-000000000001', 'helena',
                               'curta', 'aaaaaaaa-0000-0000-0000-000000000001') $$,
   '12 caracteres', 'senha curta nao entra — o piso e o que impede "lifetrailer"');
 
 select lives_ok(
-  $$ select app.senha_definir('aaaaaaaa-0000-0000-0000-000000000001', 'jana.silva',
+  $$ select app.senha_definir('aaaaaaaa-0000-0000-0000-000000000001', 'helena.silva',
                               'uma-senha-bem-longa', 'aaaaaaaa-0000-0000-0000-000000000001') $$,
   'o Admin define a propria senha');
 select is((select login from colaborador where id = 'aaaaaaaa-0000-0000-0000-000000000001'),
-  'jana.silva', 'e o login fica gravado');
+  'helena.silva', 'e o login fica gravado');
 
 -- ========================================================== admin_autenticar
-select is((app.admin_autenticar('jana.silva', 'uma-senha-bem-longa')) ->> 'ok', 'true',
+select is((app.admin_autenticar('helena.silva', 'uma-senha-bem-longa')) ->> 'ok', 'true',
   'senha certa entra');
-select is((app.admin_autenticar('jana.silva', 'uma-senha-bem-longa')) ->> 'nome', 'Jana',
+select is((app.admin_autenticar('helena.silva', 'uma-senha-bem-longa')) ->> 'nome', 'Helena',
   'e devolve quem e');
 
-select is((app.admin_autenticar('jana.silva', 'errada')) ->> 'motivo', 'invalido',
+select is((app.admin_autenticar('helena.silva', 'errada')) ->> 'motivo', 'invalido',
   'senha errada nao entra');
 -- Escopado pelo login tentado: as duas chamadas do teste de hash invalido la em
--- cima tambem sao erros da Jana, e contar por colaborador as pegaria junto.
+-- cima tambem sao erros da Helena, e contar por colaborador as pegaria junto.
 select is(
   (select count(*)::int from tentativa_senha
-    where login_tentado = 'jana.silva' and tipo = 'erro'), 1,
+    where login_tentado = 'helena.silva' and tipo = 'erro'), 1,
   'e a tentativa errada fica registrada');
 
 -- Login que nao existe: mesma resposta, e linha com colaborador NULO — sem ela
@@ -80,13 +80,13 @@ select is(
 do $$
 begin
   for i in 1..4 loop
-    perform app.admin_autenticar('jana.silva', 'errada');
+    perform app.admin_autenticar('helena.silva', 'errada');
   end loop;
 end $$;
 
 select ok(app.senha_bloqueada('aaaaaaaa-0000-0000-0000-000000000001'),
   'cinco erros em 15 min bloqueiam (ADR 0047 §3)');
-select is((app.admin_autenticar('jana.silva', 'uma-senha-bem-longa')) ->> 'motivo', 'bloqueado',
+select is((app.admin_autenticar('helena.silva', 'uma-senha-bem-longa')) ->> 'motivo', 'bloqueado',
   'e bloqueado nao responde nem a senha CERTA — o bloqueio vem antes do hash');
 
 -- ============================================================= o desbloqueio
@@ -94,7 +94,7 @@ select lives_ok(
   $$ select app.senha_desbloquear('aaaaaaaa-0000-0000-0000-000000000001',
                                   'aaaaaaaa-0000-0000-0000-000000000001') $$,
   'o Admin destrava');
-select is((app.admin_autenticar('jana.silva', 'uma-senha-bem-longa')) ->> 'ok', 'true',
+select is((app.admin_autenticar('helena.silva', 'uma-senha-bem-longa')) ->> 'ok', 'true',
   'e a senha volta a valer');
 
 -- ============================================================== append-only

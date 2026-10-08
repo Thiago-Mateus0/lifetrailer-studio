@@ -37,7 +37,7 @@ const ENTRADA = {
   aparelho: 'Tablet 01',
   pessoas: [
     { identificador: 'c-paulo', nome: 'Paulo', papel: 'Atendente' },
-    { identificador: 'c-jana', nome: 'Jana', papel: 'Admin' },
+    { identificador: 'c-helena', nome: 'Helena', papel: 'Admin' },
   ],
 }
 
@@ -113,7 +113,7 @@ testar('sem claim, a primeira tela é a Entrada, com quem o banco disse que est�
   renderizar(<App />)
 
   esperar(await tela.findByRole('button', { name: /Paulo/ })).toBeVisible()
-  esperar(tela.getByRole('button', { name: /Jana/ })).toBeVisible()
+  esperar(tela.getByRole('button', { name: /Helena/ })).toBeVisible()
 })
 
 testar('PIN completo abre sessão e a Home entra no lugar da Entrada', async () => {
@@ -193,7 +193,7 @@ testar('claim expirada devolve o tablet para a Entrada, sem tela de erro', async
   disparar.click(await tela.findByRole('button', { name: /Paulo/ }))
   digitar('1122')
 
-  await aguardar(() => esperar(tela.getByRole('button', { name: /Jana/ })).toBeVisible())
+  await aguardar(() => esperar(tela.getByRole('button', { name: /Helena/ })).toBeVisible())
   esperar(tela.queryByText(/Não foi possível carregar/)).toBeNull()
 })
 
@@ -316,7 +316,7 @@ testar('o menu leva ao Treinamento, relê o menu, e o perfil volta à Entrada', 
   esperar(pedidos.filter((p) => p.caminho === '/tela/sidebar').length).toBe(2)
 
   tocar('Abrir menu')
-  disparar.click(menu().getByRole('button', { name: /Jana/ }))
+  disparar.click(menu().getByRole('button', { name: /Helena/ }))
   esperar(await tela.findByRole('button', { name: /Paulo/ })).toBeVisible()
 })
 
@@ -673,7 +673,7 @@ testar('Lançar manual: o fim antes do início vira o dia seguinte', async () =>
   disparar.click(formulario.getByRole('button', { name: 'Enviar para aprovação' }))
 
   esperar(await corpoDa(pedidos, '/rpc/hora_extra_lancar')).toEqual({
-    colaborador_id: 'Jana', inicio: '2026-08-17 23:00', fim: '2026-08-18 00:30',
+    colaborador_id: 'Helena', inicio: '2026-08-17 23:00', fim: '2026-08-18 00:30',
     ensaio_id: 'ag-1042', sem_ensaio_motivo: null,
   })
 })
@@ -695,7 +695,7 @@ testar('Lançar manual: ensaio da véspera aparece marcado, e sem ensaio exige m
   disparar.click(formulario.getByRole('button', { name: 'Enviar para aprovação' }))
 
   esperar(await corpoDa(pedidos, '/rpc/hora_extra_lancar')).toEqual({
-    colaborador_id: 'Jana', inicio: '2026-08-17 00:10', fim: '2026-08-17 01:00',
+    colaborador_id: 'Helena', inicio: '2026-08-17 00:10', fim: '2026-08-17 01:00',
     ensaio_id: null, sem_ensaio_motivo: 'arrumação',
   })
 })
@@ -797,7 +797,7 @@ testar('Ajustes restrito: "Ir para a entrada" troca a pessoa no tablet', async (
   disparar.click(dentroDe(tela.getByRole('navigation', { name: 'Menu principal' })).getByRole('button', { name: /Ajustes/ }))
   disparar.click(dentroDe(tela.getByRole('navigation', { name: 'Menu principal' })).getByRole('button', { name: 'PINs de acesso' }))
   disparar.click(await tela.findByRole('button', { name: 'Ir para a entrada' }))
-  esperar(await tela.findByRole('button', { name: /Jana/ })).toBeVisible()
+  esperar(await tela.findByRole('button', { name: /Helena/ })).toBeVisible()
 })
 
 // ------------------------------------------------------ o aparelho (ADR 0048)
@@ -916,7 +916,7 @@ testar('esqueci a senha diz a quem pedir, sem prometer o que não existe', () =>
 
 testar('recarregar mantém a sessão por senha; expirada no servidor volta ao login', async () => {
   localStorage.removeItem('lt-dispositivo')
-  localStorage.setItem('lt-sessao-senha', JSON.stringify({ nome: 'Jana', perfil: 'administrador', exp: Math.floor(Date.now() / 1000) + 3600 }))
+  localStorage.setItem('lt-sessao-senha', JSON.stringify({ nome: 'Helena', perfil: 'administrador', exp: Math.floor(Date.now() / 1000) + 3600 }))
   simularServidor({
     '/tela/home': { codigo: 401, corpo: { erro: 'claim expirada' } },
     '/admin/sessao': { corpo: { ok: true } },
@@ -1002,9 +1002,9 @@ testar('fim antes do início no fechamento é o dia seguinte: o ensaio passou da
 // ------------------------------------------- comprovante da Comanda (ADR 0073)
 const LINK = '/comprovante/c-3-1-1754611200?t=token'
 
-async function abrirFechadaComoJana(rotas: Record<string, Resposta> = {}) {
+async function abrirFechadaComoHelena(rotas: Record<string, Resposta> = {}) {
   localStorage.removeItem('lt-dispositivo')
-  localStorage.setItem('lt-sessao-senha', JSON.stringify({ nome: 'Jana', perfil: 'administrador', exp: Math.floor(Date.now() / 1000) + 3600 }))
+  localStorage.setItem('lt-sessao-senha', JSON.stringify({ nome: 'Helena', perfil: 'administrador', exp: Math.floor(Date.now() / 1000) + 3600 }))
   const pedidos = simularServidor({
     '/tela/home': { corpo: homeFixture },
     '/tela/comanda': { corpo: comandaFixture },
@@ -1032,7 +1032,7 @@ testar('"Copiar mensagem" guarda o PDF e copia o texto com o link, sem registrar
   const writeText = simulacao.fn(async () => {})
   simulacao.stubGlobal('navigator', { ...navigator, clipboard: { writeText } })
 
-  const pedidos = await abrirFechadaComoJana()
+  const pedidos = await abrirFechadaComoHelena()
   tocar('Copiar mensagem')
 
   const secao = await tela.findByRole('status', { name: 'Mensagem para o cliente' })
@@ -1053,7 +1053,7 @@ testar('"Copiar mensagem" guarda o PDF e copia o texto com o link, sem registrar
 testar('sem área de transferência, a mensagem fica à vista para copiar à mão', async () => {
   simulacao.stubGlobal('navigator', { ...navigator, clipboard: { writeText: async () => { throw new Error('NotAllowedError') } } })
 
-  await abrirFechadaComoJana()
+  await abrirFechadaComoHelena()
   tocar('Copiar mensagem')
 
   const secao = await tela.findByRole('status', { name: 'Mensagem para o cliente' })
@@ -1061,7 +1061,7 @@ testar('sem área de transferência, a mensagem fica à vista para copiar à mã
 })
 
 testar('"Enviei" é a transição enviar, com o telefone do cliente', async () => {
-  const pedidos = await abrirFechadaComoJana()
+  const pedidos = await abrirFechadaComoHelena()
   tocar('Enviei')
 
   await aguardar(() => esperar(rpcDeEnvio(pedidos)).toHaveLength(1))
@@ -1074,7 +1074,7 @@ testar('"Enviei" é a transição enviar, com o telefone do cliente', async () =
 testar('"Baixar PDF" baixa o arquivo guardado, o mesmo que o link serve', async () => {
   const clicar = simulacao.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => {})
 
-  const pedidos = await abrirFechadaComoJana()
+  const pedidos = await abrirFechadaComoHelena()
   tocar('Baixar PDF')
 
   await aguardar(() => esperar(clicar).toHaveBeenCalledOnce())
@@ -1099,7 +1099,7 @@ const doEnvio = (pedidos: { caminho: string; opcoes: RequestInit }[]) =>
   pedidos.filter((p) => p.caminho === '/comprovante/enviar')
 
 testar('"Enviar" guarda o PDF e manda o texto com o link pelo servidor', async () => {
-  const pedidos = await abrirFechadaComoJana({
+  const pedidos = await abrirFechadaComoHelena({
     '/tela/comanda?comanda=c-1': { corpo: comEnviar },
     '/comprovante/enviar': { corpo: { enviado: true, registrado: true, resultado: { id: 'c-3' } } },
   })
@@ -1119,7 +1119,7 @@ testar('"Enviar" guarda o PDF e manda o texto com o link pelo servidor', async (
 testar('"Enviar" que não deu mostra o motivo e já deixa a mensagem com o link copiada', async () => {
   const writeText = simulacao.fn(async () => {})
   simulacao.stubGlobal('navigator', { ...navigator, clipboard: { writeText } })
-  const pedidos = await abrirFechadaComoJana({
+  const pedidos = await abrirFechadaComoHelena({
     '/tela/comanda?comanda=c-1': { corpo: comEnviar },
     '/comprovante/enviar': { corpo: { enviado: false, motivo: 'O cliente não mandou mensagem ao estúdio nas últimas 24h.' } },
   })
@@ -1140,7 +1140,7 @@ testar('comanda que não está mais fechada diz isso e não copia nada', async (
   const writeText = simulacao.fn(async () => {})
   simulacao.stubGlobal('navigator', { ...navigator, clipboard: { writeText } })
 
-  await abrirFechadaComoJana({ '/comprovante?comanda=c-3': { codigo: 409, corpo: { erro: 'x' } } })
+  await abrirFechadaComoHelena({ '/comprovante?comanda=c-3': { codigo: 409, corpo: { erro: 'x' } } })
   tocar('Copiar mensagem')
 
   esperar(await tela.findByRole('alert')).toHaveTextContent('não está fechada')

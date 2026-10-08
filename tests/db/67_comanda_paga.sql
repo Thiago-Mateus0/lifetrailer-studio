@@ -11,7 +11,7 @@ begin;
 select plan(20);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 select set_config('app.colaborador_id', :MARCOS, true);
 
@@ -40,8 +40,8 @@ select is(
 
 -- ----------------------------------- 2. Enviada → Paga, qualquer Atendente
 create temp table t2 as select pg_temp.fechada('cli-2', time '10:00') as id;
-select set_config('app.colaborador_id', :JANA, true);
-select app.comanda_transicionar((select id from t2), 'enviar', 2, :JANA, null, null, '82999990000');
+select set_config('app.colaborador_id', :HELENA, true);
+select app.comanda_transicionar((select id from t2), 'enviar', 2, :HELENA, null, null, '82999990000');
 select set_config('app.colaborador_id', :MARCOS, true);
 select is(
   (select status from app.comanda_transicionar((select id from t2), 'receber', 3, :MARCOS,
@@ -57,16 +57,16 @@ select set_config('app.colaborador_id', :MARCOS, true);
 select throws_ok(
   format($$ select app.comanda_transicionar(%L, 'desfazer_recebimento', 4, %L) $$, (select id from t2), :MARCOS),
   'LT005', 'acao restrita ao administrador', 'Atendente em desfazer: recusado');
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select is(
-  (select status from app.comanda_transicionar((select id from t2), 'desfazer_recebimento', 4, :JANA)),
+  (select status from app.comanda_transicionar((select id from t2), 'desfazer_recebimento', 4, :HELENA)),
   'enviada', 'desfazer volta a Enviada, de onde veio');
 select is((select estado_anterior_ao_recebimento from comanda where id = (select id from t2)),
   null, 'desfazer limpa a origem');
 
 -- ------------------------------------------- 4. arestas que não existem
 select throws_ok(
-  format($$ select app.comanda_transicionar(%L, 'reabrir', 3, %L) $$, (select id from t1), :JANA),
+  format($$ select app.comanda_transicionar(%L, 'reabrir', 3, %L) $$, (select id from t1), :HELENA),
   'LT002', null, 'Paga nao reabre direto');
 select set_config('app.colaborador_id', :MARCOS, true);
 create temp table t3 as
@@ -78,17 +78,17 @@ select throws_ok(
   'LT002', null, 'Aberta nao recebe');
 
 -- ------------------------------------------------------- 5. cancelamento
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select is(
-  (select status from app.comanda_transicionar((select id from t1), 'cancelar_reversivel', 3, :JANA)),
+  (select status from app.comanda_transicionar((select id from t1), 'cancelar_reversivel', 3, :HELENA)),
   'cancelada', 'Paga + attendance -1: Cancelada');
 select is((select estado_anterior_ao_cancelamento from comanda where id = (select id from t1)),
   'paga', 'o cancelamento reversivel guarda Paga');
 select is(
-  (select status from app.comanda_transicionar((select id from t1), 'descancelar', 4, :JANA)),
+  (select status from app.comanda_transicionar((select id from t1), 'descancelar', 4, :HELENA)),
   'paga', 'descancelar volta a Paga');
 select is(
-  (select status from app.comanda_transicionar((select id from t1), 'excluir', 5, :JANA)),
+  (select status from app.comanda_transicionar((select id from t1), 'excluir', 5, :HELENA)),
   'cancelada', 'Paga + delete: Cancelada terminal');
 select is((select estado_anterior_ao_cancelamento from comanda where id = (select id from t1)),
   null, 'terminal nao guarda volta');

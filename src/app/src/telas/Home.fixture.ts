@@ -29,8 +29,8 @@ export const homeFixture: DadosHome = {
   avisos: {
     contador: '3',
     itens: [
-      { identificador: 'av1', titulo: 'Led quebrado', texto: 'O LED SK400 está com defeito, não usar até a troca.', meta: 'Jana · hoje 09:57', urgente: true },
-      { identificador: 'av2', titulo: 'JBL perdida', texto: 'A caixa JBL não está no armário. Alguém viu?', meta: 'Jana · ontem 14:57', urgente: false },
+      { identificador: 'av1', titulo: 'Led quebrado', texto: 'O LED SK400 está com defeito, não usar até a troca.', meta: 'Helena · hoje 09:57', urgente: true },
+      { identificador: 'av2', titulo: 'JBL perdida', texto: 'A caixa JBL não está no armário. Alguém viu?', meta: 'Helena · ontem 14:57', urgente: false },
     ],
   },
   checklist: {

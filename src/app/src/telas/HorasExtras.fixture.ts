@@ -26,10 +26,10 @@ const registros: HoraExtraApresentada[] = exemplos.map((exemplo) => ({
 registros[2].referencia = { descricao: 'Ensaio Acústico · 60 min · preço base', precoEnsaio }
 
 export const horasExtrasFixture: DadosHorasExtras = {
-  hora: '09:40', data: '17 AGO 2026', turno: 'JA', podeLancar: true,
+  hora: '09:40', data: '17 AGO 2026', turno: 'HA', podeLancar: true,
   // Admin: a equipe ativa inteira, ele primeiro (ADR 0061 §2).
   destinatarios: [
-    { identificador: 'Jana', rotulo: 'Jana', eu: true },
+    { identificador: 'Helena', rotulo: 'Helena', eu: true },
     { identificador: 'Marcos', rotulo: 'Marcos', eu: false },
     { identificador: 'Paulo', rotulo: 'Paulo', eu: false },
     { identificador: 'Thiago', rotulo: 'Thiago', eu: false },
@@ -61,14 +61,14 @@ export const horasExtrasCancelamentoFixture: DadosHorasExtras = { ...horasExtras
 export const horasExtrasCancelamentoVazioFixture: DadosHorasExtras = { ...horasExtrasFixture, registros: [{ ...registros[0], cancelamento: { motivo: '', erro: 'Escreva o motivo antes de cancelar.', podeConfirmar: false } }, ...registros.slice(1)] }
 export const horasExtrasPagasFixture: DadosHorasExtras = {
   ...horasExtrasFixture, abas: horasExtrasFixture.abas.map((aba) => ({ ...aba, selecionada: aba.identificador === 'pagas' })),
-  registros: [{ ...registros[4], identificador: 'he-1021', data: '10/08', origem: 'Sistema', intervalo: '23:00 – 23:40', detalhe: 'Comanda #1021', status: 'Paga', destaque: 'paga', avisos: [], acoes: [{ identificador: 'estornar', rotulo: 'Estornar' }], historico: ['Criada pelo sistema · 10/08 23:47', 'Paga por Jana · 12/08 09:12'] }],
+  registros: [{ ...registros[4], identificador: 'he-1021', data: '10/08', origem: 'Sistema', intervalo: '23:00 – 23:40', detalhe: 'Comanda #1021', status: 'Paga', destaque: 'paga', avisos: [], acoes: [{ identificador: 'estornar', rotulo: 'Estornar' }], historico: ['Criada pelo sistema · 10/08 23:47', 'Paga por Helena · 12/08 09:12'] }],
 }
 export const horasExtrasCanceladasFixture: DadosHorasExtras = {
   ...horasExtrasFixture, abas: horasExtrasFixture.abas.map((aba) => ({ ...aba, selecionada: aba.identificador === 'canceladas' })),
   registros: [{ ...registros[4], identificador: 'he-1015a', data: '13/08', colaborador: 'Thiago', origem: 'Sistema', intervalo: '23:00 – 23:20', detalhe: 'Comanda #1015 · substituída no refechamento', status: 'Cancelada', destaque: 'cancelada', avisos: [], acoes: [], historico: ['Cancelada pelo sistema · 14/08 10:22 · motivo: refechamento da comanda'] }],
 }
 export const horasExtrasAtendenteFixture: DadosHorasExtras = {
-  ...horasExtrasFixture, turno: 'TH', subtitulo: 'Suas horas extras. A Jana paga por fora e marca cada uma individualmente.',
+  ...horasExtrasFixture, turno: 'TH', subtitulo: 'Suas horas extras. A Helena paga por fora e marca cada uma individualmente.',
   totalPeriodo: horasExtrasFixture.totais[1].valor, totais: [horasExtrasFixture.totais[1]],
   registros: registros.filter((extra) => extra.colaborador === 'Thiago').map((extra) => ({ ...extra, acoes: [] })),
 }

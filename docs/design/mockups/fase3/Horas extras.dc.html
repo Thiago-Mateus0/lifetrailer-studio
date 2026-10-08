@@ -312,7 +312,7 @@ class Component extends DCLogic {
         intervalo:'23:00 – 23:40', blocos:1, status:'Paga',
         detalhe:'Comanda #1021',
         flags:[],
-        auditoria:['criada pelo sistema no fechamento da #1021 · 10/08 23:47', 'paga por Jana · 12/08 09:12'] },
+        auditoria:['criada pelo sistema no fechamento da #1021 · 10/08 23:47', 'paga por Helena · 12/08 09:12'] },
       { id:'he-1015a', data:'13/08', colaborador:'Thiago', origem:'Sistema', comanda:'#1015',
         intervalo:'23:00 – 00:20', blocos:1, status:'Cancelada',
         detalhe:'Comanda #1015 · substituída no refechamento',
@@ -330,9 +330,9 @@ class Component extends DCLogic {
       const status = mud ? mud.status : r.status;
       let auditoria = r.auditoria || [];
       if (mud) {
-        if (mud.status === 'Paga') auditoria = auditoria.concat(['paga por Jana · 17/08 09:40']);
-        if (mud.status === 'Cancelada') auditoria = auditoria.concat(['cancelada por Jana · 17/08 09:40 · motivo: ' + mud.motivo]);
-        if (mud.status === 'Pendente') auditoria = auditoria.concat(['pagamento estornado por Jana · 17/08 09:40']);
+        if (mud.status === 'Paga') auditoria = auditoria.concat(['paga por Helena · 17/08 09:40']);
+        if (mud.status === 'Cancelada') auditoria = auditoria.concat(['cancelada por Helena · 17/08 09:40 · motivo: ' + mud.motivo]);
+        if (mud.status === 'Pendente') auditoria = auditoria.concat(['pagamento estornado por Helena · 17/08 09:40']);
       }
       return { ...r, status: status, auditoria: auditoria, valor: r.blocos * valorBloco };
     });
@@ -460,7 +460,7 @@ class Component extends DCLogic {
     const vazioTitulo = { pendentes:'Nada pendente', pagas:'Nada pago ainda', canceladas:'Nada cancelado' }[aba];
     const vazioSub = {
       pendentes: isAdmin ? 'Toda hora extra criada já foi paga ou cancelada.' : 'Você não tem hora extra esperando pagamento.',
-      pagas: 'Quando a Jana marcar uma extra como paga, ela aparece aqui.',
+      pagas: 'Quando a Helena marcar uma extra como paga, ela aparece aqui.',
       canceladas: 'Extras canceladas ficam no histórico, nunca são excluídas.',
     }[aba];
 
@@ -471,7 +471,7 @@ class Component extends DCLogic {
       syncLabel: sync.label,
       headSub: isAdmin
         ? 'Criadas no fechamento da comanda ou lançadas à mão. Pagar e cancelar são ações suas.'
-        : 'Suas horas extras. A Jana paga por fora e marca cada uma individualmente.',
+        : 'Suas horas extras. A Helena paga por fora e marca cada uma individualmente.',
       btnLancar: this.state.lancarAberto ? btnOn : btnOff,
       btnGhost, btnConfirmar: btnOn,
       btnCancelarConfirma: 'font-size:12px;color:#B91C1C;border:1px solid #FEF2F2;background:#FEF2F2;padding:8px 13px;border-radius:5px;font-family:inherit;cursor:pointer;transition:background .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease;font-weight:500;white-space:nowrap',

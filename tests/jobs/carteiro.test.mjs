@@ -93,13 +93,13 @@ test('o assunto vai INTOCADO — e ele que carrega a ancora (ADR 0038 §3)', asy
   const enviados = [];
   const entregar = criarCarteiro({
     pool, enviar: async (m) => enviados.push(m),
-    destinatarios: ['wyll@exemplo.com', 'jana@exemplo.com'], agora: () => 0,
+    destinatarios: ['wyll@exemplo.com', 'helena@exemplo.com'], agora: () => 0,
   });
   await entregar();
 
   assert.equal(enviados[0].assunto, UMA[0].assunto);
   assert.match(enviados[0].assunto, /a3f9c2e1b7d4$/, 'hash inteiro, sem truncar');
-  assert.deepEqual(enviados[0].destinatarios, ['wyll@exemplo.com', 'jana@exemplo.com']);
+  assert.deepEqual(enviados[0].destinatarios, ['wyll@exemplo.com', 'helena@exemplo.com']);
 });
 
 test('sem destinatario NAO envia, e grita toda vez (ADR 0038 §2)', async () => {
@@ -134,12 +134,12 @@ test('marca com o destino de verdade — a linha diz PRA ONDE foi', async () => 
   const pool = poolFalso(UMA);
   const entregar = criarCarteiro({
     pool, enviar: async () => {},
-    destinatarios: ['wyll@exemplo.com', 'jana@exemplo.com'], agora: () => 0,
+    destinatarios: ['wyll@exemplo.com', 'helena@exemplo.com'], agora: () => 0,
   });
   await entregar();
 
   const marcacao = pool.chamadas.find((c) => c.sql.includes('marcar_enviada'));
-  assert.deepEqual(marcacao.params, ['uuid-1', 'wyll@exemplo.com, jana@exemplo.com']);
+  assert.deepEqual(marcacao.params, ['uuid-1', 'wyll@exemplo.com, helena@exemplo.com']);
 });
 
 // ------------------------------------------------------------------- o corpo
@@ -165,8 +165,8 @@ test('semana sem hora extra diz isso, nao some com a secao', () => {
 // ------------------------------------------------------------------- o ambiente
 test('destinatariosDoEnv separa por virgula e ignora espaco', () => {
   assert.deepEqual(
-    destinatariosDoEnv({ LT_ANCORA_DESTINATARIOS: ' wyll@e.com , jana@e.com ,' }),
-    ['wyll@e.com', 'jana@e.com'],
+    destinatariosDoEnv({ LT_ANCORA_DESTINATARIOS: ' wyll@e.com , helena@e.com ,' }),
+    ['wyll@e.com', 'helena@e.com'],
   );
   assert.deepEqual(destinatariosDoEnv({}), []);
 });

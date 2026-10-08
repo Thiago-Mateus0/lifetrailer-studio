@@ -133,7 +133,7 @@ select throws_matching($$ insert into achado (descricao, datetime_achado, status
   'permission denied', 'lifetrailer_app nao insere direto em achado');
 
 select is(
-  (app.achado_registrar('Boné', null, null, null, null, 'Com a Jana',
+  (app.achado_registrar('Boné', null, null, null, null, 'Com a Helena',
    'aaaaaaaa-0000-0000-0000-000000000002'::uuid)).status,
   'aguardando_foto',
   'e a mesma escrita passa pela funcao, rodando como o role da aplicacao');

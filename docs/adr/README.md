@@ -79,9 +79,9 @@ sabe se a opção óbvia foi considerada ou esquecida.
 | 0066 | O Admin cria o lembrete na aba Lembretes; o lembrete guarda a categoria e pode ter antecedência própria | Proposto — é a tela que o 0043 pede |
 | 0067 | Quem vê o lembrete conclui; Atrasado é a data vencida; o alerta ao Admin sai uma vez, com 3 dias de atraso | Proposto — fecha a decorrência 1 do 0066 |
 | 0071 | O Admin preenche e corrige o fornecedor pelo app; depois da carga, quem manda no campo é a tabela | Aceito — revoga a §2 do 0044 |
-| 0073 | O comprovante da Comanda é enviado pela Jana, à mão, pelo ManyChat, com um link de 30 dias; o tablet fecha, não envia | Aceito — revoga §1–§3 do 0027; fecha a issue #194 |
-| 0075 | Quem procura o dono do achado é a Jana: "Copiar mensagem" e "Baixar foto" no computador dela; o tablet não compartilha | Proposto — revoga o §4 do 0055; fecha a decorrência 0073.1 e a issue #204 |
-| 0076 | O botão "Enviar" da Jana manda o link do comprovante pela API do ManyChat; se a API não confirmar, cai no "Copiar mensagem" | Proposto — revoga o §5 do 0073 |
+| 0073 | O comprovante da Comanda é enviado pela Helena, à mão, pelo ManyChat, com um link de 30 dias; o tablet fecha, não envia | Aceito — revoga §1–§3 do 0027; fecha a issue #194 |
+| 0075 | Quem procura o dono do achado é a Helena: "Copiar mensagem" e "Baixar foto" no computador dela; o tablet não compartilha | Proposto — revoga o §4 do 0055; fecha a decorrência 0073.1 e a issue #204 |
+| 0076 | O botão "Enviar" da Helena manda o link do comprovante pela API do ManyChat; se a API não confirmar, cai no "Copiar mensagem" | Proposto — revoga o §5 do 0073 |
 | 0077 | `attendance: 2` ("cliente confirmou") é lido como 0, aguardando | Proposto |
 | 0078 | A extensão é a diferença entre pacotes; entre linhas, proporcional | Aceito — revoga o passo 3 da extensão em fundacao.md; fecha a issue #223 |
 | 0072 | Fila de mídia: primeiro cliente da outbox, item pendente de anexo no Checklist, foto sobe com a claim de quem a tirou | Aceito — fecha a decorrência 0051.1 |

@@ -134,7 +134,7 @@ testar('equipe: quem está desativado tem Reativar, e o próprio sócio não tem
 
   dispararEvento.click(dentroDe(equipe.getByRole('group', { name: 'Caio' })).getByRole('button', { name: 'Reativar' }))
   esperar(definir).toHaveBeenCalledWith('caio', true, 2)
-  esperar(dentroDe(equipe.getByRole('group', { name: 'Jana' })).queryByRole('button')).toBeNull()
+  esperar(dentroDe(equipe.getByRole('group', { name: 'Helena' })).queryByRole('button')).toBeNull()
 })
 
 testar('equipe: cadastrar Atendente pede PIN; Gerente vai sem PIN', () => {

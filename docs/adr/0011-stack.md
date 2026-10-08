@@ -196,7 +196,7 @@ a reconciliação notar a falta horas depois.
   menor.** Quem escreve a função PL/pgSQL escreve também o que ela registra no
   audit log. A mitigação organizacional deixa de ser recomendada e passa a ser
   parte da entrega: **export semanal de horas extras por competência, gerado por
-  job agendado, entregue à Jana por canal que o Dev não controla, conferível
+  job agendado, entregue à Helena por canal que o Dev não controla, conferível
   contra os horários da própria Altegio.**
 
 ## Decorrências abertas

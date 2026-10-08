@@ -12,7 +12,7 @@
 O ADR-0030, escrito horas antes deste, tratou os catálogos de conteúdo como
 informação que ainda não tinha chegado, e decidiu na seção 2 que eles **não**
 virariam CSV em `data/`. O argumento era bom e continua bom para o que ele
-descrevia: um item que a Jana edita na tela não pode ter a verdade num arquivo
+descrevia: um item que a Helena edita na tela não pode ter a verdade num arquivo
 do repositório, senão são duas fontes e a do repositório envelhece na primeira
 edição.
 
@@ -113,7 +113,7 @@ casa, e com razão: o 0030 decidiu certo com a informação que tinha, e apagar
 isso esconderia que a decisão mudou porque o **dado** mudou, não porque o
 raciocínio estava errado.
 
-**Esperar a Jana confirmar antes de transcrever.** O quadro fotografado *é* a
+**Esperar a Helena confirmar antes de transcrever.** O quadro fotografado *é* a
 confirmação — é o que a operação usa hoje, não uma proposta. Segurar a
 transcrição esperando aval de algo que já está impresso na parede é adiar sem
 reduzir risco.

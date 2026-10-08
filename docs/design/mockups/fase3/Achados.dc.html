@@ -253,7 +253,7 @@ class Component extends DCLogic {
       { id: 'ac3', codigo: 'AC-102', item: 'Blusa cinza', estudio: 'Estúdio 1', cliente: '', observacao: '', lugar: 'Gaveta A/P', dia: 3, por: 'Marcos', valor: false },
       { id: 'ac4', codigo: 'AC-101', item: 'Guarda-chuva azul', estudio: 'Recepção', cliente: '', observacao: '', lugar: 'Gaveta A/P', dia: 1, por: 'Thiago', valor: false },
       { id: 'ac0', codigo: 'AC-098', item: 'Óculos de sol', estudio: 'Estúdio 3', cliente: 'Camila Reis', observacao: 'armação marrom', lugar: 'Gaveta A/P', dia: 8, por: 'Marcos', valor: true,
-        entregue: { nome: 'Camila Reis', quando: '11/08 20:15', por: 'Jana' } },
+        entregue: { nome: 'Camila Reis', quando: '11/08 20:15', por: 'Helena' } },
     ];
 
     const todos = BASE.concat(s.extras);
@@ -396,10 +396,10 @@ class Component extends DCLogic {
         onCliente: function(e) { self.setState({ cliente: e.target.value }); },
         onObservacao: function(e) { self.setState({ observacao: e.target.value }); },
         fotoId: 'foto-novo-' + s.novoFotoN,
-        lugares: ['Gaveta A/P', 'Com a Jana'].map(function(l) {
+        lugares: ['Gaveta A/P', 'Com a Helena'].map(function(l) {
           return { label: l, style: l === s.lugar ? btnOuroFraco : btnGhost, onClick: function() { self.setState({ lugar: l }); } };
         }),
-        aviso: 'Foto obrigatória. Depois de 90 dias o item aparece marcado para a Jana decidir o descarte.',
+        aviso: 'Foto obrigatória. Depois de 90 dias o item aparece marcado para a Helena decidir o descarte.',
         salvarStyle: podeSalvar ? btnOuro : btnMorto,
         salvar: function() {
           if (!podeSalvar) return;

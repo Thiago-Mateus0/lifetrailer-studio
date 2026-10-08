@@ -19,7 +19,7 @@ A identidade que a RLS usa chega por claim assinada, lida de
 a troca de perfil offline. O role da aplicação não é dono das tabelas e não tem
 `BYPASSRLS`; sem isso o resto é decoração.
 
-**Sócio** é o Administrador que é dono (Wyll, Wesley, Paulo); a gerente (Jana) é Administradora sem ser sócia. O sócio pode tudo da coluna Administrador, e mais o que está marcado "só o sócio" ([ADR 0050](../adr/0050-socio.md)).
+**Sócio** é o Administrador que é dono (Wyll, Rafael, Paulo); a gerente (Helena) é Administradora sem ser sócia. O sócio pode tudo da coluna Administrador, e mais o que está marcado "só o sócio" ([ADR 0050](../adr/0050-socio.md)).
 
 | Ação | Administrador | Desenvolvedor | Atendente |
 |---|---|---|---|

@@ -3,23 +3,23 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_ENTRADA, montarEntrada } from '../../src/api/telas/entrada.mjs';
-import { bancoDisponivel, MARCOS, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, MARCOS, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
 const URGENTE = '99999999-0000-0000-0000-000000000001';
 
-// Um urgente para o Paulo; o Marcos só tem o normal. A Jana (autora, Admin) está
+// Um urgente para o Paulo; o Marcos só tem o normal. A Helena (autora, Admin) está
 // no snapshot do urgente, mas Admin não aparece na Entrada (ADR 0049).
 const SEMEAR = `
 insert into aviso (id, texto, prioridade, status, autor_id, snapshot_colaboradores) values
-  ('${URGENTE}', 'Porta dos fundos', 'urgente', 'ativo', '${JANA}', '{${JANA},${PAULO}}'),
-  ('99999999-0000-0000-0000-000000000002', 'Normal', 'normal', 'ativo', '${JANA}', '{${MARCOS},${PAULO}}');
+  ('${URGENTE}', 'Porta dos fundos', 'urgente', 'ativo', '${HELENA}', '{${HELENA},${PAULO}}'),
+  ('99999999-0000-0000-0000-000000000002', 'Normal', 'normal', 'ativo', '${HELENA}', '{${MARCOS},${PAULO}}');
 `;
 
 // A consulta não lê claim: o $1 que o rodarTela passa não entra nela.
 const rodar = (extra = '') => rodarTela({
-  consulta: CONSULTA_ENTRADA, comoQuem: JANA, semear: SEMEAR, extra, json: ['pessoas'],
+  consulta: CONSULTA_ENTRADA, comoQuem: HELENA, semear: SEMEAR, extra, json: ['pessoas'],
 });
 
 const marcas = (linha) => Object.fromEntries(linha.pessoas.map((p) => [p.nome, p.aviso_urgente]));

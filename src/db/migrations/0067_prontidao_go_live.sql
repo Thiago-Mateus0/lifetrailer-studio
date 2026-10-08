@@ -9,7 +9,7 @@
 --
 -- O ADR 0030 separou duas coisas que estavam misturadas: o que bloqueia o
 -- CÓDIGO e o que bloqueia a ENTRADA EM OPERAÇÃO. O levantamento de campo da
--- Jana não trava o teclado — trava a data em que o tablet vai pro balcão.
+-- Helena não trava o teclado — trava a data em que o tablet vai pro balcão.
 --
 -- O risco que sobra é o módulo entrar em operação com catálogo vazio e ninguém
 -- notar: o Checklist marca um dia como "completo" sem ter item nenhum, e o
@@ -78,7 +78,7 @@ with contado as (
     from item_extra
 
   union all
-  -- Catálogos de campo: dependem do levantamento da Jana e da equipe (ADR 0030
+  -- Catálogos de campo: dependem do levantamento da Helena e da equipe (ADR 0030
   -- §1). São estes que de fato marcam a data de entrada em operação.
   select 'Itens do Checklist', count(*),
          'O Checklist — com a lista vazia o dia fecha "completo" sem descrever nada'

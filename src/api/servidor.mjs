@@ -129,7 +129,7 @@ export function criarAtendenteApp({
   // desenho do login de Admin: teste que não monta essa metade não recebe 500.
   armazenamento = null, lerMidia = null,
   // O cliente do ManyChat (ADR 0076). Ausente — sem LT_MANYCHAT_TOKEN —, o
-  // Enviar responde "não está ligado" e a Jana segue pelo manual.
+  // Enviar responde "não está ligado" e a Helena segue pelo manual.
   manychat = null,
   // Padrão permissivo: quem monta sem limitador tem o comportamento de antes.
   // Quem monta de verdade (index.mjs) sempre passa um.
@@ -474,7 +474,7 @@ export function criarAtendenteApp({
     }
 
     // ------------------------------------------------------ POST /comprovante
-    // O PDF que a Jana gerou no navegador (ADR 0073 §2). Só o cookie do Admin:
+    // O PDF que a Helena gerou no navegador (ADR 0073 §2). Só o cookie do Admin:
     // quem envia o comprovante é ela, e o tablet não oferece o gesto (§1).
     if (caminho === '/comprovante') {
       if (armazenamento === null) return responder(res, 404, { erro: 'rota de comprovante nao montada' });
@@ -528,7 +528,7 @@ export function criarAtendenteApp({
     }
 
     // ------------------------------------------------ POST /comprovante/enviar
-    // O Enviar da Jana (ADR 0076). O texto chega pronto do navegador, que já fez
+    // O Enviar da Helena (ADR 0076). O texto chega pronto do navegador, que já fez
     // o POST /comprovante e tem o link. Qualquer "não deu" é 200 com
     // `enviado: false` e o motivo: a tela cai no manual, não num erro.
     if (caminho === '/comprovante/enviar') {
@@ -573,7 +573,7 @@ export function criarAtendenteApp({
       }
 
       // Um contato só (§2): mandar o comprovante para a pessoa errada é pior
-      // do que a Jana colar a mensagem.
+      // do que a Helena colar a mensagem.
       let saiu;
       try {
         const contatos = await manychat.acharContatos(telefone);

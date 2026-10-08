@@ -17,7 +17,7 @@ begin;
 select plan(55);
 \ir _fixtures.psql
 
-\set JANA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS  '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO   '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV    '\'aaaaaaaa-0000-0000-0000-000000000004\''
@@ -105,7 +105,7 @@ select ok((select bool_and(exige_confirmacao and categoria = 'escala') from noti
 select is(pg_temp.avisos(:PAULO, 'ciclo'), 0::bigint, 'quem saiu da escala nao e notificado (so quem foi escalado)');
 
 -- ------------------------------------------------- 6. sem contrapartida
-select is((select count(*) from notificacao where destinatario_id = :JANA and categoria = 'escala'
+select is((select count(*) from notificacao where destinatario_id = :HELENA and categoria = 'escala'
             and texto like 'Thiago%sem contrapartida%'), 1::bigint,
   'Thiago ganhou um turno sem ceder nenhum: o Admin e avisado');
 
@@ -141,12 +141,12 @@ select throws_ok($$ select pg_temp.alterar(pg_temp.alt('vago', 'ausencia')) $$,
   'LT003', null, 'falta em turno que nao tem ninguem e LT003');
 
 -- -------------------------------------------- 6. a troca de mao dupla
-select is((select count(*) from notificacao where destinatario_id = :JANA and categoria = 'escala'), 3::bigint,
+select is((select count(*) from notificacao where destinatario_id = :HELENA and categoria = 'escala'), 3::bigint,
   'ate aqui, tres alertas: Thiago, Marcos e Paulo ganharam turno sem ceder nenhum');
 select pg_temp.alterar(pg_temp.alt('ida', 'troca', :THIAGO), pg_temp.alt('volta', 'troca', :PAULO));
 select is((pg_temp.t('ida')).colaborador_id, :THIAGO::uuid, 'Thiago cobre o Paulo');
 select is((pg_temp.t('volta')).colaborador_id, :PAULO::uuid, 'e o Paulo cobre o Thiago');
-select is((select count(*) from notificacao where destinatario_id = :JANA and categoria = 'escala'), 3::bigint,
+select is((select count(*) from notificacao where destinatario_id = :HELENA and categoria = 'escala'), 3::bigint,
   'troca com contrapartida na mesma confirmacao nao alerta o Admin');
 
 -- ------------------------------------------------------- 1. tudo ou nada
@@ -175,7 +175,7 @@ select throws_ok($$ select pg_temp.alterar(pg_temp.alt('atomico_a', 'troca', pg_
   'LT003', null, 'trocar pelo proprio titular e LT003 — isso e voltar ao padrao');
 select throws_ok($$ select pg_temp.alterar(pg_temp.alt('atomico_a', 'troca', pg_temp.c('Saiu'))) $$,
   'LT003', null, 'desativado nao cobre turno');
-select throws_ok($$ select pg_temp.alterar(pg_temp.alt('atomico_a', 'troca', pg_temp.c('Jana'))) $$,
+select throws_ok($$ select pg_temp.alterar(pg_temp.alt('atomico_a', 'troca', pg_temp.c('Helena'))) $$,
   'LT003', null, 'Administrador nao e escalado por troca: quem cobre e Atendente');
 select throws_ok($$ select pg_temp.alterar(pg_temp.alt('atomico_a', 'troca', null)) $$,
   'LT003', null, 'troca sem quem cobre e LT003');
@@ -194,7 +194,7 @@ select throws_ok($$ select app.escala_alterar(jsonb_build_array(pg_temp.alt('ato
 select throws_ok(format($$ select app.escala_alterar(jsonb_build_array(pg_temp.alt('atomico_a', 'ausencia')), %L::uuid) $$, :PAULO),
   'LT005', null, 'ator diferente da identidade da transacao e LT005');
 
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select pg_temp.alterar(pg_temp.alt('ontem', 'troca', :PAULO));
 select is((pg_temp.t('ontem')).colaborador_id, :PAULO::uuid, 'o Administrador altera dia passado (escala.md)');
 

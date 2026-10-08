@@ -10,7 +10,7 @@ begin;
 select plan(28);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 
@@ -45,22 +45,22 @@ select has_column('public', 'confirmacao_leitura', 'edicao', 'a confirmacao diz 
 select has_function('app', 'aviso_editar', array['uuid', 'integer', 'text', 'text', 'uuid', 'text'],
   'app.aviso_editar existe');
 
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select pg_temp.publicar('Luz do Acustico', 'todos', true);
 select is((pg_temp.aviso('Luz do Acustico')).edicao, 1, 'o aviso nasce na edicao 1');
 
 select pg_temp.como(:MARCOS);
 select pg_temp.confirmar('Luz do Acustico');
-select is(pg_temp.valendo('Luz do Acustico'), array[:JANA, :MARCOS]::uuid[],
-  'antes de editar: Jana (autora) e Marcos confirmaram, falta o Paulo');
+select is(pg_temp.valendo('Luz do Acustico'), array[:HELENA, :MARCOS]::uuid[],
+  'antes de editar: Helena (autora) e Marcos confirmaram, falta o Paulo');
 
 -- ============================================================ 1. quem e quando
 select throws_ok($$ select pg_temp.editar('Luz do Acustico', 'Outro titulo', '') $$,
   'LT005', null, 'quem nao e o autor nao edita');
 
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select throws_ok(format($$ select app.aviso_editar(%L, %s, 'Outro', '', %L) $$,
-    (pg_temp.aviso('Luz do Acustico')).id, (pg_temp.aviso('Luz do Acustico')).versao - 1, :JANA),
+    (pg_temp.aviso('Luz do Acustico')).id, (pg_temp.aviso('Luz do Acustico')).versao - 1, :HELENA),
   'LT001', null, 'editar a partir de uma versao velha e LT001');
 select throws_ok($$ select pg_temp.editar('Luz do Acustico', 'Luz do Acustico', 'corpo') $$,
   'LT003', null, 'o mesmo texto de volta nao e edicao: zeraria as leituras por nada');
@@ -80,7 +80,7 @@ select is((pg_temp.aviso('Luz do Acustico')).texto, E'Luz do Acustico\ntrocada, 
 select is((pg_temp.aviso('Luz do Acustico')).versao, 2,
   'a versao sobe: quem tem a tela antiga na mao leva LT001');
 select is((pg_temp.aviso('Luz do Acustico')).status, 'ativo', 'e segue ativo');
-select is(pg_temp.valendo('Luz do Acustico'), array[:JANA]::uuid[],
+select is(pg_temp.valendo('Luz do Acustico'), array[:HELENA]::uuid[],
   'so a autora vale na edicao nova: o Marcos volta a dever');
 select is((select count(*)::int from confirmacao_leitura
             where comunicado_id = (pg_temp.aviso('Luz do Acustico')).id), 3,
@@ -89,7 +89,7 @@ select is((select count(*)::int from confirmacao_leitura
 select ok(exists (select 1 from audit_log
                    where ativo_origem = 'aviso' and acao = 'aviso_editado'
                      and registro_id = (pg_temp.aviso('Luz do Acustico')).id
-                     and autor_id = :JANA
+                     and autor_id = :HELENA
                      and valor_anterior ->> 'texto' = E'Luz do Acustico\ncorpo'
                      and valor_novo ->> 'texto' = E'Luz do Acustico\ntrocada, pode usar'),
   'o audit log guarda o texto de antes e o de depois, assinado pela autora');
@@ -105,7 +105,7 @@ select pg_temp.como(:MARCOS);
 select is((pg_temp.confirmar('Luz do Acustico')).status, 'arquivado',
   'o Marcos confirma de novo, agora o texto novo, e fecha a conta');
 
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select throws_ok($$ select pg_temp.editar('Luz do Acustico', 'Tarde demais', '') $$,
   'LT002', null, 'aviso arquivado nao se edita');
 
@@ -126,8 +126,8 @@ select is((select count(*)::int from confirmacao_leitura
 -- O Admin arquiva aviso de qualquer um, mas edita so o proprio.
 select pg_temp.como(:MARCOS);
 select pg_temp.publicar('Do Marcos', 'todos', true);
-select pg_temp.como(:JANA);
-select throws_ok($$ select pg_temp.editar('Do Marcos', 'Da Jana', '') $$,
+select pg_temp.como(:HELENA);
+select throws_ok($$ select pg_temp.editar('Do Marcos', 'Da Helena', '') $$,
   'LT005', null, 'nem o Administrador edita aviso de outra pessoa');
 
 select * from finish();

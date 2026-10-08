@@ -10,7 +10,7 @@ begin;
 select plan(17);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 
 create temp table t as select app.quarta_recente() as dia;
@@ -85,14 +85,14 @@ select ok((select bool_or(texto like '%arrumação do estúdio%') from pg_temp.a
   'e o alerta traz o motivo');
 
 -- ================================================= 5. o estorno leva tudo
-select set_config('app.colaborador_id', :JANA, true);
-select app.hora_extra_pagar(:'com_ensaio', (pg_temp.he(:'com_ensaio')).versao, :JANA) is not null as pagou \gset
-select (app.hora_extra_estornar(:'com_ensaio', (pg_temp.he(:'com_ensaio')).versao, 'pagou errado', :JANA)).id
+select set_config('app.colaborador_id', :HELENA, true);
+select app.hora_extra_pagar(:'com_ensaio', (pg_temp.he(:'com_ensaio')).versao, :HELENA) is not null as pagou \gset
+select (app.hora_extra_estornar(:'com_ensaio', (pg_temp.he(:'com_ensaio')).versao, 'pagou errado', :HELENA)).id
   as copia \gset
 select is((pg_temp.he(:'copia')).agendamento_id, :'ag'::uuid, 'a cópia do estorno continua ligada ao ensaio');
 
-select app.hora_extra_pagar(:'sem_ensaio', (pg_temp.he(:'sem_ensaio')).versao, :JANA) is not null as pagou2 \gset
-select (app.hora_extra_estornar(:'sem_ensaio', (pg_temp.he(:'sem_ensaio')).versao, 'pagou errado', :JANA)).id
+select app.hora_extra_pagar(:'sem_ensaio', (pg_temp.he(:'sem_ensaio')).versao, :HELENA) is not null as pagou2 \gset
+select (app.hora_extra_estornar(:'sem_ensaio', (pg_temp.he(:'sem_ensaio')).versao, 'pagou errado', :HELENA)).id
   as copia2 \gset
 select is((pg_temp.he(:'copia2')).sem_ensaio_motivo, 'arrumação do estúdio', 'e a sem ensaio leva o motivo');
 

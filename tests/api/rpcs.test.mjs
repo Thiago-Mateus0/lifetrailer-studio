@@ -463,8 +463,8 @@ test('a porta de um PIN so nao existe: o caminho e o lote', () => {
 // escolhe o ator.
 test('redefinir senha: pessoa, login e senha do corpo, o ator da claim', () => {
   const r = montarArgumentos(RPCS.senha_definir,
-    { colaborador_id: PESSOA, login: 'jana', senha: 'uma-senha-longa' }, claim);
-  assert.deepEqual(r.valores, [PESSOA, 'jana', 'uma-senha-longa', claim.colaborador_id]);
+    { colaborador_id: PESSOA, login: 'helena', senha: 'uma-senha-longa' }, claim);
+  assert.deepEqual(r.valores, [PESSOA, 'helena', 'uma-senha-longa', claim.colaborador_id]);
   assert.deepEqual(r.casts, ['$1::uuid', '$2::text', '$3::text', '$4::uuid']);
 });
 

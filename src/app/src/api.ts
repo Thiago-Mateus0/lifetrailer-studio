@@ -203,7 +203,7 @@ export const enviarMidia = (
 export type ComprovanteGuardado = { comprovante_id: string; envio: number; link: string }
 
 /**
- * Guarda o PDF que o navegador da Jana gerou. Sem claim: a rota só aceita o
+ * Guarda o PDF que o navegador da Helena gerou. Sem claim: a rota só aceita o
  * cookie do Admin. Copiar de novo devolve link novo para o arquivo já guardado.
  */
 export const guardarComprovante = (comanda: string, pdf: Blob) =>

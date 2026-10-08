@@ -39,7 +39,7 @@ carregada por CSV vira dado de produção que ninguém decidiu.
 ### 1. A categoria é criada na tela, quando o primeiro Lembrete precisa dela
 
 `categoria_lembrete` nasce vazia. Não há CSV em `data/`, não há entrada no
-`carga.mjs`. A Jana cria "pagamento de fornecedor · 3 dias antes" no dia em que
+`carga.mjs`. A Helena cria "pagamento de fornecedor · 3 dias antes" no dia em que
 tem um pagamento de fornecedor para lembrar.
 
 O sistema aprende do uso, que é a única fonte que responde a pergunta com
@@ -76,7 +76,7 @@ informa; ela não veta.
 
 ## Alternativas rejeitadas
 
-**Seguir o caminho do ADR-0032 e levantar a lista com a Jana.** É o que os
+**Seguir o caminho do ADR-0032 e levantar a lista com a Helena.** É o que os
 outros quatro fazem, e a simetria é atraente. Mas os outros quatro transcrevem
 um artefato; este produziria um. Uma reunião de levantamento sobre categorias
 que ninguém nunca escreveu entrega o que a reunião pede, não o que a operação

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_ESCALA, montarEscala } from '../../src/api/telas/escala.mjs';
-import { bancoDisponivel, MARCOS, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, MARCOS, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -66,7 +66,7 @@ test('escala: padroes vigentes com horario, ancora e quem pode revisar', { skip:
     ['Alternado diário', 'Paulo · Marcos', '14:00 – 23:00 · sábado até 18:00', '10/08/2026 · Paulo']);
   assert.equal(tarde.podeRevisar, false);
 
-  const admin = montarEscala(rodar(JANA), AGORA, 'padroes');
+  const admin = montarEscala(rodar(HELENA), AGORA, 'padroes');
   assert.deepEqual(admin.padroes.map((p) => p.podeRevisar), [false, true]);
 });
 
@@ -112,9 +112,9 @@ test('escala: domingo livre oferece Assumir com uma pessoa e o seletor da equipe
   assert.deepEqual(doAtendente.alternativa, { identificador: 'outra', rotulo: 'outra pessoa' });
   assert.equal(doAtendente.extra, undefined);
 
-  // A Jana aciona o domingo (escala.md), mas quem FAZ o extra e Atendente: o
+  // A Helena aciona o domingo (escala.md), mas quem FAZ o extra e Atendente: o
   // botao dela ja nasce apontando pra equipe, nao pra ela.
-  const doAdmin = montarEscala(rodar(JANA), AGORA).dias[13];
+  const doAdmin = montarEscala(rodar(HELENA), AGORA).dias[13];
   assert.deepEqual(doAdmin.acao, { identificador: 'assumir', rotulo: 'Assumir · Marcos' });
   assert.deepEqual(doAdmin.assumir, { identificador: MARCOS, nome: 'Marcos' });
 });
@@ -138,7 +138,7 @@ test('escala: a visao Padroes mostra o padrao que rege amanha', { skip: semBanco
     values ('tarde_noite', 'alternado_diario', '{${MARCOS},${PAULO}}', '{1,2,3,4,5,6}',
             date '2026-08-10', '${MARCOS}', app.quarta_recente() + 1, 2);
   `;
-  const tarde = montarEscala(rodar(JANA, revisado), AGORA, 'padroes').padroes[1];
+  const tarde = montarEscala(rodar(HELENA, revisado), AGORA, 'padroes').padroes[1];
   assert.equal(tarde.colaboradores, 'Marcos · Paulo');
   assert.match(tarde.versao, /^v2 · desde /);
   assert.equal(tarde.ancora.endsWith('Marcos'), true);
@@ -164,7 +164,7 @@ select current_date + ${dias}, 'tarde_noite',
 const TROCA_FUTURA = trocaFutura(2, 'troca');
 
 test('escala: revisar lista a troca afetada, com a decisao de cada uma', { skip: semBanco }, () => {
-  const linha = rodar(JANA, TROCA_FUTURA, 'tarde_noite');
+  const linha = rodar(HELENA, TROCA_FUTURA, 'tarde_noite');
   const d = montarEscala(linha, AGORA, 'padroes');
 
   assert.match(d.revisao.descricao, /passa de Paulo para Marcos/);
@@ -193,7 +193,7 @@ test('escala: revisar lista a troca afetada, com a decisao de cada uma', { skip:
 // A falta afetada recebe os mesmos dois botoes da troca (ADR 0059, migration
 // 0064), com o rotulo dela: manter a falta deixa vago o turno do titular NOVO.
 test('escala: falta afetada entra na revisao, com o rotulo da falta', { skip: semBanco }, () => {
-  const linha = rodar(JANA, TROCA_FUTURA + trocaFutura(3, 'ausencia'), 'tarde_noite');
+  const linha = rodar(HELENA, TROCA_FUTURA + trocaFutura(3, 'ausencia'), 'tarde_noite');
   const d = montarEscala(linha, AGORA, 'padroes');
 
   assert.equal(d.revisao.status, '0 de 2 revisadas');
@@ -210,5 +210,5 @@ test('escala: falta afetada entra na revisao, com o rotulo da falta', { skip: se
 test('escala: revisar nao e do Atendente, e turno fora da lista nao abre', { skip: semBanco }, () => {
   assert.equal(montarEscala(rodar(PAULO, TROCA_FUTURA, 'tarde_noite'), AGORA, 'padroes').revisao, undefined);
   // 'manha' e padrao fixo: nao tem ancora que mude nada.
-  assert.equal(montarEscala(rodar(JANA, TROCA_FUTURA, 'manha'), AGORA, 'padroes').revisao, undefined);
+  assert.equal(montarEscala(rodar(HELENA, TROCA_FUTURA, 'manha'), AGORA, 'padroes').revisao, undefined);
 });

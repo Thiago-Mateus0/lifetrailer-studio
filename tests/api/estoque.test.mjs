@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_ESTOQUE, montarEstoque } from '../../src/api/telas/estoque.mjs';
-import { bancoDisponivel, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -62,7 +62,7 @@ test('estoque: o Atendente nao recebe sugestoes nem o fornecedor para editar', {
 
 test('estoque: o Admin recebe as sugestoes sem a sentinela, e o insumo com versao', { skip: semBanco }, () => {
   const d = montarEstoque(rodar(`insert into item_estoque (nome, categoria, severidade, fornecedor, quantidade, ativo)
-    values ('Sem nome', 'Limpeza', 'atencao', null, 0, true);`, JANA), AGORA);
+    values ('Sem nome', 'Limpeza', 'atencao', null, 0, true);`, HELENA), AGORA);
   assert.deepEqual(d.fornecedores, ['Percarbonato', 'Tuff']);
 
   const insumo = (nome) => d.colunas.flatMap((c) => c.grupos).flatMap((g) => g.insumos).find((i) => i.nome === nome);
@@ -75,7 +75,7 @@ test('estoque: o Admin recebe as sugestoes sem a sentinela, e o insumo com versa
 // ADR 0080: a ficha completa, as categorias e o "Renomear" so pro Admin; a
 // mensagem do "Copiar lista" pra todo mundo.
 test('estoque: o Admin recebe a ficha, as categorias e o renomear; a compra traz a mensagem', { skip: semBanco }, () => {
-  const admin = montarEstoque(rodar('', JANA), AGORA, 'compra');
+  const admin = montarEstoque(rodar('', HELENA), AGORA, 'compra');
   assert.ok(Array.isArray(admin.categorias) && admin.categorias.length > 0);
   const insumo = admin.colunas.flatMap((c) => c.grupos).flatMap((g) => g.insumos)[0];
   assert.deepEqual(Object.keys(insumo.ficha).sort(), ['categoria', 'especificacao', 'fornecedor', 'nome', 'severidade']);

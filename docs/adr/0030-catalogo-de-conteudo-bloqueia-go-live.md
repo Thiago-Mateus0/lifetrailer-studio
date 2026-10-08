@@ -55,7 +55,7 @@ o **código lê**, e a regra 1 da casa o torna autoritativo pros números —
 `precos.csv` e `turnos.csv` estão lá porque são parâmetro de dinheiro com
 vigência, consultado pelo cálculo.
 
-Um item de Checklist que a Jana edita na tela não pode ter a verdade num arquivo
+Um item de Checklist que a Helena edita na tela não pode ter a verdade num arquivo
 do repositório: seriam duas fontes, e a do repositório envelheceria em silêncio
 na primeira edição.
 
@@ -157,6 +157,6 @@ fecha 100% sem itens.
 - As pendências de fim de arquivo de `checklist.md`, `lembretes.md`,
   `treinamento.md` e `estoque.md` apontam pra cá em vez de repetir
   "depende de campo".
-- O levantamento de campo continua existindo e continua sendo trabalho da Jana e
+- O levantamento de campo continua existindo e continua sendo trabalho da Helena e
   da equipe. **O que mudou é que ele não trava mais o teclado** — trava a data de
   entrada em operação, que é a coisa que ele de fato determina.

@@ -64,7 +64,7 @@ regra mora em Treinamento.
 ### 4. O autor só nasce confirmado quando o aviso é para ele e pede confirmação
 
 Revoga parte do ADR 0056 §2, que dizia "o autor está no snapshot". Com público,
-o autor pode estar fora dele: a Jana publicando para Atendentes, ou o
+o autor pode estar fora dele: a Helena publicando para Atendentes, ou o
 Desenvolvedor publicando para qualquer público. Nesses casos o aviso não foi para
 o autor, e ele não entra na conta. Quando o autor está no público e o aviso pede
 confirmação, vale o 0056 §2 como estava: ele nasce confirmado.
@@ -72,7 +72,7 @@ confirmação, vale o 0056 §2 como estava: ele nasce confirmado.
 ## Alternativas rejeitadas
 
 **O autor sempre no snapshot, qualquer que seja o público.** Mantinha a letra do
-0056 §2, mas um aviso "para atendentes" mostraria "Jana — 18/09 09:40" em "Ver
+0056 §2, mas um aviso "para atendentes" mostraria "Helena — 18/09 09:40" em "Ver
 quem leu", e a contagem "3 de 3 confirmaram" teria uma pessoa que não é do
 público.
 

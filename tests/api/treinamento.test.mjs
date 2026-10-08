@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_TREINAMENTO, DIAS_ATE_ENVELHECER, montarTreinamento } from '../../src/api/telas/treinamento.mjs';
-import { bancoDisponivel, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -24,7 +24,7 @@ const MIDIA = '33333333-0000-4000-8000-000000000001';
 // categoria DESATIVADA com um publicado dentro, que nao pode aparecer.
 const SEMEAR = `
 insert into midia (id, url, tamanho_bytes, mime, ativo_origem, registro_id, enviado_por_id)
-values ('${MIDIA}', 'var/midia/x.jpg', 100, 'image/jpeg', 'tutorial', '${TUT_PUB}', '${JANA}');
+values ('${MIDIA}', 'var/midia/x.jpg', 100, 'image/jpeg', 'tutorial', '${TUT_PUB}', '${HELENA}');
 
 insert into categoria_treinamento (id, nome, descricao, ordem, ativo) values
   ('${CAT_ATIVA}', 'Equipamento', 'Montagem e guarda', 1, true),
@@ -32,13 +32,13 @@ insert into categoria_treinamento (id, nome, descricao, ordem, ativo) values
 
 insert into tutorial (id, categoria_id, titulo, status, ordem, criado_por_id, criado_em,
                       atualizado_por_id, atualizado_em, publicado_em) values
-  ('${TUT_PUB}', '${CAT_ATIVA}', 'Como armar o softbox', 'publicado', 1, '${JANA}',
-   now() - interval '10 days', '${JANA}', now() - interval '2 days', now() - interval '9 days'),
-  ('${TUT_RASCUNHO}', '${CAT_ATIVA}', 'Rascunho do refletor', 'rascunho', 2, '${JANA}',
+  ('${TUT_PUB}', '${CAT_ATIVA}', 'Como armar o softbox', 'publicado', 1, '${HELENA}',
+   now() - interval '10 days', '${HELENA}', now() - interval '2 days', now() - interval '9 days'),
+  ('${TUT_RASCUNHO}', '${CAT_ATIVA}', 'Rascunho do refletor', 'rascunho', 2, '${HELENA}',
    now(), null, null, null),
-  ('${TUT_ARQUIVADO}', '${CAT_ATIVA}', 'Fundo infinito de papel', 'arquivado', 3, '${JANA}',
+  ('${TUT_ARQUIVADO}', '${CAT_ATIVA}', 'Fundo infinito de papel', 'arquivado', 3, '${HELENA}',
    now() - interval '90 days', null, null, now() - interval '80 days'),
-  ('${TUT_ESCONDIDO}', '${CAT_MORTA}', 'Publicado em categoria morta', 'publicado', 1, '${JANA}',
+  ('${TUT_ESCONDIDO}', '${CAT_MORTA}', 'Publicado em categoria morta', 'publicado', 1, '${HELENA}',
    now(), null, null, now());
 
 insert into bloco_tutorial (tutorial_id, ordem, tipo, conteudo_texto, midia_id) values
@@ -78,7 +78,7 @@ test('treinamento: so publicado aparece, e rascunho nunca', { skip: semBanco }, 
 // A categoria e o agrupamento da tela: desativa-la tira os tutoriais junto,
 // sem precisar mexer no status de cada um.
 test('treinamento: categoria desativada leva os tutoriais dela junto', { skip: semBanco }, () => {
-  const d = montarTreinamento(rodar(JANA), AGORA, CONFIG);
+  const d = montarTreinamento(rodar(HELENA), AGORA, CONFIG);
   assert.ok(!titulos(d).includes('Publicado em categoria morta'));
 });
 
@@ -122,7 +122,7 @@ test('treinamento: o tutorial aberto traz os blocos na ordem gravada', { skip: s
 
   assert.equal(d.selecionado.titulo, 'Como armar o softbox');
   assert.equal(d.selecionado.categoria, 'Equipamento');
-  assert.match(d.selecionado.atualizado, / por Jana$/);
+  assert.match(d.selecionado.atualizado, / por Helena$/);
   assert.deepEqual(d.selecionado.blocos.map((b) => b.tipo), ['texto', 'foto', 'texto']);
   assert.equal(d.selecionado.blocos[0].texto, 'Abra as pernas ate o primeiro encaixe.');
   // A foto vai assinada (ADR 0051 §5): a tela nao entrega id de midia cru.
@@ -161,7 +161,7 @@ test('treinamento: rascunho nao abre para o Atendente nem pelo endereco direto',
 
 // 0089: quem escreve é o Administrador, e só ele vê Rascunho e os dados de edição.
 test('treinamento: o Admin ve rascunho na lista e as categorias para cuidar', { skip: semBanco }, () => {
-  const d = montarTreinamento(rodarPg(JANA), AGORA, CONFIG);
+  const d = montarTreinamento(rodarPg(HELENA), AGORA, CONFIG);
 
   assert.equal(d.podeEditar, true);
   assert.ok(titulos(d).includes('Rascunho do refletor'));
@@ -172,7 +172,7 @@ test('treinamento: o Admin ve rascunho na lista e as categorias para cuidar', { 
 });
 
 test('treinamento: o Admin abre o tutorial com o que o editor precisa para salvar', { skip: semBanco }, () => {
-  const d = montarTreinamento(rodarPg(JANA, { tutorial: TUT_PUB }), AGORA, CONFIG);
+  const d = montarTreinamento(rodarPg(HELENA, { tutorial: TUT_PUB }), AGORA, CONFIG);
   const { edicao } = d.selecionado;
 
   assert.equal(edicao.versao, 1);
@@ -185,7 +185,7 @@ test('treinamento: o Admin abre o tutorial com o que o editor precisa para salva
 });
 
 test('treinamento: o Admin abre o proprio rascunho', { skip: semBanco }, () => {
-  const d = montarTreinamento(rodarPg(JANA, { tutorial: TUT_RASCUNHO }), AGORA, CONFIG);
+  const d = montarTreinamento(rodarPg(HELENA, { tutorial: TUT_RASCUNHO }), AGORA, CONFIG);
   assert.equal(d.selecionado.status, 'Rascunho');
   assert.deepEqual(d.selecionado.edicao.blocos, []);
 });

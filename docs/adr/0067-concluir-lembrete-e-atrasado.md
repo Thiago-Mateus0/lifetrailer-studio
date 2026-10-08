@@ -39,7 +39,7 @@ sai. O ADR 0066 deixou isso como decorrência 1.
 
 **Só o Admin conclui.** O lembrete aparece para a equipe justamente para ela
 agir ("Pagar a gráfica", "Ligar para a Ana"). Se só o Admin pudesse fechar, o
-Atendente faria a tarefa e o lembrete continuaria aberto até a Jana passar pela
+Atendente faria a tarefa e o lembrete continuaria aberto até a Helena passar pela
 aba.
 
 **Atrasado no próprio dia.** A data é o prazo. Quem cria "pagar dia 26" conta

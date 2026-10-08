@@ -12,7 +12,7 @@ apresentadas, a **B** (obrigatório, com saída justificada).
 ## Contexto
 
 A hora extra automática nasce no fechamento da Comanda e já é ligada a ela.
-A manual (ADR 0061) registrava só o intervalo e quem trabalhou. A Jana, que
+A manual (ADR 0061) registrava só o intervalo e quem trabalhou. A Helena, que
 paga, não tinha como conferir de qual ensaio ela veio.
 
 Ligação obrigatória sem exceção deixaria sem lançamento os casos para os quais

@@ -26,7 +26,7 @@ create temp table c2 as select * from app.comanda_criar(
   'gerar_manual', 'aaaaaaaa-0000-0000-0000-000000000002');
 
 -- ------------------------------------------------- trança normal com pendência
-select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Jana
+select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Helena
 select throws_matching(
   $$ select app.competencia_trancar((select mes from m),
        'aaaaaaaa-0000-0000-0000-000000000001') $$,
@@ -40,7 +40,7 @@ select throws_matching(
   $$ select app.competencia_trancar((select mes from m),
        'aaaaaaaa-0000-0000-0000-000000000002', true, 'fecha o mes') $$,
   'administrador', 'tranca forcada por atendente: recusada');
-select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Jana
+select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Helena
 select throws_matching(
   $$ select app.competencia_trancar((select mes from m),
        'aaaaaaaa-0000-0000-0000-000000000001', true, null) $$,
@@ -98,7 +98,7 @@ select throws_matching(
        'gerar_manual', 'aaaaaaaa-0000-0000-0000-000000000002') $$,
   'trancada', 'criar Comanda em competencia trancada: recusado pela mesma trava');
 
-select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Jana
+select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Helena
 select throws_matching(
   $$ select app.competencia_trancar((select mes from m),
        'aaaaaaaa-0000-0000-0000-000000000001') $$,

@@ -9,7 +9,7 @@
 //   doação com destino obrigatório (regra inviolável 7).
 // - `codigo` ("AC-104") não existe no schema. No lugar vai a data do achado,
 //   que é o que distingue dois itens parecidos na lista.
-// - "Guardado onde" (gaveta, com a Jana) e a observação não têm coluna; o
+// - "Guardado onde" (gaveta, com a Helena) e a observação não têm coluna; o
 //   detalhe não os mostra.
 //
 // ⚠ O formulário de SAÍDA (`entrega` ou `doacao`) também é recorte: `?saida=`
@@ -156,7 +156,7 @@ function saidaAberta(saida, a, eu, agora) {
   };
 }
 
-// O texto que a Jana cola no ManyChat (ADR 0075). Escrito aqui, e não no cliente, porque é
+// O texto que a Helena cola no ManyChat (ADR 0075). Escrito aqui, e não no cliente, porque é
 // conteúdo — e porque o que ele NÃO diz é decisão: nem a `observacao`, que é o
 // detalhe guardado para conferir o dono, nem o `cliente_nome`, que é o nome de
 // um terceiro numa conversa que pode ser com a pessoa errada.
@@ -206,7 +206,7 @@ function detalhe(a, endereco, saida, eu, agora, admin) {
     // segunda com LT002 — botão que promete o que não cumpre é pior que botão
     // que não existe.
     ...(a.status === 'aguardando_foto' ? { anexarFoto: { rotulo: 'Anexar foto' } } : {}),
-    // Procurar o dono é da Jana, pelo ManyChat (ADR 0075): o tablet não
+    // Procurar o dono é da Helena, pelo ManyChat (ADR 0075): o tablet não
     // oferece. Só com foto e só com o item ainda em guarda: sem foto não há o
     // que identifique, e item já entregue ou doado não tem dono a procurar.
     ...(admin && a.foto_id && guardado ? {
@@ -226,7 +226,7 @@ function detalhe(a, endereco, saida, eu, agora, admin) {
 //
 // ⚠ A lista é UMA só, e isso é a resposta do Wyll (G11, 2026-09-23): no estúdio
 // item achado vai para a gaveta, e não há segundo lugar. "Gaveta A/P" e "Com a
-// Jana" vinham do mockup da Fase 3, não da operação — com a lista errada o item
+// Helena" vinham do mockup da Fase 3, não da operação — com a lista errada o item
 // era guardado num lugar e registrado em outro.
 //
 // Achados antigos continuam mostrando o lugar em que foram guardados:

@@ -12,7 +12,7 @@
    ↓
 [Fechada] ← congela total, nº sequencial, baixa no Estoque, gera hora extra
    ↓
-[Enviada] ← a Jana manda o PDF pelo ManyChat e marca "Enviei" (ADR 0073)
+[Enviada] ← a Helena manda o PDF pelo ManyChat e marca "Enviei" (ADR 0073)
    ↕ reabertura conforme faixa (ver abaixo) → volta para Aberta
 
 CANCELAMENTO — duas naturezas
@@ -165,7 +165,7 @@ fundo de papel e equipamento são reutilizados (não têm saldo que baixa).
    (é negociado). Uso externo sempre entra como item fora do catálogo
    (válvula 1), nunca tenta encaixar em `preco_uso_interno`.
 
-**Quem cadastra:** Admin (Jana), mesma governança do Bomboniere.
+**Quem cadastra:** Admin (Helena), mesma governança do Bomboniere.
 
 ### ⭐ Pré-pagamento
 

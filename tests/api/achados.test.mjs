@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_ACHADOS, montarAchados } from '../../src/api/telas/achados.mjs';
-import { bancoDisponivel, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -30,13 +30,13 @@ insert into achado (id, estudio_id, cliente_nome, descricao, datetime_achado, mi
   ('${RELOGIO}', null, null, 'Relogio', ${ANTES('2 days')},
    null, 'aguardando_foto', '${PAULO}', ${ANTES('2 days')}, null),
   ('66666666-0000-0000-0000-000000000003', null, null, 'Casaco', ${ANTES('1 day')},
-   '77777777-0000-0000-0000-000000000002', 'em_posse', '${PAULO}', ${ANTES('1 day')}, 'Com a Jana');
+   '77777777-0000-0000-0000-000000000002', 'em_posse', '${PAULO}', ${ANTES('1 day')}, 'Com a Helena');
 
 insert into achado (id, descricao, datetime_achado, status, registrado_por_id, retirado_por_nome,
                     devolvido_por_id, devolvido_em) values
   ('${CHAVEIRO}', 'Chaveiro', ${ANTES('5 days')}, 'devolvido', '${PAULO}', 'Carlos', '${PAULO}', now());
 insert into achado (descricao, datetime_achado, status, registrado_por_id, destino_doacao, doado_por_id, doado_em) values
-  ('Guarda-chuva', ${ANTES('100 days')}, 'doado', '${PAULO}', 'Bazar', '${JANA}', now());
+  ('Guarda-chuva', ${ANTES('100 days')}, 'doado', '${PAULO}', 'Bazar', '${HELENA}', now());
 `;
 
 const rodar = (comoQuem, { status = ['aguardando_foto', 'em_posse', 'pronto_para_doacao'], achado = null, extra } = {}) =>
@@ -111,7 +111,7 @@ test('achados: o formulario so existe com ?registrar=1, e traz os estudios ativo
   // Estudio e FK, e nao texto: "Estudio 1" digitado nao vira uma (ADR 0053 §3).
   assert.deepEqual(registro.estudios.map((e) => e.rotulo), ['Acustico']);
   // Um lugar so, desde a resposta do Wyll (G11). Os dois achados semeados acima
-  // guardam 'Gaveta A/P' e 'Com a Jana' de proposito: sao anteriores a mudanca,
+  // guardam 'Gaveta A/P' e 'Com a Helena' de proposito: sao anteriores a mudanca,
   // e continuam mostrando onde de fato foram guardados — `local_guarda` e texto.
   assert.deepEqual(registro.lugares.map((l) => l.identificador), ['Gaveta']);
   // O esqueleto vem vazio: quem preenche e o rascunho do cliente.
@@ -127,7 +127,7 @@ test('achados: o formulario leva o que ja esta em guarda, com o lugar e a data I
   // So o que esta em guarda: o Chaveiro entregue e o Guarda-chuva doado ficam
   // fora — item ja entregue nao e duplicata de nada.
   assert.deepEqual(registro.emGuarda.map((a) => a.rotulo),
-    ['Casaco · Com a Jana', 'Relogio', 'Oculos · Gaveta A/P']);
+    ['Casaco · Com a Helena', 'Relogio', 'Oculos · Gaveta A/P']);
 
   const oculos = registro.emGuarda.find((a) => a.rotulo.startsWith('Oculos'));
   assert.equal(oculos.estudio, ACUSTICO);
@@ -140,7 +140,7 @@ test('achados: o formulario leva o que ja esta em guarda, com o lugar e a data I
 });
 
 test('achados: "Copiar mensagem" e "Baixar foto" so para o Admin, so com foto, so em guarda', { skip: semBanco }, () => {
-  const comFoto = montarAchados(rodar(JANA, { achado: OCULOS }), AGORA, 'guardados', config).selecionado;
+  const comFoto = montarAchados(rodar(HELENA, { achado: OCULOS }), AGORA, 'guardados', config).selecionado;
   assert.equal(comFoto.compartilhar.rotulo, 'Copiar mensagem');
   assert.equal(comFoto.compartilhar.baixarFoto, 'Baixar foto');
   assert.match(comFoto.compartilhar.texto, /^Oculos — achado \d{2}\/\d{2} no Acustico\./);
@@ -149,15 +149,15 @@ test('achados: "Copiar mensagem" e "Baixar foto" so para o Admin, so com foto, s
   // com a pessoa errada.
   assert.ok(!comFoto.compartilhar.texto.includes('Renata'));
 
-  // O tablet nao manda nada ao cliente: quem procura o dono e a Jana (ADR 0075).
+  // O tablet nao manda nada ao cliente: quem procura o dono e a Helena (ADR 0075).
   assert.equal(montarAchados(rodar(PAULO, { achado: OCULOS }), AGORA, 'guardados', config).selecionado.compartilhar, undefined);
 
   // Sem foto nao ha o que identifique o item do outro lado.
-  const semFoto = montarAchados(rodar(JANA, { achado: RELOGIO }), AGORA, 'guardados', config).selecionado;
+  const semFoto = montarAchados(rodar(HELENA, { achado: RELOGIO }), AGORA, 'guardados', config).selecionado;
   assert.equal(semFoto.compartilhar, undefined);
 
   // Item ja entregue nao tem dono a procurar.
-  const entregue = rodar(JANA, {
+  const entregue = rodar(HELENA, {
     status: ['devolvido'],
     extra: `update achado set status = 'devolvido', devolvido_por_id = '${PAULO}', devolvido_em = now() where id = '${OCULOS}';`,
     achado: OCULOS,
@@ -196,7 +196,7 @@ test('achados: ?saida=doar monta a gêmea, com o aviso de que não se desfaz', {
 test('achados: ?saida=doar abre para o Atendente em qualquer achado guardado', { skip: semBanco }, () => {
   // Sem trava de perfil na doação (ADR 0068): o recorte abre igual para quem
   // atende e para quem administra.
-  for (const quem of [PAULO, JANA]) {
+  for (const quem of [PAULO, HELENA]) {
     const { selecionado } = montarAchados(rodar(quem, { achado: RELOGIO }), AGORA, 'guardados', config, false, 'doar');
     assert.equal(selecionado.doacao.destino, '');
   }

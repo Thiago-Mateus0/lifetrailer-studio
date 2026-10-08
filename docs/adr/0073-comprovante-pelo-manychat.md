@@ -1,15 +1,15 @@
-# ADR 0073 — O comprovante da Comanda é enviado pela Jana, à mão, pelo ManyChat, com um link de 30 dias; o tablet fecha, não envia
+# ADR 0073 — O comprovante da Comanda é enviado pela Helena, à mão, pelo ManyChat, com um link de 30 dias; o tablet fecha, não envia
 
 **Status:** Aceito — revoga o §1, o §2 e o §3 do [ADR 0027](0027-pdf-e-entrega-por-whatsapp.md)
 **Data:** 2026-09-26
 **Fase:** 6
 **Decidido por:** Thiago (issue #194: respostas 1–5, os testes da API, "link de
-30 dias" e "por ora a Jana envia, no período inicial; se precisar, aplicamos o
+30 dias" e "por ora a Helena envia, no período inicial; se precisar, aplicamos o
 automático"; aceito, com a trava no banco da §1, em 2026-09-26, na PR #201).
 **Toca:** [ADR 0027](0027-pdf-e-entrega-por-whatsapp.md) §4–§5 (layout e dado
 pessoal, que ficam), [ADR 0011](0011-stack.md) (PDF no cliente, um arquivo por
 envio), [ADR 0023](0023-dado-pessoal-de-cliente-e-retencao.md),
-[ADR 0049](0049-pin-so-para-atendente.md) §1 (a Jana usa o computador),
+[ADR 0049](0049-pin-so-para-atendente.md) §1 (a Helena usa o computador),
 [ADR 0051](0051-rota-de-midia.md) §1 e §5 (storage e endereço assinado),
 [comanda.md](../spec/comanda.md) (transição Fechada → Enviada),
 migrations 0002 (`comanda_envio`) e 0063 (`comanda_transicionar`, a versão em
@@ -26,11 +26,11 @@ implementado (`compartilharComprovante`, e depois `transicionarComanda('enviar')
 Duas premissas estavam erradas. As respostas do Thiago na issue #194:
 
 1. O número dos clientes é o mesmo que está ligado ao ManyChat.
-2. O número abre num WhatsApp comum, mas **a Jana não tem acesso ao WhatsApp,
+2. O número abre num WhatsApp comum, mas **a Helena não tem acesso ao WhatsApp,
    só ao ManyChat**.
 3. O plano do ManyChat é o **Pro**, que libera a API.
 4. O cliente quase sempre falou com o estúdio nas últimas 24h.
-5. **Quem envia o PDF ao cliente é sempre a Jana.** Não é o atendente.
+5. **Quem envia o PDF ao cliente é sempre a Helena.** Não é o atendente.
 
 ### O que os testes da API do ManyChat mostraram
 
@@ -49,24 +49,24 @@ pelo Thiago em 2026-09-26, com a chave do estúdio e o próprio número (contato
 Conclusão: o automático só manda **texto**, e para achar o cliente precisaria de
 um campo personalizado carimbado por uma regra dentro do ManyChat, ainda não
 montada nem testada. Custa uma integração e uma regra no ManyChat para poupar à
-Jana um "colar" por Comanda. O Thiago escolheu começar sem ele.
+Helena um "colar" por Comanda. O Thiago escolheu começar sem ele.
 
 ## Decisão
 
-### 1. O tablet fecha a Comanda; a Jana envia
+### 1. O tablet fecha a Comanda; a Helena envia
 
 - **No tablet**, o atendente leva a Comanda até **Fechada**, como hoje. O botão
   **Enviar sai do tablet**, e com ele o `compartilharComprovante`.
-- **No computador da Jana** (sessão de Admin, ADR 0049 §1), a tela de Comandas
+- **No computador da Helena** (sessão de Admin, ADR 0049 §1), a tela de Comandas
   ganha a lista **"Para enviar"**: as Comandas Fechadas.
 
 Enviar fica só com o Admin: a tela do Atendente não oferece o gesto, e o banco
 recusa o Atendente em `enviar` (`app.exigir_admin`, migration 0078), mesmo
 chamado direto.
 
-### 2. A Jana copia a mensagem pronta e cola no ManyChat
+### 2. A Helena copia a mensagem pronta e cola no ManyChat
 
-Em cada Comanda da lista, a Jana confere e toca em **Copiar mensagem**. O
+Em cada Comanda da lista, a Helena confere e toca em **Copiar mensagem**. O
 Lifetrailer gera o PDF no navegador dela (jsPDF, ADR 0011; layout do ADR 0027
 §4), guarda o arquivo no servidor e põe na área de transferência:
 
@@ -87,7 +87,7 @@ link. O resto é igual: ela anexa no ManyChat e toca em Enviei.
   a mesma mecânica do ADR 0051 §5 (HS256 de `claim.mjs`, payload
   `{ comprovante_id, exp }`). **Vale 30 dias** (decisão do Thiago).
 - Depois dos 30 dias, o link responde **410** com uma página curta: "Este link
-  venceu. Peça o comprovante de novo ao estúdio." A Jana abre a Comanda e copia
+  venceu. Peça o comprovante de novo ao estúdio." A Helena abre a Comanda e copia
   de novo, e sai **link novo** para o mesmo arquivo. Isso não gera PDF novo, não
   muda o número do envio e não mexe na FSM.
 - **Vencer o link não apaga o arquivo.** O prazo do link é quanto tempo o PDF
@@ -95,14 +95,14 @@ link. O resto é igual: ela anexa no ManyChat e toca em Enviei.
   0023 (5 anos).
 - O token não se adivinha, e só quem recebeu a mensagem tem o link.
 
-### 4. "Enviei" é a transição que já existe, com autoria da Jana
+### 4. "Enviei" é a transição que já existe, com autoria da Helena
 
 Tocar em **Enviei** chama `app.comanda_transicionar('enviar')`, que grava
-`comanda_envio` com `enviado_por_id` = Jana. **Nenhuma aresta muda:** Fechada →
+`comanda_envio` com `enviado_por_id` = Helena. **Nenhuma aresta muda:** Fechada →
 Enviada já existe, sem posse. O que muda é de onde ela é chamada (da tela da
 Admin, e não mais do tablet) e quem pode chamá-la: só o Admin (§1).
 
-**Enviada quer dizer que a Jana declarou que mandou.** É a mesma coisa que o
+**Enviada quer dizer que a Helena declarou que mandou.** É a mesma coisa que o
 ADR 0027 registrava. Lá, o sistema também não via o WhatsApp entregar: ele
 registrava que o atendente escolheu o contato.
 
@@ -132,11 +132,11 @@ decisão faltando, há uma escolha de esperar.
 - **§5, o dado pessoal**: nome e telefone de destino, nada mais. A mensagem usa
   só o primeiro nome e a data.
 - **O PDF continua sendo gerado no cliente (navegador).** Só muda de aparelho:
-  do tablet para o computador da Jana.
+  do tablet para o computador da Helena.
 
 ## Alternativas rejeitadas
 
-**Ficar com o ADR 0027.** O PDF sairia de um WhatsApp que a Jana não usa, e
+**Ficar com o ADR 0027.** O PDF sairia de um WhatsApp que a Helena não usa, e
 mandado por quem não é ela.
 
 **Envio automático pela API do ManyChat já no início.** A API não manda arquivo,
@@ -145,7 +145,7 @@ descarta. Tudo tem contorno (§5), mas o contorno pede uma regra no ManyChat e u
 integração inteira para poupar um "colar". Fica para quando a operação pedir.
 
 **Só "Baixar PDF", sem o link.** Funciona, e fica como opção ao lado (§2). Como
-padrão, obrigaria a Jana a baixar, achar o arquivo e anexar a cada Comanda. O
+padrão, obrigaria a Helena a baixar, achar o arquivo e anexar a cada Comanda. O
 link vira um colar.
 
 **Link sem prazo.** Nunca quebra para o cliente, mas deixa o comprovante aberto
@@ -157,7 +157,7 @@ outro nome, que o ADR 0016 recusou.
 
 ## Consequências
 
-- **O cliente não sai do balcão com o PDF.** Ele recebe quando a Jana enviar. O
+- **O cliente não sai do balcão com o PDF.** Ele recebe quando a Helena enviar. O
   ADR 0027 protegia a entrega na hora e offline, e isso é trocado de propósito.
 - **Tela nova da Admin**: "Para enviar" na tela de Comandas, com Copiar mensagem,
   Baixar PDF e Enviei. O tablet perde o botão Enviar.

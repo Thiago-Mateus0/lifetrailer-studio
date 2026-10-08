@@ -13,7 +13,7 @@ begin;
 select plan(35);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
 
@@ -33,21 +33,21 @@ select has_column('lembrete', 'categoria_id', 'lembrete guarda a categoria (ADR 
 select has_column('categoria_lembrete', 'versao', 'categoria_lembrete tem versao, porque agora se edita');
 
 -- ================================================================ categoria
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 
-select is((app.categoria_lembrete_criar('  Pagamento de fornecedor ', 3, :JANA)).nome, 'Pagamento de fornecedor',
+select is((app.categoria_lembrete_criar('  Pagamento de fornecedor ', 3, :HELENA)).nome, 'Pagamento de fornecedor',
   'o Admin cria a categoria, sem os espacos das pontas');
 select is((pg_temp.categoria('Pagamento de fornecedor')).antecedencia_padrao, 3, 'com a antecedencia em dias');
 select is((pg_temp.categoria('Pagamento de fornecedor')).ativo, true, 'nasce ativa');
 select is((pg_temp.categoria('Pagamento de fornecedor')).versao, 1, 'na versao 1');
 
-select throws_ok(format($$ select app.categoria_lembrete_criar('pagamento DE fornecedor', 5, %L) $$, :JANA),
+select throws_ok(format($$ select app.categoria_lembrete_criar('pagamento DE fornecedor', 5, %L) $$, :HELENA),
   'LT002', null, 'nome repetido, ignorando maiuscula, e LT002: seriam duas categorias para a mesma coisa');
-select throws_ok(format($$ select app.categoria_lembrete_criar('   ', 3, %L) $$, :JANA),
+select throws_ok(format($$ select app.categoria_lembrete_criar('   ', 3, %L) $$, :HELENA),
   'LT003', null, 'categoria sem nome e LT003');
-select throws_ok(format($$ select app.categoria_lembrete_criar('Contato', -1, %L) $$, :JANA),
+select throws_ok(format($$ select app.categoria_lembrete_criar('Contato', -1, %L) $$, :HELENA),
   'LT003', null, 'antecedencia negativa e LT003');
-select throws_ok(format($$ select app.categoria_lembrete_criar('Contato', null, %L) $$, :JANA),
+select throws_ok(format($$ select app.categoria_lembrete_criar('Contato', null, %L) $$, :HELENA),
   'LT003', null, 'antecedencia vazia e LT003');
 
 select pg_temp.como(:PAULO);
@@ -58,11 +58,11 @@ select throws_ok(format($$ select app.categoria_lembrete_criar('Contato', 1, %L)
   'LT005', null, 'nem o Desenvolvedor: a lista e da operacao, nao configuracao tecnica');
 
 -- ================================================================ lembrete
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 
 select is(
   (app.lembrete_criar('Pagar a grafica', pg_temp.hoje() + 10,
-     (pg_temp.categoria('Pagamento de fornecedor')).id, null, :JANA)).antecedencia_snapshot, 3,
+     (pg_temp.categoria('Pagamento de fornecedor')).id, null, :HELENA)).antecedencia_snapshot, 3,
   'sem antecedencia escolhida, o lembrete copia a da categoria');
 select is((select status from lembrete where texto = 'Pagar a grafica'), 'ativo', 'nasce ativo');
 select is((select origem from lembrete where texto = 'Pagar a grafica'), 'admin', 'com origem admin');
@@ -71,21 +71,21 @@ select is((select categoria_id from lembrete where texto = 'Pagar a grafica'),
 
 select is(
   (app.lembrete_criar('  Pagar o aluguel do fundo  ', pg_temp.hoje(),
-     (pg_temp.categoria('Pagamento de fornecedor')).id, 7, :JANA)).antecedencia_snapshot, 7,
+     (pg_temp.categoria('Pagamento de fornecedor')).id, 7, :HELENA)).antecedencia_snapshot, 7,
   'a categoria sugere; o Admin pode escolher outra antecedencia para este lembrete');
 select ok(exists (select 1 from lembrete where texto = 'Pagar o aluguel do fundo'),
   'o texto e gravado sem os espacos das pontas, e a data de hoje vale');
 
 select throws_ok(format($$ select app.lembrete_criar('Ontem', %L::date - 1, %L, null, %L) $$,
-    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :JANA),
+    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :HELENA),
   'LT003', null, 'data que ja passou e LT003: lembrete nasce ativo, nao atrasado');
 select throws_ok(format($$ select app.lembrete_criar('   ', %L, %L, null, %L) $$,
-    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :JANA),
+    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :HELENA),
   'LT003', null, 'lembrete sem texto e LT003');
-select throws_ok(format($$ select app.lembrete_criar('Sem categoria', %L, null, 2, %L) $$, pg_temp.hoje(), :JANA),
+select throws_ok(format($$ select app.lembrete_criar('Sem categoria', %L, null, 2, %L) $$, pg_temp.hoje(), :HELENA),
   'LT003', null, 'lembrete do Admin sem categoria e LT003 (ADR 0066 §1)');
 select throws_ok(format($$ select app.lembrete_criar('Negativo', %L, %L, -2, %L) $$,
-    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :JANA),
+    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :HELENA),
   'LT003', null, 'antecedencia negativa no lembrete e LT003');
 
 select pg_temp.como(:PAULO);
@@ -94,22 +94,22 @@ select throws_ok(format($$ select app.lembrete_criar('Do Paulo', %L, %L, null, %
   'LT005', null, 'o Atendente nao cria lembrete ("Admin ou Sistema", spec)');
 
 -- ================================================================ alterar
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 
 select is((app.categoria_lembrete_alterar((pg_temp.categoria('Pagamento de fornecedor')).id, 1,
-    'Pagamento de fornecedor', 5, true, :JANA)).versao, 2,
+    'Pagamento de fornecedor', 5, true, :HELENA)).versao, 2,
   'mudar a antecedencia sobe a versao da categoria');
 select is((select antecedencia_snapshot from lembrete where texto = 'Pagar a grafica'), 3,
   'e o lembrete ja criado continua com a antecedencia de quando nasceu (snapshot, ADR 0043)');
 
 select throws_ok(format($$ select app.categoria_lembrete_alterar(%L, 1, 'Pagamento de fornecedor', 4, true, %L) $$,
-    (pg_temp.categoria('Pagamento de fornecedor')).id, :JANA),
+    (pg_temp.categoria('Pagamento de fornecedor')).id, :HELENA),
   'LT001', null, 'alterar com versao velha e LT001');
 
 select is((app.categoria_lembrete_alterar((pg_temp.categoria('Pagamento de fornecedor')).id, 2,
-    'Pagamento de fornecedor', 5, false, :JANA)).ativo, false, 'o Admin desativa a categoria');
+    'Pagamento de fornecedor', 5, false, :HELENA)).ativo, false, 'o Admin desativa a categoria');
 select throws_ok(format($$ select app.lembrete_criar('Depois de desativar', %L, %L, null, %L) $$,
-    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :JANA),
+    pg_temp.hoje(), (pg_temp.categoria('Pagamento de fornecedor')).id, :HELENA),
   'LT002', null, 'categoria desativada nao recebe lembrete novo');
 select is((select count(*)::int from lembrete where categoria_id = (pg_temp.categoria('Pagamento de fornecedor')).id), 2,
   'e os lembretes dela continuam onde estavam');

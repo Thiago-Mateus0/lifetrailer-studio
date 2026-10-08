@@ -23,7 +23,7 @@ Daí a âncora: um job semanal publica `(competência, id da última linha, hash
 reescrever cópias fora do alcance de quem reescreve.
 
 O ADR 0024 nomeou o carona — *"o mesmo canal que o ADR 0011 já criou: o export
-de horas extras à Jana"* — e **nunca nomeou o canal**. Não há ADR, spec nem
+de horas extras à Helena"* — e **nunca nomeou o canal**. Não há ADR, spec nem
 variável de ambiente dizendo por onde a mensagem sai. Virou a issue #37, e é a
 única das seis PRs da Etapa 5 que não pôde começar.
 
@@ -51,10 +51,10 @@ Trocar de destinatário resolve a propriedade. Trocar de remetente, não.
    projeto pode assumir que existe, que retém histórico por anos sem ninguém
    fazer nada, e cuja retenção não é administrada por quem administra o banco.
 
-2. **Destinatários: Jana e Wyll.** A Jana já era a destinatária do export
+2. **Destinatários: Helena e Wyll.** A Helena já era a destinatária do export
    (ADR 0011 e 0024 §3) e continua sendo. **O Wyll entra por causa da
    propriedade:** a caixa dele é a única do sistema que com certeza não é
-   administrada por quem administra o banco. A Jana é Admin *do aplicativo*; o
+   administrada por quem administra o banco. A Helena é Admin *do aplicativo*; o
    Dev e o DBA são a mesma pessoa, e essa pessoa não é o Wyll.
 
 3. **A âncora vai no ASSUNTO, não no corpo.** O assunto fica no índice da caixa,
@@ -102,7 +102,7 @@ usuário, histórico some quando troca de celular, e a API de negócio tem custo
 mensagem. Para uma linha por semana que precisa durar anos, e-mail ganha em tudo
 que importa.
 
-**Só a Jana, como o ADR 0024 dizia.** Funciona **se** a caixa dela não for
+**Só a Helena, como o ADR 0024 dizia.** Funciona **se** a caixa dela não for
 administrada por quem administra o banco — e isso não é uma propriedade do
 desenho, é uma circunstância que pode mudar sem ninguém perceber. Somar o Wyll
 custa um endereço e tira a propriedade da dependência de uma circunstância.
@@ -122,7 +122,7 @@ o provedor não é o que faz a âncora valer.
   grita sozinho. Sem isso, uma âncora que deixa de ser publicada seria
   indistinguível de uma semana sem alteração.
 - O ADR 0024 §3 passa a ser lido com este: o canal é e-mail, e o destinatário
-  que sustenta a propriedade é o Wyll, não a Jana.
+  que sustenta a propriedade é o Wyll, não a Helena.
 - Fecha a issue #37. **A âncora não protege contra tudo** — protege contra
   reescrita silenciosa do passado, que é o cenário do ADR 0010. Não protege
   contra o Dev de hoje escrevendo mentira hoje, e nunca prometeu isso.

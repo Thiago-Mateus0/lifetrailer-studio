@@ -1,6 +1,6 @@
 -- 0047 — Sócio: o Administrador que é dono (ADR 0050).
 --
--- Os donos (Wyll, Wesley e Paulo) e a gerente (Jana) são todos
+-- Os donos (Wyll, Rafael e Paulo) e a gerente (Helena) são todos
 -- Administradores. O que só o dono faz é dar acesso (definir PIN e senha de
 -- outras pessoas) e ler o registro de auditoria.
 --
@@ -195,4 +195,4 @@ comment on function app.audit_log_consultar(timestamptz, timestamptz, uuid, text
 -- ao banco, uma vez:
 --
 --   update colaborador set socio = true
---    where nivel_acesso = 'administrador' and login in ('wyll', 'wesley', 'paulo.holanda');
+--    where nivel_acesso = 'administrador' and login in ('wyll', 'rafael', 'paulo.holanda');

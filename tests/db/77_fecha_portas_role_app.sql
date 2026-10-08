@@ -4,7 +4,7 @@ begin;
 select plan(7);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 
 select set_config('app.colaborador_id', :MARCOS, true);

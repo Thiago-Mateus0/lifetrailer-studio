@@ -9,7 +9,7 @@
 ## Contexto
 
 O catálogo de insumos só entrava pela carga do CSV. O app deixava o Admin
-trocar o fornecedor, por um botão pequeno, e mais nada. A Jana não tinha como
+trocar o fornecedor, por um botão pequeno, e mais nada. A Helena não tinha como
 cadastrar um insumo novo, nem corrigir nome, categoria ou como pedir.
 
 ## Decisão

@@ -2,7 +2,7 @@
 --
 -- Contrato: ADR 0024 §3 (por que a ancora e a parte que funciona), ADR 0038 (o
 -- canal e o destinatario, que o 0024 descreveu sem nomear), ADR 0011 (o export
--- de horas extras a Jana), ADR 0029 (segunda, 07:00), ADR 0010 (o adversario).
+-- de horas extras a Helena), ADR 0029 (segunda, 07:00), ADR 0010 (o adversario).
 --
 -- O ADR 0024 e honesto sobre o limite da cadeia de hash:
 --
@@ -38,7 +38,7 @@ create table ancora_semanal (
   audit_hash   text,
 
   -- O outro conteudo do mesmo envio (ADR 0024: "mesmo job, mesmo canal, mesma
-  -- cadencia. Nao e canal novo pra Jana manter").
+  -- cadencia. Nao e canal novo pra Helena manter").
   horas_extras jsonb       not null,
 
   -- Preenchidos pelo worker depois que o e-mail sai. NULO = ainda pendente.

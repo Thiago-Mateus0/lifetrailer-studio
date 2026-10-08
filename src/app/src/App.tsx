@@ -741,7 +741,7 @@ function instantesDoLancamento(r: RascunhoHoraExtra) {
 function avisoDoLancamento(r: RascunhoHoraExtra, dados: DadosHorasExtras) {
   if (r.data === '' || r.inicio === '' || r.fim === '') return 'Preencha data, início e fim.'
   if (ensaioDoLancamento(r, dados.ensaios) === '') return 'Escolha o ensaio, ou "Sem ensaio" com o motivo.'
-  if (!ligacaoPronta(r, dados.ensaios)) return 'Escreva o motivo de não ter ensaio. A Jana confere.'
+  if (!ligacaoPronta(r, dados.ensaios)) return 'Escreva o motivo de não ter ensaio. A Helena confere.'
   const outro = dados.destinatarios.find((p) => p.identificador === r.destinatario && !p.eu)
   const virada = instantesDoLancamento(r).virou ? ' O fim cai no dia seguinte.' : ''
   const quem = outro === undefined ? '' : ` Vai para ${outro.rotulo}, que é avisado.`
@@ -1229,7 +1229,7 @@ export default function App() {
   const [fotoDoAchado, definirFotoDoAchado] = useState<FotoDoAchado | null>(null)
   const [saidaDoAchado, definirSaidaDoAchado] = useState<SaidaDoAchado | null>(null)
   // O último "Copiar mensagem" de um achado (ADR 0075). Não escreve nada: só
-  // diz à Jana se o texto foi para a área de transferência.
+  // diz à Helena se o texto foi para a área de transferência.
   const [mensagemDoAchado, definirMensagemDoAchado] = useState<MensagemDoAchado | null>(null)
 
   // A fila de fotos do tablet (ADR 0072): o que ainda não subiu, e se a bandeja
@@ -2296,7 +2296,7 @@ export default function App() {
   }
 
   /**
-   * O texto que a Jana cola no ManyChat (ADR 0075). Não escreve nada e não
+   * O texto que a Helena cola no ManyChat (ADR 0075). Não escreve nada e não
    * relê a tela: o item continua onde está.
    */
   async function copiarMensagemDoAchado(detalhe: DadosAchados['selecionado']) {
@@ -2604,7 +2604,7 @@ export default function App() {
   }
 
   /**
-   * O PDF sai do navegador da Jana e fica no servidor (ADR 0073 §2). Devolve o
+   * O PDF sai do navegador da Helena e fica no servidor (ADR 0073 §2). Devolve o
    * link absoluto, ou `null` depois de dizer por que não deu. Copiar ou baixar
    * não é envio: quem registra é o "Enviei".
    */
@@ -2642,7 +2642,7 @@ export default function App() {
     definirMensagemCopiada({ comanda: comanda.identificador, texto, naAreaDeTransferencia })
   }
 
-  // Baixa o arquivo GUARDADO, e não um gerado agora: o que a Jana anexa no
+  // Baixa o arquivo GUARDADO, e não um gerado agora: o que a Helena anexa no
   // ManyChat é o mesmo que o link serve.
   async function baixarPdf(comanda: DetalheComanda) {
     const link = await guardarOComprovante(comanda)

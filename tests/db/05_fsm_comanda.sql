@@ -127,7 +127,7 @@ select throws_matching(
   'responsavel_atual', 'reabrir por quem nao e o responsavel: recusado');
 select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000002', true);
 
--- Enviar é só do Admin (ADR 0073 §1); a Jana envia, e Marcos segue responsável.
+-- Enviar é só do Admin (ADR 0073 §1); a Helena envia, e Marcos segue responsável.
 select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);
 select is(
   (select status from app.comanda_transicionar((select id from t_c), 'enviar', 2,

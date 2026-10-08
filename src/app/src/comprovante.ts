@@ -1,5 +1,5 @@
 // O PDF do envio da Comanda (ADR 0011 §8, conteúdo do ADR 0027 §4), montado no
-// navegador da Jana, que o envia pelo ManyChat (ADR 0073 §2). A forma copia a
+// navegador da Helena, que o envia pelo ManyChat (ADR 0073 §2). A forma copia a
 // comanda de papel do estúdio (issue #161): campos arredondados dentro de uma
 // moldura, Nº em vermelho no canto. Títulos e rótulos em Oswald, a mesma letra
 // condensada do "STUDIO" da logo; texto e valores em Barlow Semi Condensed.
@@ -376,7 +376,7 @@ export function arquivoDoComprovante(detalhe: DetalheComanda, agora: Date): File
   )
 }
 
-// O texto que a Jana cola na conversa do cliente (ADR 0073 §2): só o primeiro
+// O texto que a Helena cola na conversa do cliente (ADR 0073 §2): só o primeiro
 // nome e a data (ADR 0027 §5). `link` já é absoluto.
 export function mensagemDoComprovante(detalhe: DetalheComanda, link: string): string {
   const { comprovante } = enviavel(detalhe)

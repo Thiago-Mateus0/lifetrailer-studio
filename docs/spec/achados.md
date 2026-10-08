@@ -29,7 +29,7 @@
 - Um registro por item, com foto própria
 - Qualquer Atendente doa qualquer achado — não há item que só o Admin doa (ADR 0068)
 - Registro copia `cliente_telefone` e gera Lembrete de contatar o cliente na criação
-- **Procurar o dono é da Jana, pelo ManyChat** (ADR 0075): no computador dela, o detalhe
+- **Procurar o dono é da Helena, pelo ManyChat** (ADR 0075): no computador dela, o detalhe
   oferece "Copiar mensagem" e "Baixar foto"; ela cola o texto e anexa a foto na conversa
   do cliente. O tablet não compartilha. Só com foto e com o item ainda em guarda. O texto
   **não** leva a observação (é ela que confere o dono) nem o nome do cliente (ADR 0055 §5).

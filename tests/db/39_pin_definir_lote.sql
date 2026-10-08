@@ -16,13 +16,13 @@ begin;
 select plan(15);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
 
--- A Jana do fixture e socia (ADR 0050); ela e a atora legitima.
-select set_config('app.colaborador_id', :JANA, true);
+-- A Helena do fixture e socia (ADR 0050); ela e a atora legitima.
+select set_config('app.colaborador_id', :HELENA, true);
 
 create function pg_temp.pin(p_id text) returns text language sql as
   $fx$ select pin_hash from colaborador where id = p_id::uuid $fx$;
@@ -36,7 +36,7 @@ select is(app.pin_definir_lote(
     jsonb_build_array(
       jsonb_build_object('colaborador_id', :MARCOS, 'pin', '4721'),
       jsonb_build_object('colaborador_id', :PAULO,  'pin', '8365')),
-    :JANA),
+    :HELENA),
   2, 'o lote devolve quantos PINs gravou');
 
 select isnt(pg_temp.pin(:MARCOS), 'pin', 'o PIN do Marcos mudou');
@@ -54,7 +54,7 @@ select throws_ok(
   format($$ select app.pin_definir_lote(jsonb_build_array(
               jsonb_build_object('colaborador_id', %L, 'pin', '5813'),
               jsonb_build_object('colaborador_id', %L, 'pin', '99')), %L) $$,
-         :MARCOS, :PAULO, :JANA),
+         :MARCOS, :PAULO, :HELENA),
   'LT002', null, 'PIN que nao tem 4 digitos estoura o lote');
 
 select is(pg_temp.pin(:MARCOS), crypt('4721', pg_temp.pin(:MARCOS)),
@@ -62,26 +62,26 @@ select is(pg_temp.pin(:MARCOS), crypt('4721', pg_temp.pin(:MARCOS)),
 
 -- A recusa diz de quem, porque a tela tem uma caixa por pessoa.
 select throws_like(
-  format($$ select app.pin_definir_lote(%L::jsonb, %L) $$, pg_temp.lista(:PAULO, 'abcd')::text, :JANA),
+  format($$ select app.pin_definir_lote(%L::jsonb, %L) $$, pg_temp.lista(:PAULO, 'abcd')::text, :HELENA),
   '%4 digitos%', 'a recusa nomeia o problema');
 -- -------------------------------------------- so o socio, mesmo sendo Admin
 -- A gerente que nao e socia: Administradora completa, e ainda assim recusada.
-update colaborador set socio = false where id = :JANA;
+update colaborador set socio = false where id = :HELENA;
 select throws_ok(
-  format($$ select app.pin_definir_lote(%L::jsonb, %L) $$, pg_temp.lista(:MARCOS, '1212')::text, :JANA),
+  format($$ select app.pin_definir_lote(%L::jsonb, %L) $$, pg_temp.lista(:MARCOS, '1212')::text, :HELENA),
   'LT005', null, 'Administrador que nao e socio nao define PIN (ADR 0050)');
 select is(pg_temp.pin(:MARCOS), crypt('4721', pg_temp.pin(:MARCOS)),
   'e a recusa aconteceu ANTES de escrever');
-update colaborador set socio = true where id = :JANA;
+update colaborador set socio = true where id = :HELENA;
 
 -- ------------------------------------------------------------- as recusas
-select throws_ok(format($$ select app.pin_definir_lote('[]'::jsonb, %L) $$, :JANA),
+select throws_ok(format($$ select app.pin_definir_lote('[]'::jsonb, %L) $$, :HELENA),
   'LT003', null, 'lista vazia: LT003');
 select throws_ok(
   format($$ select app.pin_definir_lote(jsonb_build_array(
               jsonb_build_object('colaborador_id', %L, 'pin', '5813'),
               jsonb_build_object('colaborador_id', %L, 'pin', '6924')), %L) $$,
-         :MARCOS, :MARCOS, :JANA),
+         :MARCOS, :MARCOS, :HELENA),
   'LT003', null, 'a mesma pessoa duas vezes na lista: LT003');
 
 -- ⚠ `app.pin_definir` TEM grant para o role da app desde a 0034: nao e o grant

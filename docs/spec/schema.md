@@ -739,7 +739,7 @@ role + triggers. Não é "financeira" no sentido da RLS — tem mecanismo própr
 - Trigger `BEFORE UPDATE OR DELETE`: `RAISE EXCEPTION`.
 - Trigger `BEFORE TRUNCATE` (statement-level): `RAISE EXCEPTION`.
 - `verificar_cadeia(desde, ate)` → id da primeira divergência ou nada — **Etapa 3**.
-- Job semanal publica `(competência, último id, hash)` à Jana por canal que o Dev
+- Job semanal publica `(competência, último id, hash)` à Helena por canal que o Dev
   não controla — Etapa 5 ([ADR 0029](../adr/0029-cadencia-dos-jobs-agendados.md)).
 
 ---

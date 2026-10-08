@@ -13,7 +13,7 @@
 import { CTE_EU, ehAtendente, exigirColaborador } from './colaborador.mjs';
 import { data, decimal, FUSO, hojeEm, hora, iniciais, papel, reais } from './formato.mjs';
 
-// `enviar` é a lista "Para enviar" da Jana (ADR 0073 §1): as Fechadas, de
+// `enviar` é a lista "Para enviar" da Helena (ADR 0073 §1): as Fechadas, de
 // qualquer dia. Só o Admin vê a aba; o recorte em si não esconde nada que o
 // Atendente já não veja.
 const MODOS = ['ativas', 'historico', 'enviar'];
@@ -307,7 +307,7 @@ function acoesDe(c, linha, trancada, envioAutomatico) {
         : 'Congela o total, dá baixa no bomboniere e registra a hora extra do turno.',
     });
   }
-  // O comprovante é da Jana, no computador (ADR 0073 §1): o tablet fecha e não
+  // O comprovante é da Helena, no computador (ADR 0073 §1): o tablet fecha e não
   // envia. "Já mandei por fora" é a aresta `enviar` que já existe; copiar e baixar não
   // mexem na FSM.
   // Enviar vem primeiro (ADR 0076 §3) e só existe com a chave do ManyChat no

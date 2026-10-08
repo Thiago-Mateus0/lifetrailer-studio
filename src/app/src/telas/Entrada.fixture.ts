@@ -4,7 +4,7 @@ const pessoas: DadosEntrada['pessoas'] = [
   { identificador: 'thiago', nome: 'Thiago', papel: 'Atendente' },
   { identificador: 'paulo', nome: 'Paulo', papel: 'Atendente' },
   { identificador: 'marcos', nome: 'Marcos', papel: 'Atendente' },
-  { identificador: 'jana', nome: 'Jana', papel: 'Admin' },
+  { identificador: 'helena', nome: 'Helena', papel: 'Admin' },
   { identificador: 'lifetrailer', nome: 'Lifetrailer', papel: 'Sócios' },
 ]
 

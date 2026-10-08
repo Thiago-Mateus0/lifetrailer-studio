@@ -85,7 +85,7 @@ testar('o modal de leitura mostra o motivo e oferece remover', () => {
 
   const dialogo = tela.getByRole('dialog', { name: 'Justificativa' })
   esperar(dialogo).toHaveTextContent('Cano estourado, chamei o encanador')
-  esperar(dialogo).toHaveTextContent('por Jana às 08:03')
+  esperar(dialogo).toHaveTextContent('por Helena às 08:03')
   // Sem caixa de texto: o que está escrito não se edita, remove-se.
   esperar(dentroDe(dialogo).queryByRole('textbox')).toBeNull()
 

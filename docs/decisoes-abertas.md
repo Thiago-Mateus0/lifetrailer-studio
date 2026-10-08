@@ -130,7 +130,7 @@ consulta; o contrato do log diz que a consulta é só do Admin.
 
 O ADR 0010 já registra, como risco aceito, que o Desenvolvedor tem acesso direto
 ao banco e que hoje **Thiago é Desenvolvedor e Atendente ao mesmo tempo**. A
-mitigação proposta é um relatório de horas extras chegando à Jana por um canal
+mitigação proposta é um relatório de horas extras chegando à Helena por um canal
 que o Desenvolvedor não controla.
 
 Essa mitigação enfraquece se o Desenvolvedor consulta o log livremente: ele
@@ -143,7 +143,7 @@ futuro colaborador mal-intencionado, não a equipe atual.
 
 | | Quem consulta | Efeito |
 |---|---|---|
-| 1 | Só Admin (Jana e sócios) | Mais coerente com a diretriz. Dev depura por logs técnicos, sem o log de negócio |
+| 1 | Só Admin (Helena e sócios) | Mais coerente com a diretriz. Dev depura por logs técnicos, sem o log de negócio |
 | 2 | Admin e Desenvolvedor | Mais prático para investigar problema relatado pela equipe |
 | 3 | Admin sempre · Dev com registro | Dev consulta, e a consulta entra no próprio log, visível ao Admin |
 

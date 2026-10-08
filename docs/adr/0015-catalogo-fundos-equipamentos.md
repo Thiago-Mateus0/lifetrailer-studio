@@ -18,7 +18,7 @@ sugestão de item novo.
 ## Decisão
 
 Novo catálogo `ItemExtra` (tipo Fundo/Equipamento), preço fixo, cadastrado
-pela Jana — mesma governança do Bomboniere. Fonte inicial:
+pela Helena — mesma governança do Bomboniere. Fonte inicial:
 `data/fundos-equipamentos.csv`, 14 itens.
 
 **Deliberadamente sem rastreamento de estoque.** Bomboniere tem

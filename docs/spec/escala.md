@@ -6,7 +6,7 @@
 
 ### Modelo: DIAS MATERIALIZADOS
 ```
-PADRÃO (Jana define, com âncora de alternância)
+PADRÃO (Helena define, com âncora de alternância)
   ↓ gerador contínuo mantém 4 SEMANAS à frente
 TURNO ESCALADO — um registro por dia/turno
   [Padrão] · [Troca] · [Extra domingo] · [Ausência]
@@ -35,7 +35,7 @@ Contar o domingo faz a semana ter sete dias — número ímpar — e a inversão
 
 - Gerador declarativo: existe → ignora; não existe → cria. Nunca falha por duplicata. Alerta se a janela ficar incompleta
 - Materialização sob demanda fora da janela: só Admin, só para Extra domingo ou Ausência
-- Rodízio de domingo é **SUGESTÃO**, não automação. Jana confirma ou escolhe outro
+- Rodízio de domingo é **SUGESTÃO**, não automação. Helena confirma ou escolhe outro
 
 ### Schema
 
@@ -47,7 +47,7 @@ Contar o domingo faz a semana ter sete dias — número ímpar — e a inversão
 **TurnoEscalado:** data · turno (Manhã/Tarde-noite/Extra) · unique (data, turno) · `colaborador_id` NULLABLE · `tipo_registro` · `hora_inicio`/`fim` snapshot · `substituido_colaborador_id` · `padrao_origem_id` · origem · `criado_por_id` · alterado por/em · `versao`
 
 ### ⭐ Acionar domingo extra cria o Checklist na hora
-O cron do Checklist roda às 6h e pergunta à Escala se o domingo é de expediente. Mas a Jana só aciona quando vê o agendamento — às 9h, às 11h, na véspera. Por isso, acionar o domingo extra dispara a criação do Checklist naquele momento. Desfazer cancela o Checklist se ninguém tiver marcado nada; se já houver marcação, ele permanece e o Admin é avisado.
+O cron do Checklist roda às 6h e pergunta à Escala se o domingo é de expediente. Mas a Helena só aciona quando vê o agendamento — às 9h, às 11h, na véspera. Por isso, acionar o domingo extra dispara a criação do Checklist naquele momento. Desfazer cancela o Checklist se ninguém tiver marcado nada; se já houver marcação, ele permanece e o Admin é avisado.
 
 Acionar é idempotente com a mesma pessoa; com outra, o domingo já tem dono. Quem faz o extra é Atendente ativo. Dia futuro dentro da janela: qualquer colaborador; hoje, passado e fora da janela de 28 dias: só Admin. Quem foi escalado por outra pessoa é notificado. Desfazer tira o turno da escala (migration 0062).
 

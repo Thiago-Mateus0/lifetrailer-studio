@@ -2,7 +2,7 @@ import type { DadosChecklist } from './Checklist'
 
 // Exemplo de apresentação do mockup Checklist; não é fonte de verdade: o catálogo real vive em data/.
 export const checklistFixture: DadosChecklist = {
-  hora: '08:12', turno: 'JA', data: 'SEXTA, 7 DE AGOSTO', fase: 'entrada',
+  hora: '08:12', turno: 'HA', data: 'SEXTA, 7 DE AGOSTO', fase: 'entrada',
   dia: { identificador: 'dia-1', versao: 1 },
   fases: [{ identificador: 'entrada', rotulo: 'Entrada', selecionada: true }, { identificador: 'saida', rotulo: 'Saída', selecionada: false }],
   titulo: 'Checklist de entrada', subtitulo: 'Sexta, 7 de agosto · limite 10:00 · saída libera ao concluir', perfil: 'atendente', historico: null,
@@ -20,5 +20,5 @@ export const checklistBloqueadaFixture: DadosChecklist = { ...checklistFixture, 
 // a foto, a foto entra (e só aí o Confirmar acende), e depois ele abre pra ler.
 export const checklistModalFixture: DadosChecklist = { ...checklistFixture, modal: { identificador: 'acu-luz', versao: 1, aberto: true, modo: 'Justificar item', nome: 'Luzes, tomadas · checar', fotoRotulo: 'obrigatória', texto: '', meta: '', editavel: true } }
 export const checklistModalComFotoFixture: DadosChecklist = { ...checklistFixture, modal: { ...checklistModalFixture.modal!, foto: '/midia/77777777-0000-0000-0000-000000000001?t=assinado', fotoRotulo: 'anexada' } }
-export const checklistModalLeituraFixture: DadosChecklist = { ...checklistFixture, modal: { ...checklistModalComFotoFixture.modal!, identificador: 'bra-piso', modo: 'Justificativa', nome: 'Piso · checar', texto: 'Cano estourado, chamei o encanador', meta: 'por Jana às 08:03', editavel: false } }
+export const checklistModalLeituraFixture: DadosChecklist = { ...checklistFixture, modal: { ...checklistModalComFotoFixture.modal!, identificador: 'bra-piso', modo: 'Justificativa', nome: 'Piso · checar', texto: 'Cano estourado, chamei o encanador', meta: 'por Helena às 08:03', editavel: false } }
 export const checklistHistoricoFixture: DadosChecklist = { ...checklistFixture, perfil: 'administrador', dia: null, historico: { hoje: '2026-08-08', selecionada: '2026-08-07', somenteLeitura: true, dias: [{ identificador: '2026-08-08', rotulo: 'sáb 08/08', situacao: 'entrada pendente', selecionado: false }, { identificador: '2026-08-07', rotulo: 'sex 07/08', situacao: 'concluído', selecionado: true }] }, modal: { ...checklistModalLeituraFixture.modal!, podeRemover: false } }

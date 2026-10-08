@@ -1,7 +1,7 @@
 -- 0091 — Hora extra manual ligada ao ensaio, ou com o motivo de não ter. ADR 0083.
 --
 -- A automática já nasce ligada à Comanda. A manual não tinha ligação nenhuma, e
--- a Jana não tinha como conferir de onde ela veio. Agora o lançamento escolhe o
+-- a Helena não tinha como conferir de onde ela veio. Agora o lançamento escolhe o
 -- ensaio (agendamento, que vale também sem Comanda) ou escreve por que não há
 -- ensaio; o "sem ensaio" alerta o Admin.
 --
@@ -52,7 +52,7 @@ begin
   end if;
   perform app.exigir_ator(p_ator_id);
 
-  -- Lançar para outra pessoa é do Administrador: a Jana é quem acerta, e a
+  -- Lançar para outra pessoa é do Administrador: a Helena é quem acerta, e a
   -- borda "turno sem colaborador" já pede correção por ela.
   if p_colaborador_id is distinct from p_ator_id then
     perform app.exigir_admin(p_ator_id);

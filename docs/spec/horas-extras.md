@@ -20,7 +20,7 @@ AUTOMÁTICA: Comanda Fechada com acréscimo > 0
 MANUAL: colaborador lança, ligada ao ensaio do dia (ou da véspera)
         ou "Sem ensaio" com motivo — este alerta o Admin (ADR 0083)
   → [Pendente] origem = Manual
-     ↓ Jana paga por fora e marca, INDIVIDUALMENTE
+     ↓ Helena paga por fora e marca, INDIVIDUALMENTE
   [Paga]
   [Cancelada] ← nunca exclui, sai do total pendente
 ```
@@ -103,10 +103,10 @@ Marcar como paga e cancelar: **só Admin**. O Desenvolvedor não — é ação d
 **A bonificação da equipe mora neste ativo**, como seção própria — não é o
 nono ativo, não entra na Sidebar ([ADR 0031](../adr/0031-bonificacao-e-secao-de-horas-extras.md)).
 Mesmo destinatário, mesma trava de competência (ADR 0002) e mesmo relatório de
-conferência à Jana (ADR 0011) que a hora extra já usa.
+conferência à Helena (ADR 0011) que a hora extra já usa.
 
 Seção própria, e não um tipo de lançamento dentro de `HoraExtra`: hora
-trabalhada a mais é obrigação, bonificação é decisão, e a Jana precisa
+trabalhada a mais é obrigação, bonificação é decisão, e a Helena precisa
 distinguir as duas no relatório.
 
 **Nenhuma tabela é criada agora.** A regra — quanto, pra quem, com que critério

@@ -32,12 +32,12 @@ Duas consequências:
    divergência nos insumos corrigidos e pararia. Os nomes nunca chegariam à tela
    sem alguém escrever `update` na mão, que é exatamente o que a regra 5 e o
    ADR 0042 proíbem.
-2. **O risco de editar pelo app não é perder a edição da Jana.** É a carga
+2. **O risco de editar pelo app não é perder a edição da Helena.** É a carga
    ficar vermelha para sempre em `item_estoque`. E isso já acontece hoje por
    outro motivo: `quantidade` está entre as colunas comparadas e nasce 0. A
    primeira contagem da equipe já faz a carga acusar divergência naquele insumo.
 
-A decisão nova é do Thiago: a Jana passa a preencher e corrigir o fornecedor
+A decisão nova é do Thiago: a Helena passa a preencher e corrigir o fornecedor
 pelo app, no dia a dia.
 
 ## Decisão
@@ -49,11 +49,11 @@ o resto (ADR 0049 §2: entrar por senha não dá poder de Admin). O Atendente
 continua vendo a lista de compra agrupada por fornecedor e não edita.
 
 O motivo é o mesmo do ADR 0043 para a categoria de Lembrete: fornecedor é
-catálogo. Quem compra é a Jana, e quem sabe onde se compra é ela. O tablet
+catálogo. Quem compra é a Helena, e quem sabe onde se compra é ela. O tablet
 fica com o que a equipe faz no balcão (contar), e o catálogo fica com o Admin.
 
 Onde: na tela do Estoque, quando a sessão é de Admin. Pelo ADR 0049 §1, isso é
-o computador da Jana, nunca o tablet.
+o computador da Helena, nunca o tablet.
 
 ### 2. Depois da carga, quem manda no campo é a tabela, e a carga não muda
 
@@ -64,7 +64,7 @@ inicial vale uma vez só.** O CSV semeia o banco, e a partir daí o dono do
 - `carga.mjs` **não muda**. Ela já não sobrescreve. A mensagem de divergência já
   diz o certo para este caso: *"se a tabela mudou de propósito, o CSV está
   velho"*.
-- `data/insumos.csv` **não é atualizado** com o que a Jana digita. Ele é o
+- `data/insumos.csv` **não é atualizado** com o que a Helena digita. Ele é o
   retrato do quadro físico no dia do levantamento, e a sentinela nele continua
   verdadeira sobre o quadro.
 - O comentário de `src/api/telas/estoque.mjs` e a linha 135 do `estoque.md`
@@ -78,7 +78,7 @@ p_ator_id, p_origem_claim)`, na próxima migration livre:
 - `security definer`, primeira linha `app.exigir_admin(p_ator_id)`;
 - insumo que não existe leva LT003, e insumo inativo leva LT002, como em
   `app.estoque_conferir`;
-- `versao` diferente da esperada leva LT001. A Jana pode estar com a tela
+- `versao` diferente da esperada leva LT001. A Helena pode estar com a tela
   aberta enquanto a equipe confere o mesmo insumo, e a conferência também sobe a
   `versao`. A tela recarrega e ela salva de novo;
 - grava `fornecedor` e `versao = versao + 1`, e chama
@@ -103,25 +103,25 @@ Nenhuma tabela nova. O banco:
   edição que não mudou nada.
 
 Contra o erro de digitação ("Atacadão" e "Atacadao" viram dois grupos na lista
-de compra), a tela **sugere os nomes que já existem** enquanto a Jana digita.
+de compra), a tela **sugere os nomes que já existem** enquanto a Helena digita.
 As sugestões são os valores distintos de `item_estoque.fornecedor`, sem a
 sentinela, lidos pela `Dados<Tela>` do Estoque. Não há tabela para isso.
 
 ### 5. O passo de go-live muda de caminho, a prontidão não muda
 
-- A §2 do ADR 0044 cai: os nomes não esperam a caminhada. A Jana preenche
+- A §2 do ADR 0044 cai: os nomes não esperam a caminhada. A Helena preenche
   quando souber, pelo app, antes ou depois do go-live.
 - A §1 fica: fornecedor não participa de cálculo e não é portão.
 - A §3 fica: a sentinela continua sendo a marca da lacuna, e a tela continua
   mostrando o grupo `SEM_NOME_PENDENCIA` a quem compra até alguém dar nome.
 - A linha "Insumos ainda sem fornecedor" de `app.prontidao()` **não muda**. Ela
   conta `fornecedor is null or fornecedor = 'SEM_NOME_PENDENCIA'` entre os
-  ativos, e cada nome que a Jana grava tira um insumo dessa conta. O texto de
+  ativos, e cada nome que a Helena grava tira um insumo dessa conta. O texto de
   `bloqueia` ("Nada… a compra funciona, mas sai sem a quem pedir") continua
   certo, e redefinir a função só para trocar a citação do ADR não paga a
   migration.
 - Em `pendencias.md`, o passo de go-live deixa de dizer "na caminhada" e passa
-  a dizer "pela Jana, no app, até a prontidão zerar a linha".
+  a dizer "pela Helena, no app, até a prontidão zerar a linha".
 
 ## Alternativas rejeitadas
 
@@ -134,12 +134,12 @@ consertar o que a sugestão da §4 já cobre. Vale reabrir quando o fornecedor
 ganhar um atributo além do nome.
 
 **Lista fechada no CSV (`data/fornecedores.csv`).** Devolveria ao CSV um campo
-que o app acabou de assumir, e a Jana precisaria de um PR para registrar um
+que o app acabou de assumir, e a Helena precisaria de um PR para registrar um
 fornecedor novo. É o arranjo de duas fontes que o ADR 0030 rejeitou.
 
 **O CSV continua dono, e a carga passa a atualizar `fornecedor`.** Obrigaria a
 carga a sobrescrever, que ela recusa de propósito (ADR 0032). E o nome passaria
-pelo Git em vez de pela Jana, que é justamente o que a decisão nova quer evitar.
+pelo Git em vez de pela Helena, que é justamente o que a decisão nova quer evitar.
 
 **Tirar `fornecedor` e `quantidade` da comparação da carga, para ela ficar verde
 depois do go-live.** Resolve um incômodo que ninguém tem, porque a carga de
@@ -148,7 +148,7 @@ novo. Se reexecutar a carga virar rotina, isso é outro ADR.
 
 **Deixar o Atendente editar também.** Quem está no balcão vê a embalagem e
 poderia corrigir na hora. Mas mudaria quem mexe em catálogo, e nenhum
-catálogo é editado pelo tablet hoje. Se a Jana pedir, é decisão dela e vira
+catálogo é editado pelo tablet hoje. Se a Helena pedir, é decisão dela e vira
 ADR.
 
 ## Consequências

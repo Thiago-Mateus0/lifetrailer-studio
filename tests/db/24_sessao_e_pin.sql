@@ -31,7 +31,7 @@ select ok(has_column_privilege('lifetrailer_app', 'colaborador', 'nivel_acesso',
   'inclusive o perfil');
 
 -- ================================================================ pin_definir
--- Jana (admin) define o PIN de Marcos. exigir_admin le a identidade da transacao,
+-- Helena (admin) define o PIN de Marcos. exigir_admin le a identidade da transacao,
 -- entao o GUC vem antes — e e a prova de que este caminho NAO e anonimo.
 select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);
 

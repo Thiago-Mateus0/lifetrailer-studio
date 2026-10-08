@@ -5,7 +5,7 @@
 **Fase:** 6
 **Decidido por:** Thiago (issue #138, opção 1)
 **Completa:** [escala.md](../spec/escala.md) ("Acionar domingo extra cria o Checklist na
-hora"), que diz *"Rodízio de domingo é **SUGESTÃO**, não automação. Jana confirma ou
+hora"), que diz *"Rodízio de domingo é **SUGESTÃO**, não automação. Helena confirma ou
 escolhe outro"* e nunca disse de onde sai a sugestão.
 **Toca:** [ADR 0042](0042-fronteira-entre-o-app-e-o-banco.md) §3 (a allow-list), migration
 0062 (`app.escala_domingo_acionar`).
@@ -17,9 +17,9 @@ Checklist do dia na mesma chamada. Quem **faz** o extra tem de ser Atendente
 ativo; quem **aciona** pode ser qualquer colaborador no futuro, e só o Admin em
 hoje, passado ou fora da janela de 28 dias.
 
-Ao ligar isso na tela (issue #134) apareceu o vão: a Jana é Administradora, então
+Ao ligar isso na tela (issue #134) apareceu o vão: a Helena é Administradora, então
 ela pode acionar e **não pode ser** o extra. O botão precisa de uma pessoa, e o
-spec descreve justamente ela acionando — *"a Jana só aciona quando vê o
+spec descreve justamente ela acionando — *"a Helena só aciona quando vê o
 agendamento — às 9h, às 11h, na véspera"*.
 
 O mockup da Fase 3 resolvia com uma fila (`['Thiago', 'Paulo', 'Marcos']`, *"ao
@@ -63,7 +63,7 @@ sempre, e até aqui nenhum caminho da tela conseguia disparar.
   pior que nenhuma. Se ela vier, entra **por cima** deste gesto, como
   pré-seleção: o botão já aceita qualquer pessoa da equipe.
 - **Só o Atendente assume, para si.** É o que a primeira versão fazia. Simples, e
-  deixa a Jana fora do gesto que o spec descreve como dela.
+  deixa a Helena fora do gesto que o spec descreve como dela.
 - **Lista suspensa com a equipe.** Menos toques com equipe grande, mas o alvo de
   toque num tablet em pé é pior, e a equipe do balcão tem três pessoas.
 

@@ -19,7 +19,7 @@ import { CONSULTA_HOME, montarHome } from '../../src/api/telas/home.mjs';
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 const PAULO = 'aaaaaaaa-0000-0000-0000-000000000003';
-const JANA = 'aaaaaaaa-0000-0000-0000-000000000001';
+const HELENA = 'aaaaaaaa-0000-0000-0000-000000000001';
 
 // Um instante de quarta-feira às 08:12 em Maceió: dia útil garantido, dentro da
 // janela da manhã. Data relativa de propósito — teste com data fixa apodrece.
@@ -72,9 +72,9 @@ insert into item_estoque (nome, categoria, severidade, quantidade, conferido_em)
   ('Propes',       'Estudio', 'atencao', 0, null);
 
 insert into aviso (texto, prioridade, status, autor_id, snapshot_colaboradores) values
-  ('Propes acabando',           'normal',  'ativo', '${JANA}', '{}'),
-  ('Fundo branco em manutencao','urgente', 'ativo', '${JANA}', '{}'),
-  ('Aviso velho',               'normal',  'arquivado', '${JANA}', '{}');
+  ('Propes acabando',           'normal',  'ativo', '${HELENA}', '{}'),
+  ('Fundo branco em manutencao','urgente', 'ativo', '${HELENA}', '{}'),
+  ('Aviso velho',               'normal',  'arquivado', '${HELENA}', '{}');
 
 insert into achado (descricao, datetime_achado, status, registrado_por_id) values
   ('Oculos',  now(), 'em_posse', '${PAULO}'),

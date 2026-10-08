@@ -99,9 +99,9 @@ ele **não** pode fazer é alterar o que já saiu do banco.
 
 **Job semanal publica uma linha:** competência, `id` da última linha, e o `hash`
 dela. Vai pelo mesmo canal que o ADR-0011 já criou como parte da entrega — o
-export de horas extras à Jana, **por canal que o Dev não controla**.
+export de horas extras à Helena, **por canal que o Dev não controla**.
 
-É uma linha de texto. Não exige que a Jana entenda hash: exige que ela guarde.
+É uma linha de texto. Não exige que a Helena entenda hash: exige que ela guarde.
 Qualquer reescrita do passado passa a exigir também reescrever cópias que estão
 fora do alcance de quem reescreve — e a divergência aparece na conferência
 seguinte, sem depender da cooperação de ninguém.
@@ -150,7 +150,7 @@ escrita. São problemas diferentes, e D-C nunca prometeu cobrir este.
 - **Migração define a linha zero** com `hash_anterior` de valor fixo
   documentado. Cadeia sem origem declarada não fecha.
 - **A âncora semanal vai junto com o export de horas extras** — mesmo job,
-  mesmo canal, mesma cadência (ADR-0029). Não é canal novo pra Jana manter.
+  mesmo canal, mesma cadência (ADR-0029). Não é canal novo pra Helena manter.
 - **Quem conferir a âncora precisa de instrução em uma frase**, não de
   explicação de hash: *"guarde este e-mail; se a conferência der divergência,
   é ele que prova a data"*. Entra no Treinamento, categoria Admin.

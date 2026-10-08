@@ -50,7 +50,7 @@ justamente para completar o que a automática não cobriu.
 
 ### 2. Quem lança: o próprio para si, o Admin por qualquer um
 
-A Jana é quem acerta, e a borda *"turno sem colaborador"* já pede correção por
+A Helena é quem acerta, e a borda *"turno sem colaborador"* já pede correção por
 ela. O Desenvolvedor não lança por outros, pelo mesmo motivo que não paga nem
 cancela: é ação de negócio.
 
@@ -94,7 +94,7 @@ criar hora extra.
 - **Quem lança digita o valor.** Põe dinheiro digitado à mão no lugar de
   parâmetro versionado, e transforma cada lançamento numa negociação.
 - **Estorno devolvendo a mesma linha para `pendente`.** Menos linhas, e apaga o
-  fato de que houve pagamento — numa tabela cujo histórico é o que a Jana usa
+  fato de que houve pagamento — numa tabela cujo histórico é o que a Helena usa
   para conferir.
 - **Cancelar e recriar a paga quando o refechamento troca o dono.** Seria
   coerente com o caso "valor maior", mas mexe em pagamento já feito, que o spec

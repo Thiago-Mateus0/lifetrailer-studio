@@ -18,7 +18,7 @@ select is(app.audit_hash_genese(), repeat('0', 64),
   'a linha zero fecha sobre uma origem fixa e documentada');
 
 insert into colaborador (id, nome, nivel_acesso, senha_hash)
-values ('aaaaaaaa-0000-0000-0000-000000000009', 'Jana', 'administrador', 'x');
+values ('aaaaaaaa-0000-0000-0000-000000000009', 'Helena', 'administrador', 'x');
 
 insert into audit_log (ts_evento, ativo_origem, registro_id, acao, origem_claim)
 values (now(), 'comanda', '11111111-1111-1111-1111-111111111111', 'teste_a', 'online');

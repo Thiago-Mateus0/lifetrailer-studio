@@ -13,7 +13,7 @@ begin;
 select plan(30);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
 
@@ -70,7 +70,7 @@ select is((select count(*)::int from notificacao where referencia_ativo = 'lembr
             and referencia_id = (pg_temp.lembrete('Tres dias')).id), 1,
   'tres dias de atraso alertam o Admin (spec: "Atrasado ha +3 dias")');
 select is((select destinatario_id from notificacao where referencia_ativo = 'lembrete'
-            and referencia_id = (pg_temp.lembrete('Tres dias')).id), :JANA::uuid,
+            and referencia_id = (pg_temp.lembrete('Tres dias')).id), :HELENA::uuid,
   'o alerta vai para o Administrador');
 select is((select categoria from notificacao where referencia_ativo = 'lembrete'
             and referencia_id = (pg_temp.lembrete('Tres dias')).id), 'lembrete',
@@ -87,19 +87,19 @@ select is((select count(*)::int from notificacao where referencia_ativo = 'lembr
 select is((app.job_rodar('lembrete_atrasar')).resultado, 'ok', 'job_rodar roda o job registrado');
 
 -- ================================================================ concluir
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 
-select is((app.lembrete_concluir((pg_temp.lembrete('Ontem')).id, 2, :JANA)).status, 'concluido',
+select is((app.lembrete_concluir((pg_temp.lembrete('Ontem')).id, 2, :HELENA)).status, 'concluido',
   'o Admin conclui o Atrasado');
-select is((pg_temp.lembrete('Ontem')).concluido_por_id, :JANA::uuid, 'com o nome de quem concluiu');
+select is((pg_temp.lembrete('Ontem')).concluido_por_id, :HELENA::uuid, 'com o nome de quem concluiu');
 select ok((pg_temp.lembrete('Ontem')).concluido_em is not null, 'e a hora');
 select ok(exists (select 1 from audit_log where ativo_origem = 'lembrete' and acao = 'lembrete_concluido'
-                   and autor_id = :JANA::uuid),
+                   and autor_id = :HELENA::uuid),
   'concluir registra no audit log');
 
-select throws_ok(format($$ select app.lembrete_concluir(%L, 3, %L) $$, (pg_temp.lembrete('Ontem')).id, :JANA),
+select throws_ok(format($$ select app.lembrete_concluir(%L, 3, %L) $$, (pg_temp.lembrete('Ontem')).id, :HELENA),
   'LT002', null, 'Concluido nao volta a ser concluido: LT002');
-select throws_ok(format($$ select app.lembrete_concluir(%L, 1, %L) $$, (pg_temp.lembrete('Tres dias')).id, :JANA),
+select throws_ok(format($$ select app.lembrete_concluir(%L, 1, %L) $$, (pg_temp.lembrete('Tres dias')).id, :HELENA),
   'LT001', null, 'tela lida antes do job marcar Atrasado leva LT001 ao concluir');
 
 select pg_temp.como(:PAULO);
@@ -114,12 +114,12 @@ select pg_temp.como(:DEV);
 select throws_ok(format($$ select app.lembrete_concluir(%L, 1, %L) $$, (pg_temp.lembrete('Amanha')).id, :DEV),
   'LT005', null, 'o Desenvolvedor nao conclui: a lista e da operacao');
 
-select pg_temp.como(:JANA);
-select is((app.lembrete_concluir((pg_temp.lembrete('Daqui a dez')).id, 1, :JANA)).status, 'concluido',
+select pg_temp.como(:HELENA);
+select is((app.lembrete_concluir((pg_temp.lembrete('Daqui a dez')).id, 1, :HELENA)).status, 'concluido',
   'o Admin conclui mesmo antes de aparecer para a equipe');
 
 -- O Concluido fica fora do job, mesmo com a data vencida.
-select app.lembrete_concluir((pg_temp.lembrete('Dois dias')).id, 2, :JANA);
+select app.lembrete_concluir((pg_temp.lembrete('Dois dias')).id, 2, :HELENA);
 select is(app.lembrete_marcar_atrasados(), '{"atrasados": 0, "alertas": 0}'::jsonb,
   'Concluido nao volta a Atrasado nem alerta, mesmo passando dos 3 dias');
 

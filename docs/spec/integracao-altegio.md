@@ -183,7 +183,7 @@ CONTENÇÕES
   sem agendamento futuro · sem retroativo
 ```
 
-**Por que no atendente, e não no Admin:** a integração cai numa sexta às 21h e a Jana não está. A chave da emergência não pode ficar com quem tem menor probabilidade de estar presente na hora da emergência — noites e fins de semana são justamente quando mais acontece.
+**Por que no atendente, e não no Admin:** a integração cai numa sexta às 21h e a Helena não está. A chave da emergência não pode ficar com quem tem menor probabilidade de estar presente na hora da emergência — noites e fins de semana são justamente quando mais acontece.
 
 **Por que declarado, e não detectado:** a detecção automática só pega queda de integração. O acionamento pelo atendente cobre também o caso em que a Altegio está saudável e o agendamento não está lá — marcado no lugar errado, reagendado por fora, ou `staff_id` no balde de não mapeado.
 

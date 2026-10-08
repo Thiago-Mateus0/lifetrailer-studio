@@ -56,17 +56,17 @@ outros.
 | Marcos | Atendente | tablet (PIN) | `1111` |
 | Paulo | Atendente | tablet (PIN) | `2222` |
 | Thiago | Atendente | tablet (PIN) | `3333` |
-| Wesley | Administrador · Sócio | computador (login) | usuário `wesley`, senha `ensaio-demo-2026` |
-| Jana | Administrador · Gerente (não é sócia) | computador (login) | senha redefinida neste ensaio para `ensaio-demo-2026` |
+| Rafael | Administrador · Sócio | computador (login) | usuário `rafael`, senha `ensaio-demo-2026` |
+| Helena | Administrador · Gerente (não é sócia) | computador (login) | senha redefinida neste ensaio para `ensaio-demo-2026` |
 | Wyll / Paulo | Administrador · Sócio | computador (login) | senha não alterada neste ensaio — desconhecida, redefinir por SQL se precisar (`update colaborador set senha_hash = crypt('...', gen_salt('bf', 12)) where login = '...'`) |
 
-Só **sócio** (Wyll, Wesley, Paulo) edita PIN em Ajustes — Jana
+Só **sócio** (Wyll, Rafael, Paulo) edita PIN em Ajustes — Helena
 (Gerente) vê a tela mas não edita (ADR 0050). Só **Atendente** entra pelo
 PIN do tablet.
 
 ## Ordem dos toques
 
-1. **Ajustes, como Sócio** (Wesley). Login por senha no computador → Ajustes →
+1. **Ajustes, como Sócio** (Rafael). Login por senha no computador → Ajustes →
    trocar o PIN de Marcos/Paulo/Thiago → confirmar que o histórico de troca
    registra o nome de quem mudou.
 2. **Trocar para o tablet, como Atendente** (Marcos, PIN `1111`). Home mostra a

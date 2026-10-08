@@ -59,7 +59,7 @@ mesma transação, a função grava a `confirmacao_leitura` do autor.
 
 A confirmação é *"o registro de quem viu, com nome e horário"* — é o que o
 rodapé da tela diz a quem confirma. Quem escreveu viu na hora em que escreveu.
-Sem isso, todo aviso da Jana mostraria **"falta: Jana"** para a própria Jana, e
+Sem isso, todo aviso da Helena mostraria **"falta: Helena"** para a própria Helena, e
 ela teria de tocar "Li e entendi" no que acabou de publicar.
 
 ### 3. Todo mundo no snapshot confirma, não só o Atendente
@@ -120,7 +120,7 @@ que a Home e a Sidebar já leem, para guardar o que uma convenção de uma linha
 guarda. Se um dia o título precisar de busca ou de tamanho próprio, a coluna
 entra — e a conversão é um `split_part`.
 
-**Tirar o autor do snapshot.** Resolve o "falta: Jana" do mesmo jeito, mas muda
+**Tirar o autor do snapshot.** Resolve o "falta: Helena" do mesmo jeito, mas muda
 a definição de snapshot que o spec escreveu ("ativos na criação") e apaga do
 registro que a autora leu o aviso. Confirmar na publicação mantém a definição e
 guarda o fato.
@@ -130,7 +130,7 @@ com o toque duplo, e esconde um estado: a tela que oferece "Li e entendi" a quem
 já confirmou está velha, e LT002 é o que faz a releitura acontecer.
 
 **Tirar da tela os três controles sem decisão.** É o que "não fingir" pediria no
-mínimo. Mas a tela é por onde o Wyll e a Jana veem o sistema, e o controle
+mínimo. Mas a tela é por onde o Wyll e a Helena veem o sistema, e o controle
 travado com uma frase é o jeito de a lacuna ser vista por quem vai fechá-la.
 
 **Aviso que não pede confirmação agora, com snapshot vazio.** Um snapshot vazio

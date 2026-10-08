@@ -1,4 +1,4 @@
-# ADR 0076 — O botão "Enviar" da Jana manda o link do comprovante pela API do ManyChat; se a API não confirmar, cai no "Copiar mensagem"
+# ADR 0076 — O botão "Enviar" da Helena manda o link do comprovante pela API do ManyChat; se a API não confirmar, cai no "Copiar mensagem"
 
 **Status:** Proposto — revoga o §5 do [ADR 0073](0073-comprovante-pelo-manychat.md) ("o automático fica para quando fizer falta")
 **Data:** 2026-09-26
@@ -13,7 +13,7 @@ link do PDF? ficaria muito melhor"; nas três perguntas, "faça sua recomendaç�
 
 ## Contexto
 
-O ADR 0073 pôs o envio do comprovante nas mãos da Jana: ela copia a mensagem
+O ADR 0073 pôs o envio do comprovante nas mãos da Helena: ela copia a mensagem
 com o link, cola no ManyChat e volta para tocar em **Enviei**. O §5 deixou o
 envio pela API para quando o "colar" pesasse, com o caminho mapeado. O Thiago
 pediu o automático agora.
@@ -53,7 +53,7 @@ o manual cobre a minoria sem custo novo.
 - O servidor busca o contato por esse campo (`findByCustomField`), com o
   `cliente_telefone` da Comanda no mesmo formato em que a regra grava.
 - **Achou mais de um contato, ou nenhum: não envia**, cai no manual (§1). Mandar
-  o comprovante para a pessoa errada é pior do que pedir um "colar" à Jana.
+  o comprovante para a pessoa errada é pior do que pedir um "colar" à Helena.
 - A chave fica só no servidor, em `LT_MANYCHAT_TOKEN`. Sem ela, o botão
   funciona como o manual de hoje. O front nunca vê a chave.
 
@@ -62,26 +62,26 @@ o manual cobre a minoria sem custo novo.
 `findByCustomField` devolve exatamente um contato. Se o teste falhar, este ADR
 não se aplica e o ADR 0073 continua como está.
 
-### 3. Quem aperta continua sendo a Jana, no computador dela
+### 3. Quem aperta continua sendo a Helena, no computador dela
 
 O tablet continua só fechando a Comanda (ADR 0073 §1). **Enviar** fica na
-lista "Para enviar" da Jana, no lugar do **Copiar mensagem** como primeiro
+lista "Para enviar" da Helena, no lugar do **Copiar mensagem** como primeiro
 botão. A guarda de Admin na aresta `enviar` (migration 0078) não muda.
 
 Os motivos:
 
-- **A Jana confere antes de mandar.** Comanda fechada no balcão com item errado
+- **A Helena confere antes de mandar.** Comanda fechada no balcão com item errado
   hoje é corrigida antes de chegar ao cliente. Com o envio no fechamento, o
   cliente receberia o erro.
 - **Não muda quem faz o quê nem com que acesso.** Levar o envio para o tablet
   daria ao atendente um poder que o ADR 0073 tirou dele de propósito.
 - **O cliente continua recebendo no mesmo dia.** O ganho do tablet seria só o
-  tempo entre o fechamento e a Jana abrir a lista.
+  tempo entre o fechamento e a Helena abrir a lista.
 
 ### 4. Enviada só quando a API confirmar
 
 Quando a API responde `success` ao texto, o servidor chama
-`app.comanda_transicionar('enviar')` com a autoria da Jana, e a Comanda sai da
+`app.comanda_transicionar('enviar')` com a autoria da Helena, e a Comanda sai da
 lista sozinha. **Nenhuma aresta nova na FSM** e nenhuma mudança em
 `comanda_envio`: é a mesma transição do ADR 0073 §4, chamada pelo servidor em
 vez do toque em Enviei.
@@ -97,13 +97,13 @@ para texto, aceitar foi entregar. Para arquivo não foi, e por isso arquivo não
 para a minoria dos casos (§1). Se a operação mostrar que a minoria é grande,
 vira ADR próprio.
 
-**Enviar do tablet, no fechamento.** Tira a conferência da Jana e devolve ao
+**Enviar do tablet, no fechamento.** Tira a conferência da Helena e devolve ao
 atendente o envio que o ADR 0073 tirou (§3).
 
 **Achar o cliente pelo nome.** Nome se repete e se escreve de jeitos
 diferentes. Com o telefone, um contato achado é o contato certo.
 
-**Tentar a API e, se falhar, mostrar só um erro.** A Jana ficaria sem saída
+**Tentar a API e, se falhar, mostrar só um erro.** A Helena ficaria sem saída
 para aquela Comanda. O manual já existe e custa nada manter.
 
 ## Consequências

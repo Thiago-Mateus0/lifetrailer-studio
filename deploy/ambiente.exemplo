@@ -38,7 +38,7 @@ LT_ALTEGIO_COMPANY_ID=
 
 # -------------------------------------------------------------- ManyChat
 # A chave da API: ManyChat → Settings → API (ADR 0076). Vazia, o botão Enviar
-# da Jana não aparece e ela segue pelo Copiar mensagem.
+# da Helena não aparece e ela segue pelo Copiar mensagem.
 LT_MANYCHAT_TOKEN=
 
 # ------------------------------------------------------------------ SMTP

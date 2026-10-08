@@ -53,7 +53,7 @@ export const treinamentoAbertoFixture: DadosTreinamento = {
     titulo: 'Como armar o softbox',
     categoria: 'Equipamento',
     status: 'Publicado',
-    atualizado: 'atualizado em 12/08/2026 por Jana',
+    atualizado: 'atualizado em 12/08/2026 por Helena',
     blocos,
   },
 }

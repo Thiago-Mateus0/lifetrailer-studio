@@ -35,7 +35,7 @@ Os três motivos são estruturais, não de conveniência:
    máquina — e um ativo separado teria que reimplementá-la, ou pior,
    implementá-la um pouco diferente.
 3. **Mesma conferência.** O ADR-0011 pôs o export semanal de horas extras à
-   Jana como parte da entrega, e o ADR-0024 pendurou a âncora do audit log
+   Helena como parte da entrega, e o ADR-0024 pendurou a âncora do audit log
    nele. Bonificação fora desse relatório é dinheiro saindo por um caminho que
    a conferência não enxerga — e a conferência existe justamente por causa do
    item 2 do ADR-0010.
@@ -57,7 +57,7 @@ partir dela, o inventário de telas é decisão de agora, e a pendência voltari
 ser feita sob pressão de cronograma — que é o pior momento pra decidir forma.
 
 **Bonificação como tipo de lançamento dentro de `HoraExtra`**, sem seção
-própria. Mais econômico ainda, e mistura duas coisas que a Jana precisa
+própria. Mais econômico ainda, e mistura duas coisas que a Helena precisa
 distinguir num relatório: hora trabalhada a mais é obrigação, bonificação é
 decisão. Compartilhar o ativo, sim; compartilhar a linha, não.
 

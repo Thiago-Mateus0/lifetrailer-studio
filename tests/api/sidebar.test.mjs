@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_SIDEBAR, montarSidebar } from '../../src/api/telas/sidebar.mjs';
-import { bancoDisponivel, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -26,10 +26,10 @@ insert into item_estoque (nome, categoria, severidade, quantidade, conferido_em)
 -- Um urgente e um normal para o Paulo; um que ele ja confirmou; um em que ele
 -- nao estava no snapshot (entrou depois) e por isso nao lhe pede nada.
 insert into aviso (id, texto, prioridade, status, autor_id, snapshot_colaboradores) values
-  ('99999999-0000-0000-0000-000000000001', 'Urgente', 'urgente', 'ativo', '${JANA}', '{${PAULO}}'),
-  ('99999999-0000-0000-0000-000000000002', 'Normal',  'normal',  'ativo', '${JANA}', '{${PAULO}}'),
-  ('99999999-0000-0000-0000-000000000003', 'Lido',    'urgente', 'ativo', '${JANA}', '{${PAULO}}'),
-  ('99999999-0000-0000-0000-000000000004', 'Antes',   'urgente', 'ativo', '${JANA}', '{}');
+  ('99999999-0000-0000-0000-000000000001', 'Urgente', 'urgente', 'ativo', '${HELENA}', '{${PAULO}}'),
+  ('99999999-0000-0000-0000-000000000002', 'Normal',  'normal',  'ativo', '${HELENA}', '{${PAULO}}'),
+  ('99999999-0000-0000-0000-000000000003', 'Lido',    'urgente', 'ativo', '${HELENA}', '{${PAULO}}'),
+  ('99999999-0000-0000-0000-000000000004', 'Antes',   'urgente', 'ativo', '${HELENA}', '{}');
 insert into confirmacao_leitura (comunicado_id, colaborador_id)
 values ('99999999-0000-0000-0000-000000000003', '${PAULO}');
 `;
@@ -100,13 +100,13 @@ test('sidebar: Ajustes e o badge de horas extras sao do Admin', { skip: semBanco
   const extra = `insert into hora_extra (colaborador_id, data, datetime_inicio, datetime_fim, origem,
       minutos_reais, minutos_arredondados, blocos_noturnos, valor, valor_hora_snapshot, status, criado_por_id)
     values ('${PAULO}', app.quarta_recente(), now(), now() + interval '30 minutes', 'manual',
-      30, 30, 1, 25, 25, 'pendente', '${JANA}');`;
+      30, 30, 1, 25, 25, 'pendente', '${HELENA}');`;
 
   const atendente = montarSidebar(rodar(PAULO, extra), new Date());
   assert.equal(atendente.itens.some((i) => i.identificador === 'ajustes'), false);
   assert.equal(atendente.itens.find((i) => i.identificador === 'horas').contador, undefined);
 
-  const admin = montarSidebar(rodar(JANA, extra), new Date());
+  const admin = montarSidebar(rodar(HELENA, extra), new Date());
   assert.equal(admin.itens.some((i) => i.identificador === 'ajustes'), true);
   assert.equal(admin.itens.find((i) => i.identificador === 'horas').contador, 1);
 });
@@ -118,7 +118,7 @@ test('sidebar: claim de desativado nao monta o menu', { skip: semBanco }, () => 
 
 test('sidebar: sem nada pendente nao ha contador nem urgencia', () => {
   const d = montarSidebar({
-    eu_nome: 'Jana Alves', eu_perfil: 'administrador',
+    eu_nome: 'Helena Alves', eu_perfil: 'administrador',
     checklist_fase: null, checklist_limite: null, checklist_pendentes: '0',
     estoque_zerados: '0', estoque_atencao: '0', estoque_zerados_nomes: [],
     avisos_pendentes: '0', avisos_urgentes: '0', avisos_urgentes_lista: [], horas_pendentes: '0',
@@ -129,5 +129,5 @@ test('sidebar: sem nada pendente nao ha contador nem urgencia', () => {
   assert.deepEqual(d.avisosUrgentes, []);
   assert.equal(d.totalUrgencias, 0);
   assert.equal(d.hora, '08:12');
-  assert.deepEqual(d.usuario, { nome: 'Jana Alves', iniciais: 'JA', papel: 'Admin' });
+  assert.deepEqual(d.usuario, { nome: 'Helena Alves', iniciais: 'HA', papel: 'Admin' });
 });

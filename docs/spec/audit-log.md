@@ -50,7 +50,7 @@ trigger de linha: precisa do `REVOKE` e de um trigger `BEFORE TRUNCATE` de
 statement, senão leva o log inteiro sem erro nenhum.
 
 `verificar_cadeia(desde, ate)` devolve o `id` da primeira divergência, ou nada.
-Job semanal publica `(competência, último id, hash)` à Jana pelo mesmo canal do
+Job semanal publica `(competência, último id, hash)` à Helena pelo mesmo canal do
 export de horas extras — **canal que o Dev não controla** ([ADR 0029](../adr/0029-cadencia-dos-jobs-agendados.md) fixa a cadência).
 
 ⚠ Isto **não impede** adulteração por quem tem acesso pleno ao banco (risco

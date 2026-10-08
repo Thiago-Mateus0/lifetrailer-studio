@@ -69,7 +69,7 @@ export function lerConfigApp(env = process.env) {
     cookieSeguro: (env.LT_APP_COOKIE_INSEGURO ?? '') !== '1',
 
     // A chave da API do ManyChat (ADR 0076 §2). Só no servidor; vazia desliga
-    // o Enviar automático e a Jana segue pelo Copiar mensagem.
+    // o Enviar automático e a Helena segue pelo Copiar mensagem.
     manychatToken: (env.LT_MANYCHAT_TOKEN ?? '').trim(),
   };
 }

@@ -51,7 +51,7 @@ impede manter a falta sem perceber que ela mudou de dono.
   que o spec proíbe: o compromisso de alguém sumiria sem ninguém ver.
 - **Falta fica como está, sem perguntar.** É o "preserva cegamente", também
   proibido — e é justamente o caso que deixa o turno do outro vago.
-- **Continuar recusando (LT002).** A Jana desfaria a falta na mão antes de mudar
+- **Continuar recusando (LT002).** A Helena desfaria a falta na mão antes de mudar
   a âncora e a remarcaria depois, no dia certo, sem nada guiando qual é o dia
   certo. A revisão existe para não depender disso.
 

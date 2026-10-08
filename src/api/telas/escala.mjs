@@ -247,7 +247,7 @@ function montarRevisao(l) {
           ? `registrada: falta de ${a.titular_atual}`
           : `registrada: ${a.colaborador ?? 'Não atribuído'} cobre ${a.titular_atual}`,
         // Manter a falta deixa o turno vago, e vago passa a ser o do titular
-        // novo: dizer isso aqui é o que evita a Jana manter sem perceber.
+        // novo: dizer isso aqui é o que evita a Helena manter sem perceber.
         depois: falta
           ? `com a nova âncora: quem fica sem cobertura passa a ser ${novo}`
           : `com a nova âncora: o titular passa a ser ${novo}`,

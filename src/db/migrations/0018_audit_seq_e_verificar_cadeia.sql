@@ -217,7 +217,7 @@ comment on function app.verificar_cadeia(timestamptz, timestamptz) is
 -- E não é "só o dono" porque o dono é o Desenvolvedor. O ADR 0024 existe pra
 -- que alguém que NÃO tem acesso pleno ao banco consiga detectar; verificação
 -- alcançável só pelo dono inverteria o ADR. Credencial separada é a única forma
--- que dá caminho independente — a Jana, e o job da âncora na Etapa 5.
+-- que dá caminho independente — a Helena, e o job da âncora na Etapa 5.
 --
 -- Sem senha, pela mesma razão de 0011 e 0017: senha é segredo de deploy.
 do $$

@@ -316,17 +316,17 @@ test('erro que nao e do dominio nao vaza o interior do banco', async () => {
 const entrarComoAdmin = {
   autenticarAdmin: async () => ({
     ok: true, colaborador_id: '11111111-1111-4111-8111-111111111111',
-    nome: 'Jana', perfil: 'administrador',
+    nome: 'Helena', perfil: 'administrador',
   }),
 };
 
 test('POST /admin/sessao entra e o token vai SO no cookie', async () => {
   await comApp(entrarComoAdmin, async ({ base }) => {
     const r = await pegar(`${base}/admin/sessao`, {
-      method: 'POST', body: JSON.stringify({ login: 'jana', senha: 'uma-senha-bem-longa' }) });
+      method: 'POST', body: JSON.stringify({ login: 'helena', senha: 'uma-senha-bem-longa' }) });
 
     assert.equal(r.codigo, 200);
-    assert.equal(r.corpo.nome, 'Jana');
+    assert.equal(r.corpo.nome, 'Helena');
 
     const cookie = r.cookies.find((c) => c.startsWith(`${NOME_COOKIE}=`));
     assert.ok(cookie, 'o cookie de sessão sai no Set-Cookie');
@@ -344,7 +344,7 @@ test('senha errada e 401 com o motivo do banco', async () => {
   await comApp({ autenticarAdmin: async () => ({ ok: false, motivo: 'invalido' }) },
     async ({ base }) => {
       const r = await pegar(`${base}/admin/sessao`, {
-        method: 'POST', body: JSON.stringify({ login: 'jana', senha: 'errada' }) });
+        method: 'POST', body: JSON.stringify({ login: 'helena', senha: 'errada' }) });
       assert.equal(r.codigo, 401);
       assert.equal(r.corpo.erro, 'invalido');
       assert.equal(r.cookies.length, 0, 'e nenhum cookie e emitido');
@@ -382,7 +382,7 @@ test('DELETE /admin/sessao apaga o cookie', async () => {
 test('/admin/sessao entra no mesmo limite por origem do /sessao', async () => {
   await comApp({ ...entrarComoAdmin, limitar: () => ({ permitido: false }) }, async ({ base }) => {
     const r = await pegar(`${base}/admin/sessao`, {
-      method: 'POST', body: JSON.stringify({ login: 'jana', senha: 'x' }) });
+      method: 'POST', body: JSON.stringify({ login: 'helena', senha: 'x' }) });
     assert.equal(r.codigo, 429);
   });
 });
@@ -456,7 +456,7 @@ test('claim emitida num tablet nao vale em outro aparelho', async () => {
 // ------------------------------------------------------- PIN so atendente (0049)
 test('/sessao nao emite claim para quem nao e atendente, mesmo se o banco deixar', async () => {
   const abrirSessao = async () => ({
-    ok: true, colaborador_id: '11111111-1111-4111-8111-111111111111', nome: 'Jana', perfil: 'administrador',
+    ok: true, colaborador_id: '11111111-1111-4111-8111-111111111111', nome: 'Helena', perfil: 'administrador',
     turno_id: '22222222-2222-4222-8222-222222222222', exp: new Date(AGORA + 3600_000).toISOString(),
   });
   await comApp({ abrirSessao }, async ({ base }) => {

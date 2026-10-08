@@ -182,7 +182,7 @@ duracao_agendada não consta na tabela vigente:
   → flag duracao_nao_tabelada
   → ALERTA o Admin
   → Comanda NÃO PODE ser gerada até correção na Altegio
-     ou informação do valor pela Jana
+     ou informação do valor pela Helena
 
 duracao_agendada ≤ 0  (buffer ≥ seance_length):
   → flag duracao_invalida
@@ -332,7 +332,7 @@ Transversal: toda ação em qualquer ativo → Audit log.
 1. **Ensaio normal** — Loft 14h, cliente vem, Comanda criada, bomboniere lançado, PDF por WhatsApp.
 2. **Ensaio que estende** — Acústico, agendado 21h–22h, sai 23h30. Exercita arredondamento, acréscimo por bloco e geração automática de hora extra.
 3. **Dia com problema físico e item esquecido** — ar-condicionado justificado com foto; Lembrete das 16h; carregador em Achados.
-4. **Domingo extra** — Jana consulta o painel, sistema sugere a vez (Thiago → Marcos → Paulo), ela confirma, cria o Checklist do domingo, colaborador trabalha, extra registrado.
+4. **Domingo extra** — Helena consulta o painel, sistema sugere a vez (Thiago → Marcos → Paulo), ela confirma, cria o Checklist do domingo, colaborador trabalha, extra registrado.
 5. ⭐ **Ensaio atravessando a virada de turno** — agendado 11h–15h. Marcos cria, posse passa ao Paulo às 14h, Paulo fecha. Exercita transferência automática, `criado_por_id` × `responsavel_atual_id`, e destinatário de hora extra.
 6. ⭐ **Integração fora** — atendente aciona a emergência, cria agendamento manual, gera Comanda, fecha, envia. Integração volta, conciliação promove o manual. Exercita C1, C2 e C3.
 

@@ -12,11 +12,11 @@ begin;
 select plan(29);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
 
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 
 create function pg_temp.definir(p_id text, p_pin text) returns text language sql as
   $fx$ select format('select app.pin_definir(%L, %L, %L)', p_id, p_pin, 'aaaaaaaa-0000-0000-0000-000000000001') $fx$;
@@ -74,7 +74,7 @@ select is(pg_temp.hash(:DEV), null, 'e o hash dele continua vazio');
 
 -- --------------------------------------------------- 4. o cadastro
 select throws_ok(
-  format($$ select app.colaborador_criar('Caio', 'atendente', false, '0000', %L) $$, :JANA),
+  format($$ select app.colaborador_criar('Caio', 'atendente', false, '0000', %L) $$, :HELENA),
   'LT002', 'Todos os dígitos iguais é fácil de adivinhar. Escolha outro PIN.',
   'o cadastro de Atendente recusa o mesmo PIN fácil');
 

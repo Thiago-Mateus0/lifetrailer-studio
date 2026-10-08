@@ -4,7 +4,7 @@
 -- produz saída TAP.
 --
 -- UUIDs fixos para o teste poder afirmar sobre eles:
---   aaaa…01 Jana (administrador, sócia) aaaa…02 Marcos (atendente)
+--   aaaa…01 Helena (administrador, sócia) aaaa…02 Marcos (atendente)
 --   aaaa…03 Paulo (atendente)       aaaa…04 Dev  (desenvolvedor)
 --   bbbb…01 estúdio Acustico
 --   cccc…01 item de bomboniere
@@ -13,7 +13,7 @@
 set local timezone to 'America/Maceio';
 
 insert into colaborador (id, nome, nivel_acesso, pin_hash, senha_hash) values
-  ('aaaaaaaa-0000-0000-0000-000000000001', 'Jana',  'administrador',  null,  'x'),
+  ('aaaaaaaa-0000-0000-0000-000000000001', 'Helena',  'administrador',  null,  'x'),
   ('aaaaaaaa-0000-0000-0000-000000000002', 'Marcos', 'atendente',      'pin', null),
   ('aaaaaaaa-0000-0000-0000-000000000003', 'Paulo',  'atendente',      'pin', null),
   ('aaaaaaaa-0000-0000-0000-000000000004', 'Dev',   'desenvolvedor',  null,  'x');

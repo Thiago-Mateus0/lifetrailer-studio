@@ -6,7 +6,7 @@ import type { DadosEstoque } from './Estoque'
 export const estoqueFixture: DadosEstoque = {
   contexto: 'Estoque · Conferência',
   hora: '14:42',
-  turno: 'JA',
+  turno: 'HA',
   data: '07 AGO 2026',
   titulo: 'Estoque de insumos',
   subtitulo: 'Informe quanto tem. O sistema decide o que é urgente.',

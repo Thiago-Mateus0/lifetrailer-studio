@@ -41,7 +41,7 @@ destinatarios as (
 ),
 -- Os ensaios a que o lançamento manual pode ligar (ADR 0083): o banco aceita o
 -- do dia ou da véspera; a tela filtra pela data digitada. A janela cobre o
--- mês corrente e o anterior, que é até onde a Jana corrige.
+-- mês corrente e o anterior, que é até onde a Helena corrige.
 ensaios as (
   select a.id, a.datetime_inicio_agendado, a.datetime_fim_agendado, a.cliente_nome,
          (a.datetime_inicio_agendado at time zone 'America/Maceio')::date as dia,
@@ -142,7 +142,7 @@ function historico(r) {
   return linhas;
 }
 
-// De onde a hora extra veio, para a Jana conferir (ADR 0083): a comanda e o
+// De onde a hora extra veio, para a Helena conferir (ADR 0083): a comanda e o
 // cliente; na manual, também o horário do ensaio. Manual antiga não tem nada.
 function detalheDe(r) {
   const ensaio = r.ensaio_inicio
@@ -222,7 +222,7 @@ export function montarHorasExtras(linha, agora, aba = 'pendentes', periodo = 'me
     data: data(agora),
     turno: iniciais(l.eu_nome),
     subtitulo: atendente
-      ? 'Suas horas extras. A Jana paga por fora e marca cada uma individualmente.'
+      ? 'Suas horas extras. A Helena paga por fora e marca cada uma individualmente.'
       : 'Criadas no fechamento da comanda ou lançadas à mão. Pagar e cancelar são ações suas.',
     // Lançamento manual é do colaborador (spec: "colaborador lança").
     podeLancar: true,

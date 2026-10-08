@@ -79,7 +79,7 @@ LT002, e botão que promete o que não cumpre é pior que botão que não existe
 `descricao` é o que a lista mostra e o que se lê procurando o item.
 
 `local_guarda` guarda o **rótulo**, não um id: a lista de lugares é constante da
-tela (Gaveta A/P, Com a Jana), como as abas são. Uma tabela de catálogo para dois
+tela (Gaveta A/P, Com a Helena), como as abas são. Uma tabela de catálogo para dois
 valores seria catálogo sem dono, que é o que o ADR 0042 §3 recusa — e a lista
 real do estúdio é fato do Wyll, que entra em `docs/pendencias.md`, não em
 migration.

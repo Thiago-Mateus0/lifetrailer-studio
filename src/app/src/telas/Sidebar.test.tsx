@@ -21,7 +21,7 @@ testar('renderiza menu, contadores, urgências e perfil com os dados do fixture'
     esperar(urgencias).toHaveTextContent(urgencia.titulo)
     esperar(urgencias).toHaveTextContent(urgencia.detalhe)
   }
-  const perfil = menu.getByRole('button', { name: /Jana/ })
+  const perfil = menu.getByRole('button', { name: /Helena/ })
   esperar(perfil).toHaveTextContent(sidebarFixture.usuario!.papel)
   esperar(perfil).toHaveTextContent(sidebarFixture.usuario!.iniciais)
 })

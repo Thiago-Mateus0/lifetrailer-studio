@@ -12,7 +12,7 @@ begin;
 select plan(41);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 
@@ -23,7 +23,7 @@ create function pg_temp.em(p_hora interval) returns timestamptz
   language sql as $fx$ select ((select dia from t) + p_hora) at time zone 'America/Maceio' $fx$;
 create function pg_temp.he(p_id uuid) returns hora_extra
   language sql as $fx$ select * from hora_extra where id = p_id $fx$;
--- Alerta ao Admin sobre uma hora extra (app.alertar_admin escreve pra Jana).
+-- Alerta ao Admin sobre uma hora extra (app.alertar_admin escreve pra Helena).
 -- ⚠ O id vai literal: psql não interpola :VAR dentro de corpo dollar-quoted.
 create function pg_temp.alertas(p_id uuid) returns setof text
   language sql as $fx$
@@ -72,19 +72,19 @@ select throws_ok(format($$ select app.hora_extra_lancar(%L, %L, %L, %L, null, %L
 select throws_ok(format($$ select app.hora_extra_lancar(%L, %L, %L, %L, null, %L) $$,
   :MARCOS, pg_temp.em('20 hours'), pg_temp.em('20 hours'), :'ag', :MARCOS),
   'LT003', null, 'intervalo de duracao zero tambem');
--- Daqui em diante quem age e a Jana: app.exigir_ator confere o ator contra a
+-- Daqui em diante quem age e a Helena: app.exigir_ator confere o ator contra a
 -- identidade da transacao, entao a claim tem de acompanhar.
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 update colaborador set ativo = false where id = :PAULO;
 select throws_ok(format($$ select app.hora_extra_lancar(%L, %L, %L, %L, null, %L) $$,
-  :PAULO, pg_temp.em('20 hours'), pg_temp.em('21 hours'), :'ag', :JANA),
+  :PAULO, pg_temp.em('20 hours'), pg_temp.em('21 hours'), :'ag', :HELENA),
   'LT003', null, 'hora extra para colaborador inativo e LT003');
 update colaborador set ativo = true where id = :PAULO;
 
-select (app.hora_extra_lancar(:PAULO, pg_temp.em('20 hours'), pg_temp.em('21 hours'), :'ag', null, :JANA)).id
+select (app.hora_extra_lancar(:PAULO, pg_temp.em('20 hours'), pg_temp.em('21 hours'), :'ag', null, :HELENA)).id
   as do_paulo \gset
 select is((pg_temp.he(:'do_paulo')).valor, 50.00, 'o Admin lanca por qualquer um: duas horas, dois blocos');
-select is((pg_temp.he(:'do_paulo')).criado_por_id, :JANA::uuid, 'e a autoria e de quem lancou');
+select is((pg_temp.he(:'do_paulo')).criado_por_id, :HELENA::uuid, 'e a autoria e de quem lancou');
 select is((select count(*)::int from notificacao
             where referencia_ativo = 'hora_extra' and referencia_id = :'do_paulo'
               and destinatario_id = :PAULO), 1,
@@ -99,12 +99,12 @@ select ok((select bool_or(texto like '%ninguem%') from pg_temp.alertas(:'do_paul
 insert into turno_escalado (data, turno, colaborador_id, tipo_registro, origem)
 select dia, 'tarde_noite', :PAULO, 'padrao', 'teste' from t;
 
-select (app.hora_extra_lancar(:PAULO, pg_temp.em('21 hours'), pg_temp.em('22 hours'), :'ag', null, :JANA)).id
+select (app.hora_extra_lancar(:PAULO, pg_temp.em('21 hours'), pg_temp.em('22 hours'), :'ag', null, :HELENA)).id
   as escalado \gset
 select is((select count(*)::int from pg_temp.alertas(:'escalado')), 0,
   'lancar para quem a Escala aponta nao alerta');
 
-select (app.hora_extra_lancar(:MARCOS, pg_temp.em('21 hours'), pg_temp.em('22 hours'), :'ag', null, :JANA)).id
+select (app.hora_extra_lancar(:MARCOS, pg_temp.em('21 hours'), pg_temp.em('22 hours'), :'ag', null, :HELENA)).id
   as fora_da_escala \gset
 select is((select count(*)::int from pg_temp.alertas(:'fora_da_escala')), 1,
   'lancar para quem nao estava escalado alerta — e grava do mesmo jeito');
@@ -112,27 +112,27 @@ select is((pg_temp.he(:'fora_da_escala')).status, 'pendente', 'o lancamento fora
 
 -- ===================================================== 4. estorno
 select throws_ok(format($$ select app.hora_extra_estornar(%L, %s, 'engano', %L) $$,
-  :'do_paulo', (pg_temp.he(:'do_paulo')).versao, :JANA),
+  :'do_paulo', (pg_temp.he(:'do_paulo')).versao, :HELENA),
   'LT003', null, 'so hora extra PAGA se estorna');
 
-select app.hora_extra_pagar(:'do_paulo', (pg_temp.he(:'do_paulo')).versao, :JANA);
+select app.hora_extra_pagar(:'do_paulo', (pg_temp.he(:'do_paulo')).versao, :HELENA);
 select (pg_temp.he(:'do_paulo')).pago_em as pago_em \gset
 
 select throws_ok(format($$ select app.hora_extra_estornar(%L, %s, 'engano', %L) $$,
   :'do_paulo', (pg_temp.he(:'do_paulo')).versao, :MARCOS),
   'LT005', null, 'estornar e do Admin, como pagar');
 select throws_ok(format($$ select app.hora_extra_estornar(%L, %s, '  ', %L) $$,
-  :'do_paulo', (pg_temp.he(:'do_paulo')).versao, :JANA),
+  :'do_paulo', (pg_temp.he(:'do_paulo')).versao, :HELENA),
   'LT003', null, 'estorno sem motivo e LT003');
 select throws_ok(format($$ select app.hora_extra_estornar(%L, %s, %L, %L) $$,
-  :'do_paulo', (pg_temp.he(:'do_paulo')).versao, app.hora_extra_motivo_cascata(), :JANA),
+  :'do_paulo', (pg_temp.he(:'do_paulo')).versao, app.hora_extra_motivo_cascata(), :HELENA),
   'LT003', null, 'e o motivo da cascata e reservado — senao o descancelamento desfaria o estorno');
 select throws_ok(format($$ select app.hora_extra_estornar(%L, 99, 'engano', %L) $$,
-  :'do_paulo', :JANA),
+  :'do_paulo', :HELENA),
   'LT001', null, 'versao velha e LT001');
 
 select (app.hora_extra_estornar(:'do_paulo', (pg_temp.he(:'do_paulo')).versao,
-                                'pago em duplicidade', :JANA)).id as nova \gset
+                                'pago em duplicidade', :HELENA)).id as nova \gset
 
 select is((pg_temp.he(:'do_paulo')).status, 'cancelada', 'a paga vira cancelada');
 select is((pg_temp.he(:'do_paulo')).cancelada_motivo, 'pago em duplicidade', 'com o motivo do estorno');
@@ -158,7 +158,7 @@ select app.comanda_transicionar(:'c', 'fechar', (select versao from comanda wher
 select (select id from hora_extra where comanda_id = :'c' and status <> 'cancelada') as he_c \gset
 select is((pg_temp.he(:'he_c')).colaborador_id, :PAULO::uuid, 'a automatica foi para quem a Escala aponta');
 
-select app.hora_extra_pagar(:'he_c', (pg_temp.he(:'he_c')).versao, :JANA);
+select app.hora_extra_pagar(:'he_c', (pg_temp.he(:'he_c')).versao, :HELENA);
 -- A Escala muda: a tarde/noite daquela quarta passa a ser do Marcos.
 update turno_escalado set colaborador_id = :MARCOS
  where data = (select dia from t) and turno = 'tarde_noite';
@@ -175,7 +175,7 @@ select ok((select bool_or(texto like '%passou a apontar%') from pg_temp.alertas(
 -- O estorno de uma hora extra DE COMANDA passa pelo unique parcial: a copia só
 -- nasce depois de a paga virar cancelada.
 select (app.hora_extra_estornar(:'he_c', (pg_temp.he(:'he_c')).versao,
-                                'ensaio nao ocorreu', :JANA)).id as nova_c \gset
+                                'ensaio nao ocorreu', :HELENA)).id as nova_c \gset
 select is((pg_temp.he(:'nova_c')).comanda_id, :'c'::uuid, 'a copia guarda a comanda');
 select is((select count(*)::int from hora_extra where comanda_id = :'c' and status <> 'cancelada'), 1,
   'e continua havendo uma viva por comanda');

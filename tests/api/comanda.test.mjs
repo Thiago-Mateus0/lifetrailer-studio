@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { blocosDaExtensao, CONSULTA_COMANDA, linhaNoturnoAgendado, montarComanda, telefoneNaTela } from '../../src/api/telas/comanda.mjs';
-import { bancoDisponivel, MARCOS, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, MARCOS, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -97,7 +97,7 @@ test('comanda: aberta de outro atendente é lista de assunção, sem valores', {
 });
 
 test('comanda: o Admin vê o valor da Comanda que não é dele', { skip: semBanco }, () => {
-  assert.equal(daLista(montarComanda(rodar(JANA), AGORA), 'Cliente cli-3').total, 'R$ 97,00');
+  assert.equal(daLista(montarComanda(rodar(HELENA), AGORA), 'Cliente cli-3').total, 'R$ 97,00');
 });
 
 test('comanda: o detalhe em assunção não carrega valor nenhum', { skip: semBanco }, () => {
@@ -212,8 +212,8 @@ test('comanda: fechada congela o total e ganha número; no tablet reabre e receb
   assert.equal(d.modos.some((m) => m.identificador === 'enviar'), false);
 });
 
-test('comanda: a Jana copia, baixa e marca Enviei na fechada', { skip: semBanco }, () => {
-  const s = montarComanda(rodar(JANA, { comanda: 'fechada_marcos' }), AGORA).selecionada;
+test('comanda: a Helena copia, baixa e marca Enviei na fechada', { skip: semBanco }, () => {
+  const s = montarComanda(rodar(HELENA, { comanda: 'fechada_marcos' }), AGORA).selecionada;
 
   assert.deepEqual(s.acoes.map((a) => [a.identificador, a.rotulo]), [
     ['copiar', 'Copiar mensagem'], ['baixar', 'Baixar PDF'], ['enviar', 'Já mandei por fora'], ['reabrir', 'Reabrir comanda'],
@@ -222,13 +222,13 @@ test('comanda: a Jana copia, baixa e marca Enviei na fechada', { skip: semBanco 
   // Primeiro envio, por quem está na sessão; fechou no horário, então sem bloco.
   assert.deepEqual(
     { ...s.comprovante, dataDoEnsaio: undefined },
-    { envio: 1, enviadoPor: 'Jana', blocos: [], noturnoAgendado: null, primeiroNome: 'Cliente', dataDoEnsaio: undefined },
+    { envio: 1, enviadoPor: 'Helena', blocos: [], noturnoAgendado: null, primeiroNome: 'Cliente', dataDoEnsaio: undefined },
   );
   assert.match(s.comprovante.dataDoEnsaio, /^\d{2}\/\d{2}\/\d{4}$/);
 });
 
 test('comanda: com o ManyChat ligado, Enviar vem primeiro na fechada (ADR 0076 §3)', { skip: semBanco }, () => {
-  const linha = rodar(JANA, { comanda: 'fechada_marcos' });
+  const linha = rodar(HELENA, { comanda: 'fechada_marcos' });
   assert.deepEqual(montarComanda(linha, AGORA, { envioAutomatico: true }).selecionada.acoes.map((a) => a.identificador),
     ['enviar_manychat', 'copiar', 'baixar', 'enviar', 'reabrir', 'receber']);
   const marcos = rodar(MARCOS, { comanda: 'fechada_marcos' });
@@ -237,22 +237,22 @@ test('comanda: com o ManyChat ligado, Enviar vem primeiro na fechada (ADR 0076 �
 });
 
 test('comanda: enviada, o comprovante é o do último envio e o Enviei some', { skip: semBanco }, () => {
-  const s = montarComanda(rodar(JANA, {
+  const s = montarComanda(rodar(HELENA, {
     comanda: 'fechada_marcos',
-    extra: `select set_config('app.colaborador_id', '${JANA}', true);
-            select app.comanda_transicionar(comanda_id, 'enviar', 2, '${JANA}', null, null, '82999990000')
+    extra: `select set_config('app.colaborador_id', '${HELENA}', true);
+            select app.comanda_transicionar(comanda_id, 'enviar', 2, '${HELENA}', null, null, '82999990000')
               from cenario where papel = 'fechada_marcos';`,
   }), AGORA).selecionada;
 
   assert.equal(s.status, 'enviada');
   assert.deepEqual(s.acoes.map((a) => a.identificador), ['copiar', 'baixar', 'reabrir', 'receber']);
   assert.equal(s.comprovante.envio, 1);
-  assert.equal(s.comprovante.enviadoPor, 'Jana');
+  assert.equal(s.comprovante.enviadoPor, 'Helena');
 });
 
 // ADR 0086: o atendente marca Recebi também na Enviada; desfazer é do Admin.
-const PAGA_PELO_MARCOS = `select set_config('app.colaborador_id', '${JANA}', true);
-  select app.comanda_transicionar(comanda_id, 'enviar', 2, '${JANA}', null, null, '82999990000')
+const PAGA_PELO_MARCOS = `select set_config('app.colaborador_id', '${HELENA}', true);
+  select app.comanda_transicionar(comanda_id, 'enviar', 2, '${HELENA}', null, null, '82999990000')
     from cenario where papel = 'fechada_marcos';
   select set_config('app.colaborador_id', '${MARCOS}', true);
   select app.comanda_transicionar(comanda_id, 'receber', 3, '${MARCOS}', p_forma_pagamento => 'credito')
@@ -264,12 +264,12 @@ test('comanda: paga mostra a forma, e só o Admin desfaz o Recebi', { skip: semB
   assert.equal(marcos.statusRotulo, 'paga · Crédito');
   assert.deepEqual(marcos.acoes.map((a) => [a.identificador, a.desativada]), [['desfazer_recebimento', true]]);
 
-  const jana = montarComanda(rodar(JANA, { comanda: 'fechada_marcos', extra: PAGA_PELO_MARCOS }), AGORA).selecionada;
-  assert.deepEqual(jana.acoes.map((a) => [a.identificador, a.desativada]), [['desfazer_recebimento', false]]);
+  const helena = montarComanda(rodar(HELENA, { comanda: 'fechada_marcos', extra: PAGA_PELO_MARCOS }), AGORA).selecionada;
+  assert.deepEqual(helena.acoes.map((a) => [a.identificador, a.desativada]), [['desfazer_recebimento', false]]);
 });
 
-test('comanda: "Para enviar" é a aba da Jana, com todas as fechadas', { skip: semBanco }, () => {
-  const d = montarComanda(rodar(JANA, { modo: 'enviar' }), AGORA, { modo: 'enviar' });
+test('comanda: "Para enviar" é a aba da Helena, com todas as fechadas', { skip: semBanco }, () => {
+  const d = montarComanda(rodar(HELENA, { modo: 'enviar' }), AGORA, { modo: 'enviar' });
 
   assert.deepEqual(d.modos.map((m) => [m.rotulo, m.selecionado]),
     [['Ativas', false], ['Histórico', false], ['Para enviar', true]]);

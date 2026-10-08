@@ -133,7 +133,7 @@ A mesma tabela do ADR 0021 §1, aplicada à rota:
 
 O ADR 0021 pôs a bandeja `Descarga pendente` como tela só do Admin. Mas a fila
 mora no IndexedDB do tablet, e o Admin não usa o tablet (ADR 0049 §1). O
-servidor não vê o que está na fila, então uma tela no computador da Jana não
+servidor não vê o que está na fila, então uma tela no computador da Helena não
 teria o que mostrar.
 
 Na mídia, a bandeja é **uma lista no tablet**, visível a quem estiver logado:

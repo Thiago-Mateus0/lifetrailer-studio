@@ -71,7 +71,7 @@ update comanda set datetime_fim_praticado = (select mes from m2) + time '11:00'
 select app.transicionar_como_sistema((select id from c3), 'cancelar_reversivel');
 
 -- Não há destino a escolher: FECHAR iria contra a Altegio, mesmo com praticado.
-select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Jana
+select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Helena
 select throws_matching(
   format($$ select app.competencia_trancar(%L,
        'aaaaaaaa-0000-0000-0000-000000000001', true, 'fechamento do mes',

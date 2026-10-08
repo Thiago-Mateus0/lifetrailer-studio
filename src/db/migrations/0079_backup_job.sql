@@ -158,7 +158,7 @@ with contado as (
     from item_extra
 
   union all
-  -- Catálogos de campo: dependem do levantamento da Jana e da equipe (ADR 0030
+  -- Catálogos de campo: dependem do levantamento da Helena e da equipe (ADR 0030
   -- §1). São estes que de fato marcam a data de entrada em operação.
   select 'Itens do Checklist', count(*),
          'O Checklist — com a lista vazia o dia fecha "completo" sem descrever nada'

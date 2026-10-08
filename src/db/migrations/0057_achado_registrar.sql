@@ -23,7 +23,7 @@
 -- (ADR 0053 §3). Colunas novas e nullable: nenhuma linha existente muda.
 --
 -- `local_guarda` guarda o RÓTULO, não um id. Uma tabela de catálogo para dois
--- valores ("Gaveta A/P", "Com a Jana") seria catálogo sem dono — e a lista real
+-- valores ("Gaveta A/P", "Com a Helena") seria catálogo sem dono — e a lista real
 -- do estúdio é fato do Wyll, que está em docs/pendencias.md.
 alter table achado
   add column local_guarda text,

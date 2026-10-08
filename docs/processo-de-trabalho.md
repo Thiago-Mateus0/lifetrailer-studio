@@ -53,7 +53,7 @@ Isso junta spec, ADR, testes e pendencia tudo num arquivo so, pra eu nao precisa
 
 | Pessoa | Funcao |
 |---|---|
-| Jana | Gerente/admin, tem login proprio |
+| Helena | Gerente/admin, tem login proprio |
 | Wyll | Socio, foi ele que definiu como pensar seguranca aqui |
 | Thiago (eu) | Atendente e tambem quem programa (ver ADR 0010 sobre esse conflito) |
 | Marcos | Atendente, sempre de manha |

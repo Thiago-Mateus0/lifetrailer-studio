@@ -20,7 +20,7 @@ begin;
 select plan(53);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
@@ -136,7 +136,7 @@ select throws_ok($$ select pg_temp.confirmar('Domingo abre 11h') $$,
   'LT003', null, 'nem o Desenvolvedor: "todos" nao o inclui (0061)');
 
 -- 3. a ultima confirmacao arquiva
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select is((pg_temp.confirmar('Domingo abre 11h')).status, 'arquivado',
   'a Administradora confirma como qualquer um, e a ultima confirmacao do snapshot arquiva o aviso (spec)');
 select is((pg_temp.aviso('Domingo abre 11h')).versao, 2,
@@ -144,7 +144,7 @@ select is((pg_temp.aviso('Domingo abre 11h')).versao, 2,
 select ok(exists (select 1 from audit_log
                    where ativo_origem = 'aviso' and acao = 'aviso_arquivado_por_leitura'
                      and registro_id = (pg_temp.aviso('Domingo abre 11h')).id
-                     and autor_id = :JANA::uuid),
+                     and autor_id = :HELENA::uuid),
   'o arquivamento por leitura vai para o audit log, assinado por quem fechou a conta');
 select is((select count(*)::int from audit_log
             where ativo_origem = 'aviso' and acao = 'aviso_leitura_confirmada'
@@ -160,9 +160,9 @@ select pg_temp.como(:DEV);
 select throws_ok($$ select pg_temp.arquivar('Luz do Acustico queimada') $$,
   'LT005', null, 'nem o Desenvolvedor');
 
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select throws_ok(
-  format($$ select app.aviso_arquivar(%L, 99, %L) $$, (pg_temp.aviso('Luz do Acustico queimada')).id, :JANA),
+  format($$ select app.aviso_arquivar(%L, 99, %L) $$, (pg_temp.aviso('Luz do Acustico queimada')).id, :HELENA),
   'LT001', null, 'versao errada e LT001');
 select is((pg_temp.arquivar('Luz do Acustico queimada')).status, 'arquivado',
   'a Administradora arquiva');
@@ -172,7 +172,7 @@ select throws_ok($$ select pg_temp.arquivar('Luz do Acustico queimada') $$,
 select ok(exists (select 1 from audit_log
                    where ativo_origem = 'aviso' and acao = 'aviso_arquivado'
                      and registro_id = (pg_temp.aviso('Luz do Acustico queimada')).id
-                     and autor_id = :JANA::uuid),
+                     and autor_id = :HELENA::uuid),
   'arquivar a mao registra no audit log, com a autora');
 
 select pg_temp.como(:PAULO);
@@ -182,7 +182,7 @@ select throws_ok($$ select pg_temp.confirmar('Luz do Acustico queimada') $$,
 -- ============================================================ os 15 dias
 -- O `now()` da transacao e fixo: o que envelhece e o criado_em.
 update aviso set criado_em = now() - interval '15 days' where texto like 'Fundo branco%';
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select pg_temp.publicar('Aviso de ontem');
 update aviso set criado_em = now() - interval '14 days 23 hours' where texto = 'Aviso de ontem';
 

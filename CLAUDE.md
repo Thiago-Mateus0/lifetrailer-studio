@@ -4,7 +4,7 @@ Sistema de gestão operacional do Lifetrailer Studio (estúdio de fotografia). R
 
 **Fase atual: 4 — implementação.** `src/` estava vazio até aqui. Fases 1–3 (arquitetura, spec, design system) estão fechadas em `docs/`. Não reabra decisão de fase anterior sem ADR.
 
-Pessoas: **Jana** (admin, técnica) · **Wyll** (cliente/gestor, não-técnico — documentação pra ele é em linguagem simples, sem jargão).
+Pessoas: **Helena** (admin, técnica) · **Wyll** (cliente/gestor, não-técnico — documentação pra ele é em linguagem simples, sem jargão).
 
 ---
 

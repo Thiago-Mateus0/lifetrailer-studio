@@ -98,7 +98,7 @@ Limiar sem baseline converge pra desligado.
 
 **Relatório periódico de "ações incomuns" em vez de alerta.** Melhor que
 alerta, e continua sem baseline. Vira anexo que ninguém abre — e o export
-semanal à Jana (ADR 0011) já é o relatório que ela realmente lê, com um alvo
+semanal à Helena (ADR 0011) já é o relatório que ela realmente lê, com um alvo
 definido em vez de uma varredura.
 
 **Deixar como ideia em aberto, como estava.** É o que o contrato 2.0.4 fez, e

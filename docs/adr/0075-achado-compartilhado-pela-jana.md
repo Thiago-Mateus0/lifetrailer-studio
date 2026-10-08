@@ -1,4 +1,4 @@
-# ADR 0075 — Quem procura o dono do achado é a Jana: "Copiar mensagem" e "Baixar foto" no computador dela; o tablet não compartilha
+# ADR 0075 — Quem procura o dono do achado é a Helena: "Copiar mensagem" e "Baixar foto" no computador dela; o tablet não compartilha
 
 **Status:** Proposto — revoga o §4 do [ADR 0055](0055-duplicata-e-compartilhar-o-achado.md)
 **Data:** 2026-09-26
@@ -18,18 +18,18 @@ compartilhamento do Android com a foto e, sem ela, o `wa.me` só com o texto. No
 dois casos a mensagem sai do WhatsApp do tablet.
 
 O ADR 0073 mostrou que isso não alcança o cliente. O cliente fala com o estúdio
-pelo ManyChat, e a Jana tem acesso ao ManyChat, não ao WhatsApp do número. O
+pelo ManyChat, e a Helena tem acesso ao ManyChat, não ao WhatsApp do número. O
 comprovante saiu do tablet por esse motivo, e o Achado tem o mesmo problema.
 
 ## Decisão
 
-### 1. O gesto é da Jana, no computador
+### 1. O gesto é da Helena, no computador
 
 O detalhe do achado mostra **Copiar mensagem** e **Baixar foto** só para o Admin.
 O tablet não mostra nenhum dos dois. As condições do ADR 0055 §6 continuam: o
 achado precisa ter foto e estar em guarda.
 
-A Jana copia o texto, cola na conversa do cliente no ManyChat, anexa a foto que
+A Helena copia o texto, cola na conversa do cliente no ManyChat, anexa a foto que
 baixou e envia. Nada é registrado. Procurar o dono não tem estado no ciclo de
 vida do achado, e nenhuma linha do banco muda.
 
@@ -43,7 +43,7 @@ alongado para a mensagem. O ADR 0055 rejeitou publicar a foto: ela é prova de
 um item que ainda não foi entregue, e um link que sobrevive ao encaminhamento
 mostra a foto a quem recebeu o encaminhamento.
 
-"Baixar foto" usa esse mesmo endereço, aberto pela Jana na hora. Quem guarda o
+"Baixar foto" usa esse mesmo endereço, aberto pela Helena na hora. Quem guarda o
 arquivo é o computador dela, e quem manda é ela.
 
 ### 3. O texto não muda
@@ -74,7 +74,7 @@ issue #194), então a foto teria de virar link, que é a primeira alternativa.
 - **`compartilhar.ts` sai do front.** Depois do ADR 0073 ele só tinha
   `compartilharAchado`, e a folha nativa e o `wa.me` deixam de ter uso no app.
 - **Com o ADR 0073, o tablet não manda mais nada ao cliente.** Todo contato com
-  o cliente passa pelo ManyChat, pela Jana.
+  o cliente passa pelo ManyChat, pela Helena.
 - A decorrência 1 do ADR 0055, sobre como o texto nomeia o estúdio para quem é
   de fora, continua aberta. Ela não depende desta decisão.
 
@@ -82,4 +82,4 @@ issue #194), então a foto teria de virar link, que é a primeira alternativa.
 
 | Origem | Item | Como fechou |
 |---|---|---|
-| 0073.1 | O compartilhamento dos Achados também manda pelo WhatsApp do tablet | O gesto passa para a Jana, com texto copiado e foto baixada (§1–§2) |
+| 0073.1 | O compartilhamento dos Achados também manda pelo WhatsApp do tablet | O gesto passa para a Helena, com texto copiado e foto baixada (§1–§2) |

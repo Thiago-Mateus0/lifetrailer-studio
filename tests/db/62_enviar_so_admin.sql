@@ -9,7 +9,7 @@ begin;
 select plan(6);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 select set_config('app.colaborador_id', :MARCOS, true);
 
@@ -28,13 +28,13 @@ select is((select status from comanda where id = (select id from t_c)), 'fechada
 select is((select count(*)::int from comanda_envio where comanda_id = (select id from t_c)), 0,
   'a recusa nao gravou envio');
 
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select is(
-  (select status from app.comanda_transicionar((select id from t_c), 'enviar', 2, :JANA,
+  (select status from app.comanda_transicionar((select id from t_c), 'enviar', 2, :HELENA,
      null, null, '82999990000')),
   'enviada', 'Admin em enviar: Enviada');
 select is((select enviado_por_id from comanda_envio where comanda_id = (select id from t_c)),
-  :JANA::uuid, 'comanda_envio fica com a Jana como autora');
+  :HELENA::uuid, 'comanda_envio fica com a Helena como autora');
 
 select set_config('app.colaborador_id', :MARCOS, true);
 select throws_ok(

@@ -9,7 +9,7 @@
 
 A Comanda exige `agendamento_id`. Se o agendamento não chegou, o dia para — e o Rev6 restringia a criação manual ao Admin.
 
-A integração cai numa sexta às 21h. A Jana não está. O cliente está na sala. A chave da emergência estava com a pessoa com menor probabilidade de estar presente na hora da emergência — noites e fins de semana, que é quando o próprio documento diz que mais acontece.
+A integração cai numa sexta às 21h. A Helena não está. O cliente está na sala. A chave da emergência estava com a pessoa com menor probabilidade de estar presente na hora da emergência — noites e fins de semana, que é quando o próprio documento diz que mais acontece.
 
 O modo de falha que mata o projeto não é cálculo errado: é Comanda que não abre com o cliente na sala. O atendente faz a única coisa racional — escreve no papel — e papel é contagioso.
 

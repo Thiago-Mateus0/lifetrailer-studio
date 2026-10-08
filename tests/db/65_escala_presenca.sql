@@ -9,7 +9,7 @@ begin;
 select plan(17);
 \ir _fixtures.psql
 
-\set JANA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS  '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO   '\'aaaaaaaa-0000-0000-0000-000000000003\''
 
@@ -61,8 +61,8 @@ select throws_ok($$ select pg_temp.marcar('hoje_paulo', true, 'aaaaaaaa-0000-000
   'LT005', null, 'o Marcos nao marca a presenca do Paulo');
 select throws_ok($$ select pg_temp.marcar('ontem_marcos', true, 'aaaaaaaa-0000-0000-0000-000000000002') $$,
   'LT005', null, 'nem a propria, de ontem');
-select is(pg_temp.marcar('ontem_marcos', true, :JANA), true, 'o Admin marca ontem');
-select is(pg_temp.marcar('hoje_paulo', true, :JANA), true, 'e marca a do Paulo');
+select is(pg_temp.marcar('ontem_marcos', true, :HELENA), true, 'o Admin marca ontem');
+select is(pg_temp.marcar('hoje_paulo', true, :HELENA), true, 'e marca a do Paulo');
 select throws_ok($$ select pg_temp.marcar('amanha', true, 'aaaaaaaa-0000-0000-0000-000000000001') $$,
   'LT002', null, 'futuro ninguem marca');
 select throws_ok($$ select app.escala_presenca_marcar(pg_temp.id('vago'), null, true,
@@ -73,9 +73,9 @@ select throws_ok($$ select app.escala_presenca_marcar(pg_temp.id('hoje_paulo'),
   'LT001', null, 'quem a tela mostrava nao e mais o escalado: LT001');
 
 -- --------------------------------------------- 3. a marca e de quem veio
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select app.escala_alterar(jsonb_build_array(jsonb_build_object(
-  'turno_id', pg_temp.id('hoje_paulo'), 'versao', 1, 'tipo', 'troca', 'colaborador_id', :MARCOS)), :JANA);
+  'turno_id', pg_temp.id('hoje_paulo'), 'versao', 1, 'tipo', 'troca', 'colaborador_id', :MARCOS)), :HELENA);
 select isnt((pg_temp.t('hoje_paulo')).presenca_colaborador_id, (pg_temp.t('hoje_paulo')).colaborador_id,
   'troca depois da marca: quem cobre nao herda o "veio" do Paulo');
 

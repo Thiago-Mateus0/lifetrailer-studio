@@ -78,7 +78,7 @@ Thiago atua em papel duplo: líder do projeto e desenvolvedor.
 
 | Pessoa | Papel |
 |---|---|
-| Jana | Admin/gerente, login próprio |
+| Helena | Admin/gerente, login próprio |
 | Wyll | Sócio-gerente, definiu a diretriz de segurança |
 | Thiago | Atendente + Desenvolvedor |
 | Marcos | Atendente, manhã fixa |
@@ -317,7 +317,7 @@ duracao_agendada não consta na tabela vigente:
   → flag duracao_nao_tabelada
   → ALERTA o Admin
   → Comanda NÃO PODE ser gerada até correção na Altegio
-     ou informação do valor pela Jana
+     ou informação do valor pela Helena
 
 duracao_agendada ≤ 0  (buffer ≥ seance_length):
   → flag duracao_invalida
@@ -517,7 +517,7 @@ Transversal: toda ação em qualquer ativo → Audit log.
 ### ⚠ Riscos aceitos (decisões conscientes, comunicadas aos sócios)
 
 1. **PIN em dispositivo compartilhado.** A atribuição é coerente, não inforjável. O Bloco A removeu a razão prática para compartilhar PIN (a Comanda não trava mais na virada de turno) e tornou a regra global 9 aplicável — mas nada impede o compartilhamento voluntário. Tornar a autoria probatória exige hardware (tag NFC por pessoa, viável em Android). **Decisão do Wyll, como autor da diretriz de segurança: atribuição probatória ou informativa?**
-2. **Desenvolvedor com acesso ao banco.** Ações do Dev direto no banco não passam pelo audit log da aplicação, e Thiago é Dev e Atendente ao mesmo tempo. Mitigação organizacional recomendada: export periódico de horas extras chegando à Jana por canal que o Dev não controla, conferível contra os horários da própria Altegio.
+2. **Desenvolvedor com acesso ao banco.** Ações do Dev direto no banco não passam pelo audit log da aplicação, e Thiago é Dev e Atendente ao mesmo tempo. Mitigação organizacional recomendada: export periódico de horas extras chegando à Helena por canal que o Dev não controla, conferível contra os horários da própria Altegio.
 3. **Devolução em Achados sem verificação.** Registra apenas o nome de quem retirou, digitado pelo atendente. Correção disponível se incomodar: exigir Admin na devolução de itens de valor.
 
 ---
@@ -656,7 +656,7 @@ CONTENÇÕES
   sem agendamento futuro · sem retroativo
 ```
 
-**Por que no atendente, e não no Admin:** a integração cai numa sexta às 21h e a Jana não está. A chave da emergência não pode ficar com quem tem menor probabilidade de estar presente na hora da emergência — noites e fins de semana são justamente quando mais acontece.
+**Por que no atendente, e não no Admin:** a integração cai numa sexta às 21h e a Helena não está. A chave da emergência não pode ficar com quem tem menor probabilidade de estar presente na hora da emergência — noites e fins de semana são justamente quando mais acontece.
 
 **Por que declarado, e não detectado:** a detecção automática só pega queda de integração. O acionamento pelo atendente cobre também o caso em que a Altegio está saudável e o agendamento não está lá — marcado no lugar errado, reagendado por fora, ou `staff_id` no balde de não mapeado.
 
@@ -850,7 +850,7 @@ Concorrência EXISTE mesmo com um tablet: admins acessam por navegador de qualqu
 1. **Ensaio normal** — Loft 14h, cliente vem, Comanda criada, bomboniere lançado, PDF por WhatsApp.
 2. **Ensaio que estende** — Acústico, agendado 21h–22h, sai 23h30. Exercita arredondamento, acréscimo por bloco e geração automática de hora extra.
 3. **Dia com problema físico e item esquecido** — ar-condicionado justificado com foto; Lembrete das 16h; carregador em Achados.
-4. **Domingo extra** — Jana consulta o painel, sistema sugere a vez (Thiago → Marcos → Paulo), ela confirma, cria o Checklist do domingo, colaborador trabalha, extra registrado.
+4. **Domingo extra** — Helena consulta o painel, sistema sugere a vez (Thiago → Marcos → Paulo), ela confirma, cria o Checklist do domingo, colaborador trabalha, extra registrado.
 5. ⭐ **Ensaio atravessando a virada de turno** — agendado 11h–15h. Marcos cria, posse passa ao Paulo às 14h, Paulo fecha. Exercita transferência automática, `criado_por_id` × `responsavel_atual_id`, e destinatário de hora extra.
 6. ⭐ **Integração fora** — atendente aciona a emergência, cria agendamento manual, gera Comanda, fecha, envia. Integração volta, conciliação promove o manual. Exercita C1, C2 e C3.
 
@@ -1213,7 +1213,7 @@ criticidade_atual  DERIVADA, nunca armazenada:
 
 O gatilho vermelho passa a ser **item grave marcado e não reposto**. Marcar não pinta a tela; ficar sem resposta pinta.
 
-Prazos (3 e 7 dias) são **configuráveis pela Jana**, não constantes.
+Prazos (3 e 7 dias) são **configuráveis pela Helena**, não constantes.
 
 ### Regras — Insumo
 - Qualquer atendente marca `precisa_comprar = true`
@@ -1245,7 +1245,7 @@ Calculado item a item, nunca no agregado. Idempotente em qualquer número de rea
 
 ### ⭐ Caminho rápido de marcação *(Fase 2.10 — F2)*
 
-O quadro físico existe porque marcar nele custa dois segundos: passa, olha, risca. Se o caminho digital for mais lento, o quadro fica, `precisa_comprar` fica vazio, e a lista de compra **mente por omissão** — pior que não existir, porque a Jana compra por ela.
+O quadro físico existe porque marcar nele custa dois segundos: passa, olha, risca. Se o caminho digital for mais lento, o quadro fica, `precisa_comprar` fica vazio, e a lista de compra **mente por omissão** — pior que não existir, porque a Helena compra por ela.
 
 1. A tela do Estoque no tablet abre **direto na lista completa**, agrupada por categoria, com **toque único** para marcar. Sem submenu, sem busca obrigatória, sem confirmação. Marcar é reversível e idempotente
 2. **Ordem idêntica à do quadro físico** (Anexo A). Quem usou o quadro por anos encontra pela memória espacial, não pela leitura
@@ -1258,7 +1258,7 @@ Insumo: desativar item com `precisa_comprar = true` alerta o Admin antes de conf
 Bomboniere: ledger é sempre a verdade; materializado é cache · job de reconciliação alerta divergência, não corrige silenciosamente · Reposição negativa rejeitada (use Ajuste)
 
 ### Pendências
-Nome dos 3 fornecedores sem rótulo no quadro · categoria "Bomboniere/Outros" em branco · frequência da reconciliação do Bomboniere · **prazos de escalonamento da criticidade (Jana)**
+Nome dos 3 fornecedores sem rótulo no quadro · categoria "Bomboniere/Outros" em branco · frequência da reconciliação do Bomboniere · **prazos de escalonamento da criticidade (Helena)**
 
 ---
 
@@ -1266,7 +1266,7 @@ Nome dos 3 fornecedores sem rótulo no quadro · categoria "Bomboniere/Outros" e
 
 ### Modelo: DIAS MATERIALIZADOS
 ```
-PADRÃO (Jana define, com âncora de alternância)
+PADRÃO (Helena define, com âncora de alternância)
   ↓ gerador contínuo mantém 4 SEMANAS à frente
 TURNO ESCALADO — um registro por dia/turno
   [Padrão] · [Troca] · [Extra domingo] · [Ausência]
@@ -1295,7 +1295,7 @@ Contar o domingo faz a semana ter sete dias — número ímpar — e a inversão
 
 - Gerador declarativo: existe → ignora; não existe → cria. Nunca falha por duplicata. Alerta se a janela ficar incompleta
 - Materialização sob demanda fora da janela: só Admin, só para Extra domingo ou Ausência
-- Rodízio de domingo é **SUGESTÃO**, não automação. Jana confirma ou escolhe outro
+- Rodízio de domingo é **SUGESTÃO**, não automação. Helena confirma ou escolhe outro
 
 ### Schema
 
@@ -1305,7 +1305,7 @@ Contar o domingo faz a semana ter sete dias — número ímpar — e a inversão
 **TurnoEscalado:** data · turno (Manhã/Tarde-noite/Extra) · unique (data, turno) · `colaborador_id` NULLABLE · `tipo_registro` · `hora_inicio`/`fim` snapshot · `substituido_colaborador_id` · `padrao_origem_id` · origem · `criado_por_id` · alterado por/em · `versao`
 
 ### ⭐ Acionar domingo extra cria o Checklist na hora
-O cron do Checklist roda às 6h e pergunta à Escala se o domingo é de expediente. Mas a Jana só aciona quando vê o agendamento — às 9h, às 11h, na véspera. Por isso, acionar o domingo extra dispara a criação do Checklist naquele momento. Desfazer cancela o Checklist se ninguém tiver marcado nada; se já houver marcação, ele permanece e o Admin é avisado.
+O cron do Checklist roda às 6h e pergunta à Escala se o domingo é de expediente. Mas a Helena só aciona quando vê o agendamento — às 9h, às 11h, na véspera. Por isso, acionar o domingo extra dispara a criação do Checklist naquele momento. Desfazer cancela o Checklist se ninguém tiver marcado nada; se já houver marcação, ele permanece e o Admin é avisado.
 
 ### ⭐ Alterar a âncora OU o array de colaboradores *(Fase 2.10 — G2)*
 
@@ -1335,7 +1335,7 @@ AUTOMÁTICA: Comanda Fechada com acréscimo > 0
 
 MANUAL: colaborador lança (extra sem ensaio)
   → [Pendente] origem = Manual
-     ↓ Jana paga por fora e marca, INDIVIDUALMENTE
+     ↓ Helena paga por fora e marca, INDIVIDUALMENTE
   [Paga]
   [Cancelada] ← nunca exclui, sai do total pendente
 ```
@@ -1526,7 +1526,7 @@ Migração das Fichas Técnicas do documento externo (depende de campo) · víde
 |---|---|
 | Pág. 3, Autenticação | Remover "ações monetárias exigem confirmação de PIN novamente" |
 | Pág. 4, Comanda | "Atendente — Texto — sem login" → hoje são **dois campos**: `criado_por_id` (imutável) e `responsavel_atual_id`, ambos FK → Colaborador autenticado por PIN |
-| Pág. 9, Ativo 5, ciclo | A hora extra do atendente é gerada automaticamente a partir da Comanda, com valor igual ao acréscimo noturno, **e destinatário derivado da Escala**. Não existe mais a origem "agendada pela Jana" |
+| Pág. 9, Ativo 5, ciclo | A hora extra do atendente é gerada automaticamente a partir da Comanda, com valor igual ao acréscimo noturno, **e destinatário derivado da Escala**. Não existe mais a origem "agendada pela Helena" |
 | Pág. 10, Ativo 5 | Regra anti-duplicidade por `comanda_id` |
 | Pág. 10, Ativo 6 | "Lembrete criado apenas por admin" → "Lembretes manuais são criados apenas por admin. O sistema também gera Lembretes automáticos (origem = Sistema)." Acrescentar o terceiro tipo, Notificação |
 | Todo o documento | A regra de hora extra mudou completamente — ver Parte IV |
@@ -1567,7 +1567,7 @@ Migração das Fichas Técnicas do documento externo (depende de campo) · víde
 
 | # | Pendência | Dono |
 |---|---|---|
-| 11 | Prazos de escalonamento da criticidade do Estoque (3 e 7 dias são ponto de partida) | Jana |
+| 11 | Prazos de escalonamento da criticidade do Estoque (3 e 7 dias são ponto de partida) | Helena |
 | 12 | Data de desativação dos controles físicos, por ativo | Fase 3, com a equipe |
 | 13 | Nome dos 3 fornecedores sem rótulo · categoria "Bomboniere/Outros" em branco | Campo |
 | 14 | Aplicar as correções no PDF da Fase 1 (Parte VI) | Editar o documento |

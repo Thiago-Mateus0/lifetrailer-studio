@@ -8,7 +8,7 @@ marcado das 22h30 à 00h30, que fechou sem hora extra. Nas palavras dele: "o
 cliente hoje só consegue fechar o ensaio extra por fora, daí ele paga o valor
 do ensaio + 25 por cada bloco de 30 min. Sábado o limite é até 18, passou de 18
 e vai até 20, o atendente responsável recebe 100", e "a hora extra [precisa]
-estar ligada à comanda ou ensaio, para melhor confirmação da Jana".
+estar ligada à comanda ou ensaio, para melhor confirmação da Helena".
 **Toca:** [ADR 0008](0008-calculo-de-extensao.md) e [ADR 0013](0013-decisoes-wyll-extensao-e-log.md)
 (blocos noturnos), [horas-extras.md](../spec/horas-extras.md),
 [comanda.md](../spec/comanda.md).

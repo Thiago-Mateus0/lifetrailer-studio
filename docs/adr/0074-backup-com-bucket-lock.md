@@ -13,7 +13,7 @@ O ADR 0028 §2 diz que o token do bucket de backup **escreve e não apaga**, sem
 diferente, num sistema diferente, e não venha junto com o acesso ao banco.
 
 O R2 foi criado em 2026-09-26: `lifetrailer-backup`, privado, com o token
-`backup` (leitura e escrita) e o `jana` (só leitura). O token permanente do
+`backup` (leitura e escrita) e o `helena` (só leitura). O token permanente do
 painel da Cloudflare **não separa escrever de apagar**. Quem pode `PutObject`
 pode `DeleteObject` e sobrescrever. Do jeito que o §2 está escrito, ele não
 se cumpre com esse tipo de token.
@@ -80,7 +80,7 @@ além do que o ADR 0028 e o ADR 0023 aceitaram.
   já foi gravado com o lock antigo. Aumentar vale só pro que for gravado dali
   em diante.
 - ⚠ **Os três tokens são User API tokens do usuário que os criou.** Isso inclui
-  o `jana`. Se esse usuário sair da conta, os três param, e a leitura da Jana
+  o `helena`. Se esse usuário sair da conta, os três param, e a leitura da Helena
   para junto. O §2 do 0028 pede que o acesso dela não dependa de quem opera o
   sistema. Fica em aberto: decorrência 1.
 
@@ -88,4 +88,4 @@ além do que o ADR 0028 e o ADR 0023 aceitaram.
 
 | # | Item | Por quê |
 |---|---|---|
-| 1 | **Credencial da Jana independente do usuário do operador.** Pode ser um token de conta criado por um Super Administrator, ou um usuário próprio da Jana na conta | Hoje a leitura dela morre junto com o usuário que criou o token. Precisa de alguém com papel na conta da Cloudflare, que é fato do Thiago |
+| 1 | **Credencial da Helena independente do usuário do operador.** Pode ser um token de conta criado por um Super Administrator, ou um usuário próprio da Helena na conta | Hoje a leitura dela morre junto com o usuário que criou o token. Precisa de alguém com papel na conta da Cloudflare, que é fato do Thiago |

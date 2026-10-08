@@ -144,8 +144,8 @@ por `psql`:
 
 ```sql
 update colaborador
-   set login = 'jana', senha_hash = crypt('<senha>', gen_salt('bf', 12))
- where nome = 'Jana' and nivel_acesso = 'administrador';
+   set login = 'helena', senha_hash = crypt('<senha>', gen_salt('bf', 12))
+ where nome = 'Helena' and nivel_acesso = 'administrador';
 ```
 
 Sem isto a administração não tem caminho nenhum de entrada.

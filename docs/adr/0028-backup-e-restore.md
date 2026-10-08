@@ -81,7 +81,7 @@ Vinte e quatro por dia é custo de armazenamento desprezível e nenhuma
 complexidade nova: é o mesmo job do `pg_cron`, com outra cadência (ADR-0029).
 
 Por isso o token do R2 desse bucket **escreve e não apaga** — sem `delete`, sem
-`overwrite`. E **a Jana tem a credencial de leitura**, pelo mesmo raciocínio do
+`overwrite`. E **a Helena tem a credencial de leitura**, pelo mesmo raciocínio do
 export de horas extras do ADR-0011: uma cópia cujo acesso não depende de quem
 opera o sistema.
 
@@ -98,7 +98,7 @@ restaura num banco descartável e roda a conferência:
 1. `verificar_cadeia()` do audit log (ADR-0024) — devolve divergência ou nada.
 2. Contagem de Comandas e soma de totais por competência, comparadas com a
    produção.
-3. Última linha do log, comparada com a **âncora semanal** que a Jana guarda
+3. Última linha do log, comparada com a **âncora semanal** que a Helena guarda
    (ADR-0024).
 
 O item 1 é o que faz este drill valer alguma coisa. Antes do hash encadeado,

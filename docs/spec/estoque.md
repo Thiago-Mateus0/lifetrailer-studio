@@ -84,7 +84,7 @@ desempate de ORDEM na lista de compra, não pra cor.
 
 ### Regras — Insumo *(ADR 0017)*
 - Qualquer atendente registra a contagem, modo **Conferir** (leitura, sem editar)
-- **Editar/Confirmar** é o modo que grava número novo — Jana ou atendente, distinção não é mais "quem desmarca", é "quem está contando agora"
+- **Editar/Confirmar** é o modo que grava número novo — Helena ou atendente, distinção não é mais "quem desmarca", é "quem está contando agora"
 - `quantidade` reflete o físico no momento da última conferência — não é saldo calculado, é lida direto do que a pessoa contou
 - "Não conferido neste ciclo" é estado próprio, neutro — **não confundir com quantidade 0.** Item não contado não é item urgente por omissão
 - **Confirmar grava só os insumos em que o dedo mexeu**, não o catálogo inteiro: item que ninguém tocou não foi contado, e nos nunca conferidos a tela mostra "—" — mandá-lo junto gravaria um 0 que é justamente o topo da escala. Tocar e voltar ao mesmo número também é conferir (o que muda é `conferido_em`). A outra ponta é conhecida: quem só olha e não toca não renova a data
@@ -119,7 +119,7 @@ Calculado item a item, nunca no agregado. Idempotente em qualquer número de rea
 
 ### ⭐ Caminho rápido de contagem *(Fase 2.10 — F2, mecanismo trocado por ADR 0017)*
 
-O quadro físico existe porque marcar nele custa dois segundos: passa, olha, risca. Se o caminho digital for mais lento, o quadro fica, a contagem não é feita, e a lista de compra **mente por omissão** — pior que não existir, porque a Jana compra por ela. O que mudou é o gesto (número em vez de toque único); o motivo de ser rápido continua valendo igual.
+O quadro físico existe porque marcar nele custa dois segundos: passa, olha, risca. Se o caminho digital for mais lento, o quadro fica, a contagem não é feita, e a lista de compra **mente por omissão** — pior que não existir, porque a Helena compra por ela. O que mudou é o gesto (número em vez de toque único); o motivo de ser rápido continua valendo igual.
 
 1. A tela do Estoque no tablet abre no modo **Conferir**, lista completa agrupada por categoria. Trocar pra **Editar/Confirmar** grava a contagem nova. Sem submenu extra, sem confirmação em duas etapas por item
 2. **Ordem idêntica à do quadro físico** (Anexo A). Quem usou o quadro por anos encontra pela memória espacial, não pela leitura
@@ -136,13 +136,13 @@ Bomboniere: ledger é sempre a verdade; materializado é cache · job de reconci
 
 **Quem edita `fornecedor` é o Admin, pelo app** — na aba Conferir, a sessão de Admin vê o fornecedor de cada insumo e o gesto de editar, com os nomes que já existem como sugestão. O Atendente só vê a lista de compra agrupada. Texto livre: o banco tira espaço das pontas e junta espaço repetido, e recusa vazio, `SEM_NOME_PENDENCIA` digitado e o mesmo nome de antes. Depois da carga, o dono do campo é a tabela; `carga.mjs` não sobrescreve e `data/insumos.csv` não é atualizado ([ADR 0071](../adr/0071-fornecedor-editado-pelo-admin.md), que revoga a §2 do [ADR 0044](../adr/0044-fornecedor-sem-rotulo-e-passo-de-go-live.md)).
 
-**Nome dos fornecedores sem rótulo no quadro** — única aberta. A Jana preenche pelo app (ADR 0071), **bloqueia o go-live, não o código** ([ADR 0030](../adr/0030-catalogo-de-conteudo-bloqueia-go-live.md)). O sentinela `SEM_NOME_PENDENCIA` em `data/insumos.csv` continua sendo sentinela — lacuna marcada é lacuna que a consulta de prontidão encontra; lacuna em branco some. A contagem sai do CSV, não daqui — `grep -c SEM_NOME_PENDENCIA data/insumos.csv` (regra 1 da casa).
+**Nome dos fornecedores sem rótulo no quadro** — única aberta. A Helena preenche pelo app (ADR 0071), **bloqueia o go-live, não o código** ([ADR 0030](../adr/0030-catalogo-de-conteudo-bloqueia-go-live.md)). O sentinela `SEM_NOME_PENDENCIA` em `data/insumos.csv` continua sendo sentinela — lacuna marcada é lacuna que a consulta de prontidão encontra; lacuna em branco some. A contagem sai do CSV, não daqui — `grep -c SEM_NOME_PENDENCIA data/insumos.csv` (regra 1 da casa).
 
 Fechadas:
 
 - Categoria **"Bomboniere/Outros"** em `insumos.csv` — não vai existir. Bomboniere é outro catálogo (`ItemBomboniere`, o da Comanda, com ledger próprio, ADR 0017); uma categoria homônima aqui criaria dois lugares pro mesmo item, com modelos de contagem diferentes. ADR 0030.
 - Categoria **"Gata"** — não existe. Vazou de conteúdo ilustrativo de mockup; os itens correspondentes vivem em `Estudio`. ADR 0030.
 - **Frequência da reconciliação do Bomboniere** — diária às 04:00, mais imediata após todo Ajuste. [ADR 0029](../adr/0029-cadencia-dos-jobs-agendados.md).
-- **Prazos de escalonamento da criticidade (Jana)** — obsoleta. O ADR 0017 tirou "dias desde marcado" da fórmula; criticidade agora deriva da quantidade contada, e não há prazo a configurar.
+- **Prazos de escalonamento da criticidade (Helena)** — obsoleta. O ADR 0017 tirou "dias desde marcado" da fórmula; criticidade agora deriva da quantidade contada, e não há prazo a configurar.
 
 ---

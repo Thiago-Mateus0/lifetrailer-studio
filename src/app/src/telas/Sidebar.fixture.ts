@@ -49,7 +49,7 @@ export const sidebarFixture: DadosSidebar = {
     { identificador: 'checklist', titulo: 'Checklist de entrada', detalhe: '4 itens · limite 10:00' },
     { identificador: 'estoque', titulo: 'Estoque acabando', detalhe: 'propés · papel higiênico' },
   ],
-  usuario: { nome: 'Jana', iniciais: 'JA', papel: 'Admin · acesso total' },
+  usuario: { nome: 'Helena', iniciais: 'HA', papel: 'Admin · acesso total' },
 }
 
 export const sidebarVaziaFixture: DadosSidebar = {

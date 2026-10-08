@@ -56,8 +56,8 @@ const linha = (extra = {}) => ({
     { id: 'c2', nome: 'Piso', acao: 'lavar', estado: 'feito' },
   ],
   avisos: [
-    { id: 'v1', texto: 'Led quebrado\nO SK400 está com defeito.', prioridade: 'urgente', criado_em: em('09:57'), autor: 'Jana' },
-    { id: 'v2', texto: 'JBL perdida', prioridade: 'normal', criado_em: '2026-08-16T17:57:00Z', autor: 'Jana' },
+    { id: 'v1', texto: 'Led quebrado\nO SK400 está com defeito.', prioridade: 'urgente', criado_em: em('09:57'), autor: 'Helena' },
+    { id: 'v2', texto: 'JBL perdida', prioridade: 'normal', criado_em: '2026-08-16T17:57:00Z', autor: 'Helena' },
   ],
   ...extra,
 });
@@ -180,9 +180,9 @@ test('avisos: titulo e a primeira linha, e hoje/ontem na meta', () => {
   assert.equal(avisos.contador, '3');
   assert.deepEqual(avisos.itens[0], {
     identificador: 'v1', titulo: 'Led quebrado', texto: 'O SK400 está com defeito.',
-    meta: 'Jana · hoje 09:57', urgente: true,
+    meta: 'Helena · hoje 09:57', urgente: true,
   });
-  assert.equal(avisos.itens[1].meta, 'Jana · ontem 14:57');
+  assert.equal(avisos.itens[1].meta, 'Helena · ontem 14:57');
   assert.equal(avisos.itens[1].texto, '');
 });
 

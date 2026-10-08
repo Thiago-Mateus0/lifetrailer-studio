@@ -2,7 +2,7 @@
 -- Issue #130; fecha as duas pontas que o ADR 0057 deixou de fora.
 --
 -- DOMINGO EXTRA. O cron do Checklist (0048) roda às 6h e pergunta à Escala se o
--- domingo tem expediente; a Jana aciona quando vê o agendamento, depois disso
+-- domingo tem expediente; a Helena aciona quando vê o agendamento, depois disso
 -- (escala.md). Por isso acionar chama app.checklist_dia_criar na hora — a mesma
 -- função do cron, idempotente pela unique em `data`. Chama sempre, não só no
 -- dia: o spec lista "na véspera" entre os motivos, e o cron encontra o dia pronto.
@@ -163,7 +163,7 @@ comment on function app.escala_domingo_desfazer(uuid, int, uuid, text) is
 -- então confirmar.
 --
 -- A mudança vale de amanhã: hoje e passado são congelados. Mexe no padrão que
--- rege amanhã — que é o de hoje, ou um que a Jana já revisou hoje e ainda não
+-- rege amanhã — que é o de hoje, ou um que a Helena já revisou hoje e ainda não
 -- regeu dia nenhum (esse muda no lugar, sem virar mais uma versão).
 --
 -- Afetada é a troca cujo titular (`substituido_colaborador_id`, ADR 0057 §2)

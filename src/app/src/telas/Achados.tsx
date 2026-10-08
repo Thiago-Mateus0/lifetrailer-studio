@@ -89,7 +89,7 @@ export type DetalheAchado = AchadoApresentado & {
    */
   anexarFoto?: { rotulo: string; enviando?: boolean; recusa?: string }
   /**
-   * "Copiar mensagem" e "Baixar foto", para a Jana procurar o dono pelo
+   * "Copiar mensagem" e "Baixar foto", para a Helena procurar o dono pelo
    * ManyChat (ADR 0075). Só o Admin recebe, e só com foto e com o item ainda em
    * guarda. `texto` vem pronto do servidor — e o que ele não diz (a observação,
    * o nome do cliente) é tão decidido quanto o que ele diz.
@@ -298,7 +298,7 @@ export function Achados({
               </label>
               {selecionado.anexarFoto.recusa && <p className="lt-achados-recusa" role="alert">{selecionado.anexarFoto.recusa}</p>}
             </div>}
-            {/* O gesto de procurar o dono, da Jana. O aviso fica colado nele
+            {/* O gesto de procurar o dono, da Helena. O aviso fica colado nele
                 porque a mesma foto que acha o dono certo entrega o item ao
                 errado se a observação for junto. */}
             {selecionado.compartilhar && <div className="lt-achados-compartilhar">

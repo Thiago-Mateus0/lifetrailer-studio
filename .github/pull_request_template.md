@@ -8,7 +8,7 @@
 
 ## O que conferir
 <!-- Até 3 linhas que o Thiago valida SEM ler código: um comando pra rodar,
-     um comportamento pra observar. Ex.: "rode X e veja que a Jana não entra
+     um comportamento pra observar. Ex.: "rode X e veja que a Helena não entra
      pelo tablet". Se não houver nada observável, diga isso. -->
 
 ## Testes

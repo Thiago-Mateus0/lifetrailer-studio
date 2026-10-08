@@ -9,7 +9,7 @@
 
 A pendência 15 juntava duas frequências sem dono: *frequência do job gerador da
 Escala* · *reconciliação do Bomboniere*. Uma terceira apareceu depois e nunca
-teve horário: o **export semanal de horas extras à Jana**, que o ADR-0011
+teve horário: o **export semanal de horas extras à Helena**, que o ADR-0011
 transformou de recomendação organizacional em parte da entrega. E o ADR-0024
 acabou de pendurar a **âncora do audit log** nesse mesmo export.
 
@@ -29,7 +29,7 @@ data, cron e limite usa `America/Maceio`. Nada em UTC na camada de negócio."*
 |---|---|---|
 | **Gerador da Escala** | diário, **05:30** | O Ativo 4 mantém 4 semanas à frente. Idempotente: gera só o que falta até hoje+28 |
 | **Reconciliação do Bomboniere** | diário, **04:00** — e **na hora**, após todo Ajuste | O que ela detecta é bug ou escrita manual. Um dia é o atraso máximo tolerável |
-| **Export de horas extras + âncora do audit log** | semanal, **segunda 07:00** | Conferência da semana anterior, na mão da Jana antes do começo da semana |
+| **Export de horas extras + âncora do audit log** | semanal, **segunda 07:00** | Conferência da semana anterior, na mão da Helena antes do começo da semana |
 | **Anonimização** (ADR-0023) | mensal, dia 10, **03:00** | Depois do dia 5, quando a competência já trancou (ADR-0002) |
 
 **Escala diária, não semanal.** Semanal parece suficiente — 4 semanas de
@@ -108,7 +108,7 @@ antes da primeira semana. O crédito de notificação do Ativo 6 é compartilhad
 com dinheiro.
 
 **Export de horas extras diário.** Conferência diária vira tarefa diária pra
-Jana, que é gerente e não auditora. Semanal é a cadência em que ela realmente
+Helena, que é gerente e não auditora. Semanal é a cadência em que ela realmente
 olha — e uma conferência que acontece vale mais que uma que chega todo dia e
 não é aberta.
 
@@ -126,7 +126,7 @@ agendamento e não avisa. `pg_cron` foi escolhido no ADR-0011 e reconfirmado no
 - Fecha a pendência 15, e a linha "frequência da reconciliação do Bomboniere"
   das pendências de `docs/spec/estoque.md`.
 - **A âncora do audit log e o export de horas extras são o mesmo job**, mesmo
-  e-mail. Um canal pra Jana manter, não dois.
+  e-mail. Um canal pra Helena manter, não dois.
 - **`pg_cron` no DigitalOcean só roda no `defaultdb`** (ADR-0018). Sem impacto —
   schema único —, mas as quatro entradas vivem lá, e isso vai no runbook.
 - **Tabela de execução de job** (`job`, `inicio`, `fim`, `resultado`) entra no

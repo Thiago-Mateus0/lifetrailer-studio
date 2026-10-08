@@ -47,7 +47,7 @@ dias[4].turnos[0] = { ...dias[4].turnos[0], colaborador: 'Não atribuído', dest
 dias[19].turnos[1] = { ...dias[19].turnos[1], destaque: 'troca', selo: 'troca', nota: 'cobre Paulo', edicao: edicao('2026-09-05', 'tarde_noite', 'troca', 'Paulo', 'Thiago') }
 
 export const escalaFixture: DadosEscala = {
-  hora: '09:40', data: '17 AGO 2026', turno: 'JA',
+  hora: '09:40', data: '17 AGO 2026', turno: 'HA',
   subtitulo: 'Dias materializados. Trocas, extras e ausências ficam preservados.',
   visao: 'calendario', podeEditar: true, editando: false, podeConfirmar: false,
   resumo: 'janela de 4 semanas completa · 2 trocas · 1 ausência · 0 extras',

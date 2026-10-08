@@ -15,7 +15,7 @@ import { criarServidor } from './_ajuda.mjs';
 const SEGREDO = 's'.repeat(32);
 const CHAVE = 'chave-do-tablet-de-teste';
 const DISPOSITIVO_ID = '33333333-3333-4333-8333-333333333333';
-const JANA = '11111111-1111-4111-8111-111111111111';
+const HELENA = '11111111-1111-4111-8111-111111111111';
 const COMANDA = '44444444-4444-4444-8444-444444444444';
 const AGORA = Date.UTC(2026, 8, 26, 14, 0, 0);
 // 23h de 30/set em Maceió já é 1º/out em UTC: a pasta é a de setembro.
@@ -25,11 +25,11 @@ const config = { segredo: SEGREDO, cookieSeguro: false };
 const PDF = Buffer.from('%PDF-1.3 conteudo de teste');
 
 const cookie = `${NOME_COOKIE}=${assinarAdmin({
-  colaborador_id: JANA, perfil: 'administrador', exp: Math.floor(AGORA / 1000) + 3600,
+  colaborador_id: HELENA, perfil: 'administrador', exp: Math.floor(AGORA / 1000) + 3600,
 }, SEGREDO)}`;
 
 const claim = assinar({
-  colaborador_id: JANA, perfil: 'atendente',
+  colaborador_id: HELENA, perfil: 'atendente',
   turno_id: '22222222-2222-4222-8222-222222222222',
   exp: Math.floor(AGORA / 1000) + 3600, origem_claim: 'online',
   dispositivo_id: DISPOSITIVO_ID,
@@ -85,7 +85,7 @@ test('POST /comprovante: o Admin sobe o PDF e recebe o link de 30 dias', async (
     assert.equal(corpo.envio, 1);
     assert.match(corpo.link, new RegExp(`^/comprovante/${id}\\?t=`));
     assert.deepEqual([...arquivos.keys()], [`comprovante/2026/09/${id}.pdf`]);
-    assert.deepEqual(sessoes[0], { colaboradorId: JANA, origem: 'admin' });
+    assert.deepEqual(sessoes[0], { colaboradorId: HELENA, origem: 'admin' });
   });
 });
 

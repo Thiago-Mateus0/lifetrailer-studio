@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { CONSULTA_CHECKLIST, montarChecklist } from '../../src/api/telas/checklist.mjs';
-import { bancoDisponivel, JANA, PAULO, rodarTela } from './_banco.mjs';
+import { bancoDisponivel, HELENA, PAULO, rodarTela } from './_banco.mjs';
 
 const semBanco = !bancoDisponivel && 'sem Postgres';
 
@@ -243,7 +243,7 @@ test('checklist: atendente nao tem historico, e a data pedida e ignorada', { ski
 
 test('checklist: admin abre um dia passado so pra ler', { skip: semBanco }, () => {
   const d = montarChecklist(rodar({
-    comoQuem: JANA, data: 'app.quarta_recente()', item: BANHEIRO,
+    comoQuem: HELENA, data: 'app.quarta_recente()', item: BANHEIRO,
     semear: SEMEAR + DIA_QUINTA, instante: QUINTA('08:12'),
   }), AGORA, config);
 
@@ -259,7 +259,7 @@ test('checklist: admin abre um dia passado so pra ler', { skip: semBanco }, () =
 });
 
 test('checklist: admin sem data pedida fica no dia vigente, que se toca', { skip: semBanco }, () => {
-  const d = montarChecklist(rodar({ comoQuem: JANA }), AGORA, config);
+  const d = montarChecklist(rodar({ comoQuem: HELENA }), AGORA, config);
 
   assert.equal(d.historico.somenteLeitura, false);
   assert.equal(d.dia.identificador, DIA);
@@ -267,14 +267,14 @@ test('checklist: admin sem data pedida fica no dia vigente, que se toca', { skip
 });
 
 test('checklist: dia passado sem checklist e "nao houve expediente"', { skip: semBanco }, () => {
-  const d = montarChecklist(rodar({ comoQuem: JANA, data: 'app.quarta_recente() - 1' }), AGORA, config);
+  const d = montarChecklist(rodar({ comoQuem: HELENA, data: 'app.quarta_recente() - 1' }), AGORA, config);
 
   assert.equal(d.bloqueio.titulo, 'Não houve expediente');
   assert.equal(d.dia, null);
 });
 
 test('checklist: data futura nao abre — volta ao dia vigente', { skip: semBanco }, () => {
-  const d = montarChecklist(rodar({ comoQuem: JANA, data: 'app.quarta_recente() + 3' }), AGORA, config);
+  const d = montarChecklist(rodar({ comoQuem: HELENA, data: 'app.quarta_recente() + 3' }), AGORA, config);
 
   assert.equal(d.historico.somenteLeitura, false);
   assert.equal(d.dia.identificador, DIA);

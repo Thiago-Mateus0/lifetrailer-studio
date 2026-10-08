@@ -1,4 +1,4 @@
-// O Enviar da Jana pelo ManyChat (ADR 0076). Sem banco e sem rede: a Comanda,
+// O Enviar da Helena pelo ManyChat (ADR 0076). Sem banco e sem rede: a Comanda,
 // a transição e o ManyChat são injetados. Aqui se prova a regra do §2 — um
 // contato só, senão não envia — e a do §4: Enviada só depois do `success`.
 import assert from 'node:assert/strict';
@@ -13,7 +13,7 @@ import { criarServidor } from './_ajuda.mjs';
 const SEGREDO = 's'.repeat(32);
 const CHAVE = 'chave-do-tablet-de-teste';
 const DISPOSITIVO_ID = '33333333-3333-4333-8333-333333333333';
-const JANA = '11111111-1111-4111-8111-111111111111';
+const HELENA = '11111111-1111-4111-8111-111111111111';
 const COMANDA = '44444444-4444-4444-8444-444444444444';
 const AGORA = Date.UTC(2026, 8, 29, 14, 0, 0);
 const TEXTO = 'Olá, Ana! Aqui está o comprovante: https://exemplo/comprovante/x?t=y';
@@ -21,11 +21,11 @@ const TEXTO = 'Olá, Ana! Aqui está o comprovante: https://exemplo/comprovante/
 const config = { segredo: SEGREDO, cookieSeguro: false };
 
 const cookie = `${NOME_COOKIE}=${assinarAdmin({
-  colaborador_id: JANA, perfil: 'administrador', exp: Math.floor(AGORA / 1000) + 3600,
+  colaborador_id: HELENA, perfil: 'administrador', exp: Math.floor(AGORA / 1000) + 3600,
 }, SEGREDO)}`;
 
 const claim = assinar({
-  colaborador_id: JANA, perfil: 'atendente',
+  colaborador_id: HELENA, perfil: 'atendente',
   turno_id: '22222222-2222-4222-8222-222222222222',
   exp: Math.floor(AGORA / 1000) + 3600, origem_claim: 'online',
   dispositivo_id: DISPOSITIVO_ID,
@@ -89,7 +89,7 @@ const enviar = (base, { cabecalhos = { cookie }, corpo = { comanda_id: COMANDA, 
 
 const transicoes = (consultas) => consultas.filter((c) => c.sql.includes('comanda_transicionar'));
 
-test('um contato e success: manda o texto e a Comanda vira Enviada com a autoria da Jana', async () => {
+test('um contato e success: manda o texto e a Comanda vira Enviada com a autoria da Helena', async () => {
   await comApp({}, async ({ base, consultas, manychat }) => {
     const r = await enviar(base);
     assert.equal(r.status, 200);
@@ -100,7 +100,7 @@ test('um contato e success: manda o texto e a Comanda vira Enviada com a autoria
     assert.deepEqual(manychat.chamadas, [['achar', '5582999990000'], ['enviar', '900', TEXTO]]);
     const [t] = transicoes(consultas);
     // id, evento, versão, ator, fim, início, telefone, motivo, origem
-    assert.deepEqual(t.valores, [COMANDA, 'enviar', 3, JANA, null, null, '5582999990000', null, 'online']);
+    assert.deepEqual(t.valores, [COMANDA, 'enviar', 3, HELENA, null, null, '5582999990000', null, 'online']);
   });
 });
 
@@ -163,7 +163,7 @@ test('sem telefone na Comanda: nao busca', async () => {
   });
 });
 
-test('saiu e a transicao falhou: diz que saiu, para a Jana marcar que mandou', async () => {
+test('saiu e a transicao falhou: diz que saiu, para a Helena marcar que mandou', async () => {
   const conflito = Object.assign(new Error('este registro foi alterado por outra pessoa'), { code: 'LT001' });
   await comApp({ transicao: async () => { throw conflito; } }, async ({ base }) => {
     const r = await enviar(base);

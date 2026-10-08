@@ -13,37 +13,37 @@ begin;
 select plan(14);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
 
 select has_function('app', 'senha_trocar_propria', 'app.senha_trocar_propria() existe');
 
--- A Jana é sócia no fixture: define a senha inicial do Dev e a dela.
-select set_config('app.colaborador_id', :JANA, true);
-select app.senha_definir(:JANA, 'jana', 'senha-antiga-jana', :JANA);
-select app.senha_definir(:DEV,  'dev',  'senha-antiga-dev1', :JANA);
+-- A Helena é sócia no fixture: define a senha inicial do Dev e a dela.
+select set_config('app.colaborador_id', :HELENA, true);
+select app.senha_definir(:HELENA, 'helena', 'senha-antiga-helena', :HELENA);
+select app.senha_definir(:DEV,  'dev',  'senha-antiga-dev1', :HELENA);
 
 -- 1–2. atual errada: resultado, não exceção, e conta como erro de senha
-select is(app.senha_trocar_propria('errada-errada', 'senha-nova-da-jana', :JANA),
+select is(app.senha_trocar_propria('errada-errada', 'senha-nova-da-helena', :HELENA),
   '{"ok": false, "motivo": "senha_atual_incorreta"}'::jsonb,
   'senha atual errada devolve motivo, sem levantar');
-select is((select count(*)::int from tentativa_senha where colaborador_id = :JANA and tipo = 'erro'),
+select is((select count(*)::int from tentativa_senha where colaborador_id = :HELENA and tipo = 'erro'),
   1, 'senha atual errada grava tentativa de erro');
 
 select throws_ok(
-  format($$ select app.senha_trocar_propria('senha-antiga-jana', 'curta', %L) $$, :JANA),
+  format($$ select app.senha_trocar_propria('senha-antiga-helena', 'curta', %L) $$, :HELENA),
   'LT003', null, 'senha nova com menos de 12 caracteres levanta');
 
 -- 3. troca de verdade
-select is(app.senha_trocar_propria('senha-antiga-jana', 'senha-nova-da-jana', :JANA),
+select is(app.senha_trocar_propria('senha-antiga-helena', 'senha-nova-da-helena', :HELENA),
   '{"ok": true}'::jsonb, 'senha atual certa troca');
-select is((app.admin_autenticar('jana', 'senha-nova-da-jana'))->>'ok', 'true',
+select is((app.admin_autenticar('helena', 'senha-nova-da-helena'))->>'ok', 'true',
   'a senha nova abre o login');
-select is((app.admin_autenticar('jana', 'senha-antiga-jana'))->>'ok', 'false',
+select is((app.admin_autenticar('helena', 'senha-antiga-helena'))->>'ok', 'false',
   'a senha antiga deixa de abrir');
 select is((select count(*)::int from audit_log
-            where registro_id = :JANA::uuid and acao = 'senha_trocada'),
+            where registro_id = :HELENA::uuid and acao = 'senha_trocada'),
   1, 'a troca rende uma linha de audit');
 
 -- 4. ator da sessão; Desenvolvedor troca a própria; Atendente não tem senha

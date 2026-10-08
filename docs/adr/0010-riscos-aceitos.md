@@ -10,7 +10,7 @@
 
 A diretriz de segurança do Wyll manda desenhar assumindo um futuro colaborador mal-intencionado. Alguns pontos do desenho não atendem a essa diretriz e a decisão é registrá-los como risco aceito, não como lacuna.
 
-O arquivo de `staff_id` revelou que **conta compartilhada é o hábito instalado da operação**: "Recrutas" são três pessoas numa conta, e Wyll/Jana partilham outra. O desenho de PIN por perfil não preenche um vazio — contraria uma prática.
+O arquivo de `staff_id` revelou que **conta compartilhada é o hábito instalado da operação**: "Recrutas" são três pessoas numa conta, e Wyll/Helena partilham outra. O desenho de PIN por perfil não preenche um vazio — contraria uma prática.
 
 ## Decisão
 
@@ -26,7 +26,7 @@ O arquivo de `staff_id` revelou que **conta compartilhada é o hábito instalado
 > desconfiança real) — não uma incógnita bloqueando o design. **Deixa de
 > bloquear a Fase 3.** Ver `docs/pendencias.md`.
 
-**2. Desenvolvedor com acesso ao banco.** Ações do Dev direto no banco não passam pelo audit log da aplicação, e Thiago é Dev e Atendente ao mesmo tempo. Mitigação organizacional recomendada: export periódico de horas extras chegando à Jana por canal que o Dev não controla, conferível contra os horários da própria Altegio.
+**2. Desenvolvedor com acesso ao banco.** Ações do Dev direto no banco não passam pelo audit log da aplicação, e Thiago é Dev e Atendente ao mesmo tempo. Mitigação organizacional recomendada: export periódico de horas extras chegando à Helena por canal que o Dev não controla, conferível contra os horários da própria Altegio.
 
 **3. Devolução em Achados sem verificação.** Registra apenas o nome de quem retirou, digitado pelo atendente. Correção disponível: exigir Admin na devolução de itens de valor.
 

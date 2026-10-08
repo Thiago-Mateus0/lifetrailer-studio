@@ -12,7 +12,7 @@ begin;
 select plan(42);
 \ir _fixtures.psql
 
-\set JANA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA   '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS  '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO   '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV    '\'aaaaaaaa-0000-0000-0000-000000000004\''
@@ -70,13 +70,13 @@ select has_function('app', 'escala_padrao_afetados', 'app.escala_padrao_afetados
 select has_function('app', 'escala_padrao_revisar', 'app.escala_padrao_revisar() existe');
 
 -- Três trocas futuras e uma de ontem, todas cobertas pelo Marcos ou pelo Thiago.
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select app.escala_alterar(jsonb_build_array(
   jsonb_build_object('turno_id', (pg_temp.t(pg_temp.dia(2))).id, 'versao', 1, 'tipo', 'troca', 'colaborador_id', :MARCOS),
   jsonb_build_object('turno_id', (pg_temp.t(pg_temp.dia(3))).id, 'versao', 1, 'tipo', 'troca', 'colaborador_id', :MARCOS),
   jsonb_build_object('turno_id', (pg_temp.t(pg_temp.dia(4))).id, 'versao', 1, 'tipo', 'troca',
                      'colaborador_id', pg_temp.outro((pg_temp.t(pg_temp.dia(4))).colaborador_id))
-), :JANA);
+), :HELENA);
 insert into turno_escalado (data, turno, colaborador_id, substituido_colaborador_id, tipo_registro, origem)
 values (current_date - 1, 'tarde_noite', :MARCOS, :PAULO, 'troca', 'manual')
 on conflict (data, turno) do update set colaborador_id = excluded.colaborador_id,
@@ -138,11 +138,11 @@ select throws_ok($$ select pg_temp.revisar() $$,
 -- --------------------------------- 5. a falta também é afetada (ADR 0059)
 -- Duas faltas futuras: uma vai ser mantida (turno segue vago) e a outra volta
 -- ao padrão. Antes do ADR 0059 qualquer uma delas recusava a revisão (LT002).
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select app.escala_alterar(jsonb_build_array(
   jsonb_build_object('turno_id', (pg_temp.t(pg_temp.dia(5))).id, 'versao', 1, 'tipo', 'ausencia'),
   jsonb_build_object('turno_id', (pg_temp.t(pg_temp.dia(6))).id, 'versao', 1, 'tipo', 'ausencia')
-), :JANA);
+), :HELENA);
 select is((select count(*)::int from app.escala_padrao_afetados('tarde_noite',
              array[:PAULO, :THIAGO]::uuid[], (pg_temp.padrao()).ancora_data, :THIAGO)), 5,
   'a falta futura entra na lista, junto das três trocas');
@@ -203,7 +203,7 @@ select is((pg_temp.t(pg_temp.dia(4))).tipo_registro, 'padrao',
 select is((pg_temp.t(pg_temp.dia(4))).colaborador_id, :'cobre_dia4'::uuid, 'com a mesma pessoa');
 
 -- A falta mantida continua sendo falta, e passa a ser a falta do titular NOVO:
--- o turno dele é que fica vago, que é o que a Jana decidiu ao manter.
+-- o turno dele é que fica vago, que é o que a Helena decidiu ao manter.
 select is((pg_temp.t(pg_temp.dia(6))).tipo_registro, 'ausencia', 'manter a falta: continua falta');
 select is((pg_temp.t(pg_temp.dia(6))).colaborador_id, null::uuid, 'com o turno vago');
 select is((pg_temp.t(pg_temp.dia(6))).substituido_colaborador_id,

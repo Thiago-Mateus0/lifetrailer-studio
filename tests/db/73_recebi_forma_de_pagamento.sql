@@ -9,7 +9,7 @@ begin;
 select plan(10);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 select set_config('app.colaborador_id', :MARCOS, true);
 
@@ -48,10 +48,10 @@ select is(
   4, 'a forma fica no audit');
 
 -- --------------------------------------------------------- 3. desfazer
-select set_config('app.colaborador_id', :JANA, true);
+select set_config('app.colaborador_id', :HELENA, true);
 select is(
   (select status from app.comanda_transicionar((select id from formas where f = 'pix'),
-     'desfazer_recebimento', 3, :JANA)),
+     'desfazer_recebimento', 3, :HELENA)),
   'fechada', 'desfazer volta a Fechada');
 select is((select forma_pagamento from comanda where id = (select id from formas where f = 'pix')),
   null, 'desfazer apaga a forma');

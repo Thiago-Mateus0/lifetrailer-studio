@@ -9,7 +9,7 @@
 
 `atendente_id` respondia a três perguntas diferentes: quem criou o registro (auditoria, imutável), quem pode vê-lo e agir sobre ele agora (operacional, muda na virada de turno) e quem recebe a hora extra (financeiro, definido por quando o acréscimo correu).
 
-O efeito prático: um ensaio de 4h agendado 11h–15h é criado por Marcos e atravessa a virada das 14h. Paulo, que está na sala com o cliente às 15h, não conseguia ver a Comanda, nem fechar, nem criar outra (`agendamento_id` é unique). O único caminho era ligar para a Jana — e depois de duas vezes a equipe passaria a usar um perfil só, anulando a regra global 9.
+O efeito prático: um ensaio de 4h agendado 11h–15h é criado por Marcos e atravessa a virada das 14h. Paulo, que está na sala com o cliente às 15h, não conseguia ver a Comanda, nem fechar, nem criar outra (`agendamento_id` é unique). O único caminho era ligar para a Helena — e depois de duas vezes a equipe passaria a usar um perfil só, anulando a regra global 9.
 
 Terceira ocorrência da causa-raiz nomeada na Fase 2.9: um campo servindo a dois propósitos.
 

@@ -328,7 +328,7 @@ export const RPCS = {
 
   // Domingo extra (migration 0062). Quem faz o extra vem do CORPO: o botao do dia
   // percorre os Atendentes ativos e o segundo toque grava (ADR 0060). Ator e
-  // escalado sao pessoas diferentes de proposito — a Jana aciona, o Atendente
+  // escalado sao pessoas diferentes de proposito — a Helena aciona, o Atendente
   // faz. Quem confere que o escalado e Atendente ativo, e que hoje e passado sao
   // do Admin, e a propria funcao; a lista nao le linha nenhuma pra saber disso.
   escala_domingo_acionar: {

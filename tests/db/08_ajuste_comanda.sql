@@ -49,7 +49,7 @@ select throws_matching(
   $$ select app.ajuste_comanda_lancar((select id from c), 10.00, 'cobrei a menos',
        'aaaaaaaa-0000-0000-0000-000000000004') $$,
   'administrador', 'desenvolvedor tambem nao — e acao de negocio');
-select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Jana
+select set_config('app.colaborador_id', 'aaaaaaaa-0000-0000-0000-000000000001', true);  -- identidade da transacao: Helena
 
 select throws_matching(
   $$ select app.ajuste_comanda_lancar((select id from c), 10.00, '   ',

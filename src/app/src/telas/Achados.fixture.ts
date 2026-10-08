@@ -5,7 +5,7 @@ import type { DadosAchados, DetalheAchado, RegistroAchado } from './Achados'
 export const achadosFixture: DadosAchados = {
   hora: '09:40',
   data: '17 AGO 2026',
-  turno: 'JA',
+  turno: 'HA',
   subtitulo: '4 itens guardados',
   abas: [
     { identificador: 'guardados', rotulo: 'Guardados', selecionada: true },
@@ -48,7 +48,7 @@ const registro: RegistroAchado = {
   // duplicata. O do dia seguinte existe para provar que a data também conta.
   emGuarda: [
     { identificador: 'ac3', estudio: 'es1', data: '2026-08-17', rotulo: 'Blusa cinza · Gaveta A/P' },
-    { identificador: 'ac2', estudio: 'es1', data: '2026-08-18', rotulo: 'Chave com chaveiro de moto · Com a Jana' },
+    { identificador: 'ac2', estudio: 'es1', data: '2026-08-18', rotulo: 'Chave com chaveiro de moto · Com a Helena' },
     { identificador: 'ac4', estudio: '', data: '2026-08-17', rotulo: 'Guarda-chuva azul' },
   ],
   hoje: '2026-08-17',
@@ -83,7 +83,7 @@ const selecionado: DetalheAchado = {
 
 export const achadosDetalheFixture: DadosAchados = { ...achadosFixture, selecionado }
 
-// O detalhe com foto e item ainda em guarda, visto pela Jana: o único que
+// O detalhe com foto e item ainda em guarda, visto pela Helena: o único que
 // oferece copiar e baixar (ADR 0075). O texto NÃO leva a observação nem o nome
 // do cliente.
 export const achadosCompartilharFixture: DadosAchados = {
@@ -124,7 +124,7 @@ export const achadosEntregaFixture: DadosAchados = {
     entrega: {
       nomeRetirada: 'Renata Alves',
       podeConfirmar: true,
-      aviso: 'Fica registrado que Jana entregou hoje 09:40. Confira o detalhe que identifica antes de devolver.',
+      aviso: 'Fica registrado que Helena entregou hoje 09:40. Confira o detalhe que identifica antes de devolver.',
     },
   },
 }
@@ -136,7 +136,7 @@ export const achadosEntregaVaziaFixture: DadosAchados = {
     entrega: {
       nomeRetirada: '',
       podeConfirmar: false,
-      aviso: 'Fica registrado que Jana entregou hoje 09:40. Confira o detalhe que identifica antes de devolver.',
+      aviso: 'Fica registrado que Helena entregou hoje 09:40. Confira o detalhe que identifica antes de devolver.',
     },
   },
 }
@@ -149,7 +149,7 @@ export const achadosDoacaoFixture: DadosAchados = {
     doacao: {
       destino: 'Bazar da Paróquia',
       podeConfirmar: true,
-      aviso: 'Fica registrado que Jana doou hoje 09:40. A doação não se desfaz — confira o destino antes de confirmar.',
+      aviso: 'Fica registrado que Helena doou hoje 09:40. A doação não se desfaz — confira o destino antes de confirmar.',
     },
   },
 }
@@ -161,7 +161,7 @@ export const achadosDoacaoVaziaFixture: DadosAchados = {
     doacao: {
       destino: '',
       podeConfirmar: false,
-      aviso: 'Fica registrado que Jana doou hoje 09:40. A doação não se desfaz — confira o destino antes de confirmar.',
+      aviso: 'Fica registrado que Helena doou hoje 09:40. A doação não se desfaz — confira o destino antes de confirmar.',
     },
   },
 }

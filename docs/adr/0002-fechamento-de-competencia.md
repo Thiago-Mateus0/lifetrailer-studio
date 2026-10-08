@@ -35,7 +35,7 @@ Entidades novas: `Competencia`, `AjusteComanda`, `RelatorioCompetencia`.
 
 **Bloqueio duro sem saída.** Íntegro e irreal: erro descoberto tarde existe, e sem caminho ele vira planilha paralela.
 
-**Reabertura por Admin em período trancado.** Só troca quem pode — o total de março ainda muda em agosto, agora com a assinatura da Jana. O relatório continua não reproduzindo.
+**Reabertura por Admin em período trancado.** Só troca quem pode — o total de março ainda muda em agosto, agora com a assinatura da Helena. O relatório continua não reproduzindo.
 
 **Janela contada do fechamento.** Rejeitada porque atrasar o fechamento renovaria o prazo. D+2 sobre a data do ensaio cobre exatamente "até o mesmo atendente voltar a trabalhar", dada a alternância diária.
 

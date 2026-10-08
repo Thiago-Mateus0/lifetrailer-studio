@@ -270,8 +270,8 @@ grant select on tentativa_senha to lifetrailer_auditor;
 -- Rode isto uma vez, trocando o login e a senha:
 --
 --   update colaborador
---      set login = 'jana',
+--      set login = 'helena',
 --          senha_hash = crypt('TROQUE-ESTA-SENHA', gen_salt('bf', 12))
---    where nivel_acesso = 'administrador' and nome = 'Jana';
+--    where nivel_acesso = 'administrador' and nome = 'Helena';
 --
 -- Daí em diante, a troca de senha é pela propria app.senha_definir.

@@ -1,4 +1,4 @@
-// O cliente da API do ManyChat que o botão Enviar da Jana usa (ADR 0076).
+// O cliente da API do ManyChat que o botão Enviar da Helena usa (ADR 0076).
 //
 // Só duas perguntas: quem é o contato com este telefone, e mande este texto a
 // ele. O contato é achado pelo campo `telefone_whatsapp`, que o fluxo da

@@ -11,7 +11,7 @@ F1 (Fase 2.10) trocou contagem por marcação binária porque 27 dos 53 itens
 nasciam Urgente por severidade fixa (51% do catálogo vermelho por
 definição), e vermelho permanente não é sinal. A solução foi: severidade
 fixa só ordena a lista, criticidade deriva de `marcado` + tempo decorrido
-(3/7 dias configuráveis pela Jana).
+(3/7 dias configuráveis pela Helena).
 
 Trabalhando as telas no Claude Design, decidi voltar pra contagem real por
 item. `github.md` do export já sinalizou a divergência sozinho, sem eu

@@ -78,7 +78,7 @@ select is(situacao_de('Administradores com senha'), 'vazio',
   'Admin sem senha definida deixa a linha vazia');
 
 update colaborador
-   set login = 'jana', senha_hash = crypt('segredo-de-teste', gen_salt('bf', 4))
+   set login = 'helena', senha_hash = crypt('segredo-de-teste', gen_salt('bf', 4))
  where nivel_acesso = 'administrador' and ativo;
 
 select is(situacao_de('Administradores com senha'), 'pronto',

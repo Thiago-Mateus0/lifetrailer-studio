@@ -5,7 +5,7 @@
 --      e so o balcao. O snapshot e filtrado na publicacao, e e ele que decide
 --      quem recebe e quem confirma;
 --   2. o autor so nasce confirmado quando esta no publico e o aviso pede
---      confirmacao — a Jana publicando para Atendentes nao entra na conta;
+--      confirmacao — a Helena publicando para Atendentes nao entra na conta;
 --   3. aviso sem confirmacao nao recebe "Li e entendi" e nunca fecha por
 --      leitura: sai pelos 15 dias ou pelo Admin;
 --   4. a assinatura antiga (sem publico e sem confirmacao) deixou de existir.
@@ -13,7 +13,7 @@ begin;
 select plan(25);
 \ir _fixtures.psql
 
-\set JANA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
+\set HELENA  '\'aaaaaaaa-0000-0000-0000-000000000001\''
 \set MARCOS '\'aaaaaaaa-0000-0000-0000-000000000002\''
 \set PAULO  '\'aaaaaaaa-0000-0000-0000-000000000003\''
 \set DEV   '\'aaaaaaaa-0000-0000-0000-000000000004\''
@@ -46,10 +46,10 @@ select hasnt_function('app', 'aviso_publicar', array['text', 'text', 'text', 'uu
   'a assinatura da 0059 saiu: sem ela, um cliente velho nao publica "para todos" com o Dev dentro');
 
 -- ================================================================ 1. publico
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 
 select is((pg_temp.publicar('Para todos', 'todos', true)).publico, 'todos', 'o publico fica gravado');
-select is(pg_temp.snapshot('Para todos'), array[:JANA, :MARCOS, :PAULO]::uuid[],
+select is(pg_temp.snapshot('Para todos'), array[:HELENA, :MARCOS, :PAULO]::uuid[],
   '"Todos" e Administradores e Atendentes: o Desenvolvedor fica de fora (issue #122)');
 
 select pg_temp.publicar('Para o balcao', 'atendentes', true);
@@ -76,7 +76,7 @@ select ok(not (:DEV::uuid = any ((pg_temp.aviso('Do Dev')).snapshot_colaboradore
   'mas nem o proprio aviso vai para ele');
 select is(pg_temp.confirmados('Do Dev'), 0, 'e ninguem nasce confirmado');
 
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select throws_ok($$ select pg_temp.publicar('Para o estudio', 'estudio', true) $$,
   'LT003', null, '"Estudio" nao existe ate alguem dizer o que quer dizer (issue #122)');
 select throws_ok($$ select pg_temp.publicar('Sem publico', null, true) $$,
@@ -86,7 +86,7 @@ select throws_ok($$ select pg_temp.publicar('Sem publico', null, true) $$,
 select pg_temp.como(:MARCOS);
 select is((pg_temp.publicar('Chegou cafe novo', 'todos', false)).pede_confirmacao, false,
   'o aviso pode nao pedir confirmacao');
-select is(pg_temp.snapshot('Chegou cafe novo'), array[:JANA, :MARCOS, :PAULO]::uuid[],
+select is(pg_temp.snapshot('Chegou cafe novo'), array[:HELENA, :MARCOS, :PAULO]::uuid[],
   'o snapshot continua sendo quem recebeu');
 select is(pg_temp.confirmados('Chegou cafe novo'), 0,
   'e nem o autor fica registrado: nao ha conta de leitura a fechar');
@@ -101,7 +101,7 @@ select app.aviso_arquivar_vencidos();
 select is((pg_temp.aviso('Chegou cafe novo')).status, 'arquivado',
   'sai pelos 15 dias, como qualquer aviso');
 
-select pg_temp.como(:JANA);
+select pg_temp.como(:HELENA);
 select throws_ok($$ select pg_temp.publicar('Sem escolha', 'todos', null) $$,
   'LT003', null, 'pedir ou nao pedir confirmacao e escolha explicita');
 
