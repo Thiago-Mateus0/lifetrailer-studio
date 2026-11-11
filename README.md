@@ -161,7 +161,7 @@ Sem licença de reuso: todos os direitos reservados. O código está visível pa
 
 ## Sobre mim
 
-**Thiago Mateus**, estudante de Ciência da Computação. Gosto de banco de dados, de sistema que não perde dado e de documentar o porquê das decisões. Estou procurando estágio.
+**Thiago Mateus**, estudante de Ciência da Computação. Gosto de banco de dados, de sistema que não perde dado e de documentar o porquê das decisões. Estou procurando estágio ou a primeira vaga como desenvolvedor júnior.
 
 - GitHub: [@Thiago-Mateus0](https://github.com/Thiago-Mateus0)
 - E-mail: thiagomateus2008@gmail.com
