@@ -58,9 +58,9 @@ outros.
 | Thiago | Atendente | tablet (PIN) | `3333` |
 | Rafael | Administrador · Sócio | computador (login) | usuário `rafael`, senha `ensaio-demo-2026` |
 | Helena | Administrador · Gerente (não é sócia) | computador (login) | senha redefinida neste ensaio para `ensaio-demo-2026` |
-| Wyll / Carlos | Administrador · Sócio | computador (login) | senha não alterada neste ensaio — desconhecida, redefinir por SQL se precisar (`update colaborador set senha_hash = crypt('...', gen_salt('bf', 12)) where login = '...'`) |
+| Sergio / Carlos | Administrador · Sócio | computador (login) | senha não alterada neste ensaio — desconhecida, redefinir por SQL se precisar (`update colaborador set senha_hash = crypt('...', gen_salt('bf', 12)) where login = '...'`) |
 
-Só **sócio** (Wyll, Rafael, Carlos) edita PIN em Ajustes — Helena
+Só **sócio** (Sergio, Rafael, Carlos) edita PIN em Ajustes — Helena
 (Gerente) vê a tela mas não edita (ADR 0050). Só **Atendente** entra pelo
 PIN do tablet.
 

@@ -38,7 +38,7 @@ expediente as (
      and td.vigencia_inicio <= p.hoje
      and (td.vigencia_fim is null or td.vigencia_fim >= p.hoje)
 ),
--- Só ensaio: tipo_staff 'nao_operacional' é bloqueio de agenda do Wyll
+-- Só ensaio: tipo_staff 'nao_operacional' é bloqueio de agenda do Sergio
 -- (ADR 0005, segundo balde) e não é sessão de ninguém.
 --
 -- fim é o fim do ENSAIO (datetime_fim_agendado = início + duração, 0023); o

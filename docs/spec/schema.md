@@ -555,7 +555,7 @@ Origem: `horas-extras.md:86`.
 
 **Índices:** `(colaborador_id, status)` · `comanda_id` · `agendamento_id` · `(data)`.
 
-**Bonificação:** seção do spec, **nenhuma tabela agora** (regra é do Wyll, 2027 —
+**Bonificação:** seção do spec, **nenhuma tabela agora** (regra é do Sergio, 2027 —
 [ADR 0031](../adr/0031-bonificacao-e-secao-de-horas-extras.md)). O schema não deve
 assumir que `hora_extra` é a única porta de pagamento variável.
 

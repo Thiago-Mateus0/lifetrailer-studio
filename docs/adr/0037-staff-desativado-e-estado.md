@@ -95,7 +95,7 @@ o sistema passaria a dizer "não mapeado" para algo que ele mesmo mapeou. É a
 opção que produz o alerta errado sem ninguém decidir isso.
 
 **Tratar como `'nao_operacional'` (o segundo balde).** Salva e não alerta, que é
-o comportamento certo para a conta do Wyll — agendamento na agenda pessoal dele
+o comportamento certo para a conta do Sergio — agendamento na agenda pessoal dele
 é rotina. Uma sala desativada que continua recebendo marcação **não** é rotina:
 ou o cadastro está errado, ou o cliente vai chegar numa sala que não opera mais.
 Silêncio aqui é a falha do ADR 0007 com outro nome.

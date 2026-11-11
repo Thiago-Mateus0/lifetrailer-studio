@@ -4,18 +4,18 @@
   (ver nota no fim da seção Decisão). Demais itens seguem vigentes.
 - **Data:** 2026-08-10
 - **Fase:** 2.10 — Bloco G
-- **Decidido por:** Thiago; item 1 pendente do Wyll
+- **Decidido por:** Thiago; item 1 pendente do Sergio
 
 ## Contexto
 
-A diretriz de segurança do Wyll manda desenhar assumindo um futuro colaborador mal-intencionado. Alguns pontos do desenho não atendem a essa diretriz e a decisão é registrá-los como risco aceito, não como lacuna.
+A diretriz de segurança do Sergio manda desenhar assumindo um futuro colaborador mal-intencionado. Alguns pontos do desenho não atendem a essa diretriz e a decisão é registrá-los como risco aceito, não como lacuna.
 
-O arquivo de `staff_id` revelou que **conta compartilhada é o hábito instalado da operação**: "Recrutas" são três pessoas numa conta, e Wyll/Helena partilham outra. O desenho de PIN por perfil não preenche um vazio — contraria uma prática.
+O arquivo de `staff_id` revelou que **conta compartilhada é o hábito instalado da operação**: "Recrutas" são três pessoas numa conta, e Sergio/Helena partilham outra. O desenho de PIN por perfil não preenche um vazio — contraria uma prática.
 
 ## Decisão
 
 **1. PIN em dispositivo compartilhado.** A atribuição é coerente, não inforjável. O ADR 0001 removeu a *razão prática* para compartilhar PIN, mas nada impede o compartilhamento voluntário. Tornar a autoria probatória exige hardware (tag NFC por pessoa, viável em Android).
-→ **Pendente de decisão do Wyll**, como autor da diretriz: atribuição probatória ou informativa? Bloqueia a Fase 3.
+→ **Pendente de decisão do Sergio**, como autor da diretriz: atribuição probatória ou informativa? Bloqueia a Fase 3.
 
 > **Nota — 2026-08-12:** O fluxo em si foi definido por Thiago — tela com os 3
 > perfis, PIN uma vez no início do turno, sessão até a virada (ver ADR 0011).

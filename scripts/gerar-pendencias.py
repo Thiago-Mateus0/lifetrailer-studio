@@ -3,7 +3,7 @@
 
 Pendência mora em três lugares, e cada um é a casa certa: decorrência de ADR
 precisa do contexto que só existe no ADR; D-A/D-B/D-C vivem no documento que vai
-para o Wyll; os itens numerados nascem em pendencias.md. O problema nunca foi ter
+para o Sergio; os itens numerados nascem em pendencias.md. O problema nunca foi ter
 três fontes — foi não ter uma visão.
 
 Este script é a visão. **Não escreve arquivo**: imprime. Índice guardado é índice

@@ -1,7 +1,7 @@
 # Pendências
 
 **Defeitos internos: 0 abertos** (fechados em 2026-08-12 — D-A e D-B
-decididos pelo Wyll, ver ADR 0013).
+decididos pelo Sergio, ver ADR 0013).
 
 Contradição, comportamento indefinido e referência quebrada são bloqueio
 absoluto — não convivem com nenhuma fase. Ficam listados aqui riscados, não
@@ -10,8 +10,8 @@ uma vez fica registrado como já foi errado.
 
 | # | Defeito | Estado |
 |---|---|---|
-| ~~D-A~~ | ~~"Início do bloco" indefinido — duas leituras, R$25 de diferença por ensaio~~ | ✅ decidido — offset 0, ver [ADR 0013](adr/0013-decisoes-wyll-extensao-e-log.md) |
-| ~~D-B~~ | ~~Classificação de bloco após a meia-noite — a letra do ADR 0008 produz "diurno" às 00h10~~ | ✅ decidido — dia de início, ver [ADR 0013](adr/0013-decisoes-wyll-extensao-e-log.md) |
+| ~~D-A~~ | ~~"Início do bloco" indefinido — duas leituras, R$25 de diferença por ensaio~~ | ✅ decidido — offset 0, ver [ADR 0013](adr/0013-decisoes-sergio-extensao-e-log.md) |
+| ~~D-B~~ | ~~Classificação de bloco após a meia-noite — a letra do ADR 0008 produz "diurno" às 00h10~~ | ✅ decidido — dia de início, ver [ADR 0013](adr/0013-decisoes-sergio-extensao-e-log.md) |
 | ~~C1~~ | ~~Matriz 2.0.3 dava audit log ao Dev; contrato 2.0.4 restringia ao Admin~~ | ✅ virou decisão D-C — Opção 3, ambos os arquivos concordam |
 | ~~C2~~ | ~~"Tabela de preços não participa do cálculo de extensão" vs. `base = blocos × valor_1h ÷ 2`~~ | ✅ corrigido em `fundacao.md` |
 
@@ -93,10 +93,10 @@ abaixo desta tabela.
 | ~~G2~~ | ~~**Categorias de Lembrete com antecedências**~~ | — | ✅ [ADR 0043](adr/0043-categoria-de-lembrete-nasce-na-tela.md) — não há artefato pra fotografar, e uma reunião de levantamento produziria lista plausível, não verdadeira. A categoria nasce na tela, quando o primeiro Lembrete precisa dela |
 | G3 | **Fichas Técnicas** — migração pro Treinamento | Helena | O documento externo já existe. Basta ele |
 | ~~G4~~ | ~~**Catálogo do Bomboniere** — os itens de venda da Comanda~~ | — | ✅ quadro "Recarregue suas baterias!" fotografado e transcrito em `data/bomboniere.csv`, que entra pela carga inicial. Mesmo caminho do [ADR 0032](adr/0032-catalogo-do-checklist-vira-carga-inicial.md), que já o previu para os quatro restantes — decisão nova não era necessária |
-| ~~G7~~ | ~~**Prazo de guarda contábil**~~ | ✅ **confirmado em 2026-09-23 pelo Wyll: 5 anos.** É o que o ADR 0023 já assumia e o que `app.anonimizar_vencidas` (`0031_anonimizacao.sql`) já aplica — **nenhuma mudança de código.** O prazo continua literal na função, então uma revisão futura do número é migration |
+| ~~G7~~ | ~~**Prazo de guarda contábil**~~ | ✅ **confirmado em 2026-09-23 pelo Sergio: 5 anos.** É o que o ADR 0023 já assumia e o que `app.anonimizar_vencidas` (`0031_anonimizacao.sql`) já aplica — **nenhuma mudança de código.** O prazo continua literal na função, então uma revisão futura do número é migration |
 | G8 | **Cobertura do plano do banco** — PITR e instância sempre ligada. Não cobrindo, o `pg_dump` horário do ADR 0028 é obrigatório antes de produção | Thiago | Painel do provedor, na hora de contratar — ver achado abaixo |
-| ~~G11~~ | ~~**A lista de "Guardado onde" dos Achados**~~ | ✅ **respondido em 2026-09-23 pelo Wyll: só "Gaveta".** Não há segundo lugar — "Gaveta A/P" e "Com a Helena" eram do mockup da Fase 3. Constante trocada em `src/api/telas/achados.mjs`; sem migration, porque a coluna guarda texto e achado antigo continua mostrando onde foi guardado |
-| ~~G10~~ | ~~**Conta de integração própria na Altegio**~~ | ✅ **respondido em 2026-09-24 pelo Thiago: quem conectou o app foi o Wyll, com a conta da empresa.** A premissa estava errada: o `LT_ALTEGIO_USER_TOKEN` não sai de uma conexão da Helena nem de login pessoal, então não depende do vínculo de uma pessoa. **Nenhuma mudança de token ou de código.** O `LT_ALTEGIO_PARTNER_TOKEN` é outra credencial, da conta de desenvolvedor que publicou o app, e não entrava nesta pendência |
+| ~~G11~~ | ~~**A lista de "Guardado onde" dos Achados**~~ | ✅ **respondido em 2026-09-23 pelo Sergio: só "Gaveta".** Não há segundo lugar — "Gaveta A/P" e "Com a Helena" eram do mockup da Fase 3. Constante trocada em `src/api/telas/achados.mjs`; sem migration, porque a coluna guarda texto e achado antigo continua mostrando onde foi guardado |
+| ~~G10~~ | ~~**Conta de integração própria na Altegio**~~ | ✅ **respondido em 2026-09-24 pelo Thiago: quem conectou o app foi o Sergio, com a conta da empresa.** A premissa estava errada: o `LT_ALTEGIO_USER_TOKEN` não sai de uma conexão da Helena nem de login pessoal, então não depende do vínculo de uma pessoa. **Nenhuma mudança de token ou de código.** O `LT_ALTEGIO_PARTNER_TOKEN` é outra credencial, da conta de desenvolvedor que publicou o app, e não entrava nesta pendência |
 
 **G1 mostrou o padrão, e o G2 mostrou o limite dele.** Quatro das cinco
 pendências de catálogo são coisa que já existe impressa ou em uso na operação:
@@ -139,7 +139,7 @@ chegou; isto é trabalho que não foi feito). Cada um mora no ADR que o decidiu:
 |---|---|---|
 | 23 | **Treinamento: Rascunho → Arquivado, e o que sai de Arquivado** — o desenho do ciclo de vida em `spec/treinamento.md` só tem Rascunho → Publicado → Arquivado e o despublicar. Não diz se Rascunho que não vai ser usado arquiva direto, nem se Arquivado volta (a Rascunho? a Publicado?) | Aberta. Até decidir, a 0089 recusa as duas (LT002): Rascunho só sai publicando, Arquivado não sai |
 | ~~22~~ | ~~**O que a comanda de papel tem e o sistema não** — conferência de equipamentos, Pix e CNPJ, numeração~~ | ✅ [ADR 0064](adr/0064-pix-e-cnpj-no-comprovante.md): Pix e CNPJ entram no rodapé; equipamentos e numeração ficam como estão |
-| ~~1~~ | ~~**Bonificação da equipe** — vira ativo 9 ou seção dentro de Horas Extras~~ | ✅ seção dentro de Horas Extras — [ADR 0031](adr/0031-bonificacao-e-secao-de-horas-extras.md). A **regra** continua com o Wyll, prevista para 2027; o que foi decidido é a forma |
+| ~~1~~ | ~~**Bonificação da equipe** — vira ativo 9 ou seção dentro de Horas Extras~~ | ✅ seção dentro de Horas Extras — [ADR 0031](adr/0031-bonificacao-e-secao-de-horas-extras.md). A **regra** continua com o Sergio, prevista para 2027; o que foi decidido é a forma |
 | ~~2~~ | ~~**Grau de reforço do PIN** (ADR 0010, item 1)~~ | ✅ continua informativo, não probatório — [ADR 0020](adr/0020-identidade-do-colaborador-no-banco.md). O reforço offline saiu de graça: a claim do lote é cifrada com chave derivada do PIN. Gatilhos que reabrem seguem os do ADR 0010, e a resposta seria segundo fator, não PIN mais longo |
 | ~~11~~ | ~~Prazos de escalonamento da criticidade do Estoque~~ | ✅ obsoleta — o ADR 0017 tirou "dias desde marcado" da fórmula. Criticidade deriva da quantidade contada; não há prazo a configurar |
 | ~~12~~ | ~~Data de desativação dos controles físicos, por ativo~~ | ✅ decidida — [ADR 0030](adr/0030-catalogo-de-conteudo-bloqueia-go-live.md) §6. Virou passo de go-live, não pendência |

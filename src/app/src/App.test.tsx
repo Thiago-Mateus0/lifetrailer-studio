@@ -320,7 +320,7 @@ testar('o menu leva ao Treinamento, relê o menu, e o perfil volta à Entrada', 
   esperar(await tela.findByRole('button', { name: /Paulo/ })).toBeVisible()
 })
 
-// Pedido do Wyll: na tela larga o menu aberto tem coluna própria e não cobre
+// Pedido do Sergio: na tela larga o menu aberto tem coluna própria e não cobre
 // nada, então trocar de módulo não o fecha. Na estreita ele cobre a tela e
 // fecha, como o teste acima.
 testar('na tela larga o menu aberto continua aberto depois de navegar', async () => {
@@ -838,16 +838,16 @@ const entrarComo = (login: string, senha: string) => {
 testar('sócio entra por login e senha no computador, sem chave de tablet e sem claim', async () => {
   localStorage.removeItem('lt-dispositivo')
   const pedidos = simularServidor({
-    '/admin/sessao': { corpo: { nome: 'Wyll', perfil: 'administrador', exp: Math.floor(Date.now() / 1000) + 3600 } },
+    '/admin/sessao': { corpo: { nome: 'Sergio', perfil: 'administrador', exp: Math.floor(Date.now() / 1000) + 3600 } },
     '/tela/home': { corpo: homeFixture },
   })
 
   renderizar(<App />)
-  entrarComo('wyll', 'uma-senha-bem-longa')
+  entrarComo('sergio', 'uma-senha-bem-longa')
 
   esperar(await tela.findByRole('heading', { name: homeFixture.saudacao })).toBeVisible()
   const login = pedidos.find((p) => p.caminho === '/admin/sessao')!
-  esperar(JSON.parse(login.opcoes.body as string)).toEqual({ login: 'wyll', senha: 'uma-senha-bem-longa' })
+  esperar(JSON.parse(login.opcoes.body as string)).toEqual({ login: 'sergio', senha: 'uma-senha-bem-longa' })
   // A sessão é o cookie HttpOnly: a leitura das telas não leva Bearer nem chave.
   const home = pedidos.find((p) => p.caminho === '/tela/home')!
   esperar(home.opcoes.headers).not.toHaveProperty('authorization')
@@ -861,23 +861,23 @@ testar('senha errada diz o que aconteceu e limpa o campo', async () => {
   simularServidor({ '/admin/sessao': { codigo: 401, corpo: { erro: 'invalido' } } })
 
   renderizar(<App />)
-  entrarComo('wyll', 'errada')
+  entrarComo('sergio', 'errada')
 
   esperar(await tela.findByRole('alert')).toHaveTextContent('Login ou senha incorretos.')
   esperar(tela.getByLabelText('Senha')).toHaveValue('')
 })
 
-testar('login vai sem espaço e em minúscula: "Wyll " é o mesmo que "wyll"', async () => {
+testar('login vai sem espaço e em minúscula: "Sergio " é o mesmo que "sergio"', async () => {
   localStorage.removeItem('lt-dispositivo')
   const pedidos = simularServidor({ '/admin/sessao': { codigo: 401, corpo: { erro: 'invalido' } } })
 
   renderizar(<App />)
   esperar(tela.getByLabelText('Login')).toHaveFocus()
-  entrarComo('  Wyll ', 'uma-senha-bem-longa')
+  entrarComo('  Sergio ', 'uma-senha-bem-longa')
 
   await tela.findByRole('alert')
   const login = pedidos.find((p) => p.caminho === '/admin/sessao')!
-  esperar(JSON.parse(login.opcoes.body as string).login).toBe('wyll')
+  esperar(JSON.parse(login.opcoes.body as string).login).toBe('sergio')
 })
 
 testar('o olho mostra e esconde a senha', () => {
@@ -1746,7 +1746,7 @@ testar('recusa do ledger mantém o ajuste aberto, com o número e o motivo', asy
 
 // ---------------------------------------------------- PINs de acesso (Ajustes)
 const BIA = { id: 'bia', nome: 'Bia' }
-const WYLL = { id: 'wyll', nome: 'Wyll' }
+const SERGIO = { id: 'sergio', nome: 'Sergio' }
 
 async function abrirAjustes(rotas: Record<string, Resposta | (() => Resposta)>, secao = 'PINs de acesso') {
   const pedidos = simularServidor({
@@ -1797,7 +1797,7 @@ testar('trocar PIN manda só aquela pessoa e relê a tela', async () => {
 testar('a lista de PIN não oferece Gerente nem sócio', async () => {
   await abrirAjustes({})
 
-  esperar(tela.queryByRole('button', { name: `Trocar PIN de ${WYLL.nome}` })).toBeNull()
+  esperar(tela.queryByRole('button', { name: `Trocar PIN de ${SERGIO.nome}` })).toBeNull()
   esperar(tela.getByRole('button', { name: `Trocar PIN de ${BIA.nome}` })).toBeVisible()
 })
 

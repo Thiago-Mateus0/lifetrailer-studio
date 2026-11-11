@@ -110,7 +110,7 @@ test('achados: o formulario so existe com ?registrar=1, e traz os estudios ativo
   const { registro } = montarAchados(linha, AGORA, 'guardados', config, true);
   // Estudio e FK, e nao texto: "Estudio 1" digitado nao vira uma (ADR 0053 §3).
   assert.deepEqual(registro.estudios.map((e) => e.rotulo), ['Acustico']);
-  // Um lugar so, desde a resposta do Wyll (G11). Os dois achados semeados acima
+  // Um lugar so, desde a resposta do Sergio (G11). Os dois achados semeados acima
   // guardam 'Gaveta A/P' e 'Com a Helena' de proposito: sao anteriores a mudanca,
   // e continuam mostrando onde de fato foram guardados — `local_guarda` e texto.
   assert.deepEqual(registro.lugares.map((l) => l.identificador), ['Gaveta']);

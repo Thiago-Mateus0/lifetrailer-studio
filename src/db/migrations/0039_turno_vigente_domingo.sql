@@ -40,7 +40,7 @@
 --   not deleted          exclusao e terminal; ensaio cancelado nao abre turno
 --                        pra ninguem, e deixar abrir daria posse a quem nao
 --                        trabalhou.
---   tipo_staff           agendamento na conta do Wyll e bloqueio de agenda,
+--   tipo_staff           agendamento na conta do Sergio e bloqueio de agenda,
 --     = 'operacional'    nao ensaio (ADR 0005, segundo balde).
 --
 -- Domingo sem nenhum ensaio nao tem janela: `ini` fica nulo e nenhuma linha

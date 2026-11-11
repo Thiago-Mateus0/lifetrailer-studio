@@ -4,7 +4,7 @@
 **Data:** 2026-10-01
 **Fase:** 6 — go-live
 **Decidido por:** Thiago, aceito no chat de 01/10 ("aceito"). O pedido veio do
-Thiago e do Wyll no mesmo dia: "o botão de pago seria para ter certeza que já
+Thiago e do Sergio no mesmo dia: "o botão de pago seria para ter certeza que já
 foi pago após a Helena enviar para o cliente e receber o comprovante de
 pagamento. Ou até mesmo às vezes o cliente paga na empresa".
 **Toca:** [comanda.md](../spec/comanda.md) (ciclo de vida e tabela de
@@ -41,7 +41,7 @@ registra esse pagamento. Hoje Fechada ou Enviada não diz se o dinheiro entrou.
 3. **Recebi não mexe em dinheiro.** Não muda total, `numero_sequencial`,
    competência, estoque nem hora extra. Grava quem marcou e quando, com audit
    log.
-4. **Cor na agenda da Home** (Wyll e Thiago, 01/10: "roxo, agendamento está
+4. **Cor na agenda da Home** (Sergio e Thiago, 01/10: "roxo, agendamento está
    acontecendo, comanda aberta; amarelo, agendamento finalizado, comanda em
    aberto; laranja, agendamento finalizado, comanda paga"):
 

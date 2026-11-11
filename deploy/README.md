@@ -17,7 +17,7 @@ ninguém.
 | Managed Database (Postgres 16) | DigitalOcean, mesma região do droplet | Thiago |
 | Droplet Ubuntu | DigitalOcean, rede privada com o banco | Thiago |
 | Domínio apontando para o droplet | Registrador + DNS | Thiago |
-| Token e company da Altegio | conta da empresa, conectada pelo Wyll (G10) | Wyll |
+| Token e company da Altegio | conta da empresa, conectada pelo Sergio (G10) | Sergio |
 | Credencial da Cloudflare R2 | issue #136 | Thiago |
 
 ---

@@ -27,7 +27,7 @@ Dois fatos do próprio repositório apertam o requisito:
 
 O segundo fato é o que a pendência 18 não estava enxergando: um backup operado
 inteiramente pela mesma conta que o Dev administra cobre acidente e não cobre
-o cenário que o Wyll mandou desenhar para.
+o cenário que o Sergio mandou desenhar para.
 
 **Decorrência 11.3 — política de pausa do Supabase por inatividade — está
 obsoleta.** O ADR-0016 saiu do Supabase e o 0018 pôs em gerenciado. A

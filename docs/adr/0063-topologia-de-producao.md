@@ -7,7 +7,7 @@
 - **Data:** 2026-09-22
 - **Fase:** 6 — pré-go-live
 - **Decidido por:** Thiago (issue #152,
-  as sete escolhas), depois de o Wyll aprovar o custo da hospedagem
+  as sete escolhas), depois de o Sergio aprovar o custo da hospedagem
 - **Completa:** [ADR 0016](0016-sai-do-supabase.md) (que deixou "Hetzner ou
   DigitalOcean" em aberto) e [ADR 0018](0018-volta-a-postgres-gerenciado.md).
 - **Toca:** [ADR 0019](0019-token-na-url-do-webhook.md),
@@ -115,7 +115,7 @@ acidente com dado de produção.
 ## Consequências
 
 - A pendência da hospedagem sai de `pendencias.md`: o custo foi aprovado pelo
-  Wyll em 2026-09-22.
+  Sergio em 2026-09-22.
 - **G8 continua aberta e vira concreta:** é no ato de contratar que se confere se
   o plano cobre PITR e instância sempre ligada. Não cobrindo, o `pg_dump` horário
   do ADR 0028 passa de recomendação a obrigatório antes de dado real.

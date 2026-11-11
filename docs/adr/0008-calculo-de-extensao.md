@@ -2,7 +2,7 @@
 
 - **Status:** Aceito — a frase "cada bloco segue o dia-calendário em que
   começa" (seção Decisão, Furo 2) foi ambígua e está **substituída por
-  [ADR 0013](0013-decisoes-wyll-extensao-e-log.md), D-B**. O valor de cada
+  [ADR 0013](0013-decisoes-sergio-extensao-e-log.md), D-B**. O valor de cada
   bloco (meia hora avulsa, sem desconto de pacote) foi **revogado por
   [ADR 0078](0078-extensao-e-diferenca-entre-pacotes.md)**. Resto deste ADR
   continua vigente.

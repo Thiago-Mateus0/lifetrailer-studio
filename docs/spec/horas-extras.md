@@ -110,7 +110,7 @@ trabalhada a mais é obrigação, bonificação é decisão, e a Helena precisa
 distinguir as duas no relatório.
 
 **Nenhuma tabela é criada agora.** A regra — quanto, pra quem, com que critério
-— é do Wyll, prevista para 2027. O que está decidido é onde ela nasce.
+— é do Sergio, prevista para 2027. O que está decidido é onde ela nasce.
 
 ### Pendências
 Nenhuma.

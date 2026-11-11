@@ -81,7 +81,7 @@ LT002, e botão que promete o que não cumpre é pior que botão que não existe
 `local_guarda` guarda o **rótulo**, não um id: a lista de lugares é constante da
 tela (Gaveta A/P, Com a Helena), como as abas são. Uma tabela de catálogo para dois
 valores seria catálogo sem dono, que é o que o ADR 0042 §3 recusa — e a lista
-real do estúdio é fato do Wyll, que entra em `docs/pendencias.md`, não em
+real do estúdio é fato do Sergio, que entra em `docs/pendencias.md`, não em
 migration.
 
 O **estúdio deixa de ser texto livre**: `estudio_id` é FK, e um campo onde se
@@ -107,7 +107,7 @@ O que **não** entra, e por quê — cada um é decorrência aberta, não esquec
 - **`item_de_valor`** não tem campo no formulário, então todo achado nasce
   `false` e a trava de "só Admin doa" não protege nada ainda. Inventar um
   interruptor que o mockup não tem é decidir sozinho o que "de valor" significa
-  na operação — é pergunta para o Wyll.
+  na operação — é pergunta para o Sergio.
 - **`cliente_telefone` e o Lembrete de contatar o cliente.** O spec diz *copia*
   `cliente_telefone` — copia **do agendamento**, e ligar achado a agendamento (a
   "sugestão automática pelo estúdio + horário") não existe. Sem telefone não há
@@ -129,7 +129,7 @@ estado existe, afinal — e é o caminho para o achado sem foto virar o normal. 
 alerta de +24h é o remédio de exceção, e transformá-lo em rotina é gastá-lo.
 
 **Uma coluna `local_guarda_id` com tabela de catálogo.** Dois valores, nenhuma
-tela de administração e nenhuma decisão do Wyll ainda tomada. A tabela viria
+tela de administração e nenhuma decisão do Sergio ainda tomada. A tabela viria
 antes da pergunta que ela responde.
 
 **Texto livre em "Guardado onde".** Um tablet no balcão com o cliente esperando
@@ -150,13 +150,13 @@ futura vira cinco grafias do mesmo armário.
   e `data` passa a ser `YYYY-MM-DD`. A fixture da Fase 3 acompanha.
 - **O detalhe do achado ganha `anexarFoto`**, presente só em `aguardando_foto`.
 - **A lista de lugares vai para `docs/pendencias.md`**: os dois rótulos do mockup
-  valem até o Wyll dizer os reais.
+  valem até o Sergio dizer os reais.
 
 ## Decorrências abertas
 
 | # | Item | Por quê |
 |---|---|---|
-| 1 | **`item_de_valor` no registro** — quem marca, e o que conta como "de valor" | pergunta de operação, do Wyll |
+| 1 | **`item_de_valor` no registro** — quem marca, e o que conta como "de valor" | pergunta de operação, do Sergio |
 | 2 | **O agendamento sugerido pelo estúdio + horário**, e com ele `cliente_telefone` e o **Lembrete de contatar o cliente** | depende de ligar achado a agendamento, que ninguém pediu ainda |
 | 3 | **"Entregar" e "Doar"** — as duas saídas do ciclo de vida, com destino obrigatório e a trava de Admin | próxima fatia do módulo |
 | 4 | **Alerta de possível duplicata** (mesmo estúdio e data) e **"Compartilhar por WhatsApp"** | spec os pede; nenhum dos dois é o gesto que destrava a tela |

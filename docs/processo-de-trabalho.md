@@ -21,7 +21,7 @@ Uso isso principalmente porque ainda to no 2o periodo da faculdade e sozinho eu 
 | `docs/adr/` | Registrar decisao importante, uma por arquivo. Nao edito depois de aceito, se mudei de ideia crio outro apontando pro anterior | quase nunca |
 | `docs/spec/` | O que o sistema faz hoje. Sem "porque decidi assim", so o "e assim" | toda vez que decido algo novo |
 | `docs/pendencias.md` | O que falta decidir, organizado por qual fase trava | toda semana |
-| `docs/decisoes-abertas.md` | Regra de dinheiro sem dono ainda, o Wyll que resolve essas | ate ele decidir |
+| `docs/decisoes-abertas.md` | Regra de dinheiro sem dono ainda, o Sergio que resolve essas | ate ele decidir |
 | `data/` | Preco, staff_id, catalogo, tudo em CSV. Nunca escrevo numero direto no texto | quando o mundo real muda |
 | `tests/` | Caso de teste que ja roda: `python3 tests/runner.py` | vira codigo na Fase 4 |
 | `scripts/` | Coisa que gera outra coisa. Nao e fonte de verdade, so espelha | segue o que ja existe |
@@ -54,11 +54,11 @@ Isso junta spec, ADR, testes e pendencia tudo num arquivo so, pra eu nao precisa
 | Pessoa | Funcao |
 |---|---|
 | Helena | Gerente/admin, tem login proprio |
-| Wyll | Socio, foi ele que definiu como pensar seguranca aqui |
+| Sergio | Socio, foi ele que definiu como pensar seguranca aqui |
 | Thiago (eu) | Atendente e tambem quem programa (ver ADR 0010 sobre esse conflito) |
 | Marcos | Atendente, sempre de manha |
 | Paulo | Atendente, tarde/noite, revezando |
 
-Regra de seguranca que o Wyll passou: desenhar pensando num colaborador mal intencionado no futuro, nao confiando so porque a equipe de hoje e de confianca.
+Regra de seguranca que o Sergio passou: desenhar pensando num colaborador mal intencionado no futuro, nao confiando so porque a equipe de hoje e de confianca.
 
 Repo e privado. Tem dado real da operacao em `data/`.

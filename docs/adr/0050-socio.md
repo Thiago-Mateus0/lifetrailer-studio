@@ -6,7 +6,7 @@
 **Decidido por:** Thiago
 **Emenda:** [ADR 0049](0049-pin-so-para-atendente.md) e [ADR 0047](0047-login-do-administrador.md) —
 ali qualquer Administrador definia PIN e senha de outros e lia o registro de auditoria.
-**Toca:** [permissoes.md](../spec/permissoes.md), [ADR 0013](0013-decisoes-wyll-extensao-e-log.md)
+**Toca:** [permissoes.md](../spec/permissoes.md), [ADR 0013](0013-decisoes-sergio-extensao-e-log.md)
 (a leitura do Desenvolvedor vira linha), [ADR 0039](0039-conferencia-do-pin-e-bloqueio.md) (desbloqueio).
 
 ## Contexto
@@ -14,7 +14,7 @@ ali qualquer Administrador definia PIN e senha de outros e lia o registro de aud
 O domínio tinha três níveis — Administrador, Desenvolvedor, Atendente — e tratava
 todo Administrador igual. Na operação real são duas coisas diferentes:
 
-- **Sócios**, os donos: Wyll, Rafael e Carlos.
+- **Sócios**, os donos: Sergio, Rafael e Carlos.
 - **Gerente**: a Helena, que opera a administração do dia a dia.
 
 Os mockups da Fase 3 já apontavam isso ("Admin consulta os PINs, alteração é do

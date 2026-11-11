@@ -173,7 +173,7 @@ begin
 
   -- ===================== (e) os tres baldes do staff_id ======================
   -- ADR 0005. O balde do meio existe pra nao queimar credito de notificacao:
-  -- agendamento na conta do Wyll e rotina, nao erro. Se cada um alertar, o
+  -- agendamento na conta do Sergio e rotina, nao erro. Se cada um alertar, o
   -- alerta morre e leva junto os do terceiro balde, que exigem acao.
   v_staff   := app.payload_bigint(d, 'staff_id');
   v_company := coalesce(app.payload_bigint(e.payload, 'company_id'),

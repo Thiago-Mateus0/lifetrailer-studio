@@ -61,7 +61,7 @@ comment on column turno_definicao.hora_inicio is
 --   not deleted          exclusao e terminal; ensaio cancelado nao abre turno
 --                        pra ninguem, e deixar abrir daria posse a quem nao
 --                        trabalhou.
---   tipo_staff           agendamento na conta do Wyll e bloqueio de agenda,
+--   tipo_staff           agendamento na conta do Sergio e bloqueio de agenda,
 --     = 'operacional'    nao ensaio (ADR 0005, segundo balde). Abrir a janela
 --                        por causa dele poria um atendente de posse por um
 --                        compromisso que nao e da operacao.

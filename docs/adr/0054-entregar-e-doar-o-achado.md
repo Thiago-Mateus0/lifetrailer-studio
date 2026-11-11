@@ -75,7 +75,7 @@ repetidos vinte vezes por semana — texto livre ali vira cinco grafias do mesmo
 armário, e a busca futura morre. O destino da doação é escrito **uma vez, no
 fim da vida do item**, e lido uma vez, no histórico. É o nome de uma instituição,
 e não existe a lista dela: seria catálogo sem dono, que é o que o ADR 0042 §3
-recusa, e a lista real é fato do Wyll — que ele ainda não deu e que ninguém
+recusa, e a lista real é fato do Sergio — que ele ainda não deu e que ninguém
 precisa esperar para doar um guarda-chuva.
 
 Obrigatório vem do spec (`confirmação + destino obrigatório`) e já está no
@@ -98,7 +98,7 @@ e está certo: linha antiga e importação não passam por esta função.
 
 `item_de_valor` → `app.exigir_admin`. Hoje isso é código sem sujeito: nenhum
 achado nasce `true`, porque o interruptor não tem campo no formulário — é a
-decorrência 1 do ADR 0053, que continua aberta e é pergunta para o Wyll.
+decorrência 1 do ADR 0053, que continua aberta e é pergunta para o Sergio.
 
 Escrever a trava agora mesmo assim, em vez de junto com o interruptor, é o
 barato: a tela já desativa o botão desde a PR #95, e uma trava que só existe na
@@ -138,7 +138,7 @@ recusa em letras maiúsculas.
 
 **`destino_doacao` com tabela de catálogo.** A pergunta de novo, e a mesma
 resposta do ADR 0053 §3: tabela sem tela de administração, sem dono e sem a
-decisão do Wyll. Viria antes da pergunta que responde.
+decisão do Sergio. Viria antes da pergunta que responde.
 
 **Deixar `retirado_por_nome` opcional, e confiar na tela.** Duas camadas que
 falham de formas diferentes valem mais que uma (ADR 0011 §GRANTs). Aqui a
@@ -176,5 +176,5 @@ a confirmação: ninguém escreve "Bazar da Paróquia" por engano. Um diálogo
 
 | # | Item | Por quê |
 |---|---|---|
-| 1 | **A lista real de destinos de doação**, se o estúdio doar sempre para os mesmos lugares | vira `opcoes` na tela sem migration — a coluna já é texto. Fato do Wyll, e só depois de existir repetição de verdade |
+| 1 | **A lista real de destinos de doação**, se o estúdio doar sempre para os mesmos lugares | vira `opcoes` na tela sem migration — a coluna já é texto. Fato do Sergio, e só depois de existir repetição de verdade |
 | 2 | **Desfazer uma entrega feita por engano** | `devolvido` não é terminal no spec, mas nada hoje sai dele; é caminho de correção, e correção de achado ainda não foi pensada |

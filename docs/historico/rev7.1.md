@@ -79,7 +79,7 @@ Thiago atua em papel duplo: líder do projeto e desenvolvedor.
 | Pessoa | Papel |
 |---|---|
 | Helena | Admin/gerente, login próprio |
-| Wyll | Sócio-gerente, definiu a diretriz de segurança |
+| Sergio | Sócio-gerente, definiu a diretriz de segurança |
 | Thiago | Atendente + Desenvolvedor |
 | Marcos | Atendente, manhã fixa |
 | Paulo | Atendente, tarde/noite rotativo |
@@ -87,7 +87,7 @@ Thiago atua em papel duplo: líder do projeto e desenvolvedor.
 
 **5 estúdios:** Acústico · Branco · Luz natural · Loft · Quintal
 
-**Diretriz de segurança (Wyll):** desenhar assumindo um futuro colaborador mal-intencionado, não a equipe atual de confiança.
+**Diretriz de segurança (Sergio):** desenhar assumindo um futuro colaborador mal-intencionado, não a equipe atual de confiança.
 
 **Hardware:** um único tablet Android em modo quiosque (Fully Kiosk Browser), levado de sala em sala. Admins acessam por navegador de qualquer lugar. Concorrência existe e é tratada.
 
@@ -199,7 +199,7 @@ Cadastro do Admin. Resolve o mapeamento e o problema do staff que não é estúd
 | 2000003 | Estúdio | Luz natural (ordem 3) |
 | 2000004 | Estúdio | Loft (ordem 4) |
 | 2000005 | Estúdio | Quintal (ordem 5) |
-| 2000006 | Pessoa | Wyll / Gerente |
+| 2000006 | Pessoa | Sergio / Gerente |
 | 2000007 | Pessoa | Dev |
 | 2000008 | Pessoa | Recrutas (atendentes) |
 
@@ -516,7 +516,7 @@ Transversal: toda ação em qualquer ativo → Audit log.
 
 ### ⚠ Riscos aceitos (decisões conscientes, comunicadas aos sócios)
 
-1. **PIN em dispositivo compartilhado.** A atribuição é coerente, não inforjável. O Bloco A removeu a razão prática para compartilhar PIN (a Comanda não trava mais na virada de turno) e tornou a regra global 9 aplicável — mas nada impede o compartilhamento voluntário. Tornar a autoria probatória exige hardware (tag NFC por pessoa, viável em Android). **Decisão do Wyll, como autor da diretriz de segurança: atribuição probatória ou informativa?**
+1. **PIN em dispositivo compartilhado.** A atribuição é coerente, não inforjável. O Bloco A removeu a razão prática para compartilhar PIN (a Comanda não trava mais na virada de turno) e tornou a regra global 9 aplicável — mas nada impede o compartilhamento voluntário. Tornar a autoria probatória exige hardware (tag NFC por pessoa, viável em Android). **Decisão do Sergio, como autor da diretriz de segurança: atribuição probatória ou informativa?**
 2. **Desenvolvedor com acesso ao banco.** Ações do Dev direto no banco não passam pelo audit log da aplicação, e Thiago é Dev e Atendente ao mesmo tempo. Mitigação organizacional recomendada: export periódico de horas extras chegando à Helena por canal que o Dev não controla, conferível contra os horários da própria Altegio.
 3. **Devolução em Achados sem verificação.** Registra apenas o nome de quem retirou, digitado pelo atendente. Correção disponível se incomodar: exigir Admin na devolução de itens de valor.
 
@@ -590,7 +590,7 @@ desconhecido        → salva, estudio_id NULL, flag "não mapeado"
                       ALERTA o Admin
 ```
 
-O segundo balde existe para não queimar crédito de notificação: agendamento na conta do Wyll é rotina (bloqueio de horário, compromisso externo), não erro. Se cada um alertar, o alerta morre e leva junto os do terceiro balde, que são os que exigem ação.
+O segundo balde existe para não queimar crédito de notificação: agendamento na conta do Sergio é rotina (bloqueio de horário, compromisso externo), não erro. Se cada um alertar, o alerta morre e leva junto os do terceiro balde, que são os que exigem ação.
 
 ### Superfície real da integração
 
@@ -1548,7 +1548,7 @@ Migração das Fichas Técnicas do documento externo (depende de campo) · víde
 | # | Pendência | Por que trava o design | Dono |
 |---|---|---|---|
 | 1 | **Bonificação da equipe** — sem dono em nenhum dos 8 ativos | É escopo. Se vira ativo 9 ou seção dentro de Horas Extras, muda quais telas existem | Thiago |
-| 2 | **Atribuição probatória ou informativa** — PIN em dispositivo compartilhado torna a autoria coerente, não inforjável. Tag NFC por pessoa é a alternativa viável | Muda a tela de seleção de perfil e possivelmente o hardware | **Wyll**, como autor da diretriz de segurança |
+| 2 | **Atribuição probatória ou informativa** — PIN em dispositivo compartilhado torna a autoria coerente, não inforjável. Tag NFC por pessoa é a alternativa viável | Muda a tela de seleção de perfil e possivelmente o hardware | **Sergio**, como autor da diretriz de segurança |
 
 ## 🟡 Bloqueiam a FASE 4 (Código)
 
@@ -1710,7 +1710,7 @@ T13  update perdido → reconciliação atualiza
      → Aberta recalcula · Fechada flag "conferir"
 T14  Manual com Comanda FECHADA, integração volta
      → promovido a Conciliado · agendamento_id INALTERADO
-T15  staff_id 2000006 (Wyll) → Não-operacional · SEM alerta
+T15  staff_id 2000006 (Sergio) → Não-operacional · SEM alerta
 T16  staff_id desconhecido → não mapeado · ALERTA
 T17  Ensaio terminou há 2h, sem Comanda, attendance = 1 → alerta
 

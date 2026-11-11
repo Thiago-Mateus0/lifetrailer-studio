@@ -99,17 +99,17 @@ testar('quem não entra por senha não vê a caixa de senha', () => {
 })
 
 testar('senha de login: o sócio escolhe a pessoa, o login vem preenchido e vai com a senha nova', () => {
-  const redefinir = simulacao.fn().mockResolvedValue({ texto: 'Senha de Wyll redefinida.', erro: false })
+  const redefinir = simulacao.fn().mockResolvedValue({ texto: 'Senha de Sergio redefinida.', erro: false })
   renderizar(<Ajustes dados={ajustesFixture} aoRedefinirSenha={redefinir} />)
   abrir('Senhas')
   const caixa = dentroDe(tela.getByRole('region', { name: 'Senha de login' }))
 
-  dispararEvento.change(caixa.getByLabelText('Pessoa'), { target: { value: 'wyll' } })
-  esperar(caixa.getByLabelText('Login')).toHaveValue('wyll')
+  dispararEvento.change(caixa.getByLabelText('Pessoa'), { target: { value: 'sergio' } })
+  esperar(caixa.getByLabelText('Login')).toHaveValue('sergio')
   dispararEvento.change(caixa.getByLabelText('Senha nova'), { target: { value: 'senha-provisoria-1' } })
   dispararEvento.click(caixa.getByRole('button', { name: 'Redefinir senha' }))
 
-  esperar(redefinir).toHaveBeenCalledWith('wyll', 'wyll', 'senha-provisoria-1')
+  esperar(redefinir).toHaveBeenCalledWith('sergio', 'sergio', 'senha-provisoria-1')
 })
 
 // Issue #216. Desativar solta os turnos futuros da pessoa: pede um segundo toque.

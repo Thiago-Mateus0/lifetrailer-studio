@@ -21,7 +21,7 @@ insert into parametro_buffer (minutos, vigencia_inicio) values (30, date '2026-0
 insert into staff_altegio (company_id, staff_id, tipo, estudio_id, rotulo) values
   (1000001, 2000001, 'estudio', 'bbbbbbbb-0000-0000-0000-000000000001',
    'Estudio 1 (Acustico)'),
-  (1000001, 2000006, 'pessoa',  null, 'Wyll / Gerente');
+  (1000001, 2000006, 'pessoa',  null, 'Sergio / Gerente');
 
 -- A Comanda automatica precisa de responsavel: quem detem a janela de posse
 -- agora (comanda.md Bloco A). Sem Escala, comanda_criar recusa por LT003.

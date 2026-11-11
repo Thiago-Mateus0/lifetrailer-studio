@@ -19,7 +19,7 @@
 - Snapshot para o resto
 - Append-only, retenção permanente. Nem Admin nem Dev apagam
 - Consulta pelo Admin, accordion por período. **Desenvolvedor também consulta
-  — decisão D-C, [ADR 0013](../adr/0013-decisoes-wyll-extensao-e-log.md) — e a
+  — decisão D-C, [ADR 0013](../adr/0013-decisoes-sergio-extensao-e-log.md) — e a
   própria consulta gera um registro de leitura, autor = Dev, visível ao
   Admin.** A matriz do 2.0.3 e este contrato divergiam desde o Rev 7.1; agora
   concordam.
