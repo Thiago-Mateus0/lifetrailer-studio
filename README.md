@@ -2,6 +2,7 @@
 
 **Sistema que a equipe de um estúdio de fotografia usa todo dia, num tablet no balcão. Eu desenhei, decidi e entrego.**
 
+[![CI](https://github.com/Thiago-Mateus0/lifetrailer-studio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Thiago-Mateus0/lifetrailer-studio/actions/workflows/ci.yml)
 ![Postgres](https://img.shields.io/badge/PostgreSQL-PL%2FpgSQL%20%2B%20RLS-336791?logo=postgresql&logoColor=white)
 ![React](https://img.shields.io/badge/React-TypeScript%20PWA-61DAFB?logo=react&logoColor=black)
 ![Node](https://img.shields.io/badge/Node-webhook%20%2B%20API-339933?logo=nodedotjs&logoColor=white)
@@ -153,6 +154,10 @@ data/          CSVs: preço, catálogo, turnos (fonte de verdade para números)
 deploy/        produção
 tests/         pgTAP, Node, domínio
 ```
+
+## Licença
+
+[MIT](LICENSE). O código é livre para estudar e reaproveitar; os dados em `data/` e as capturas são de demonstração.
 
 ## Sobre mim
 
