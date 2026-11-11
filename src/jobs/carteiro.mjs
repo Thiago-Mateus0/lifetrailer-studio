@@ -1,7 +1,7 @@
 // O carteiro da âncora: quem tira a linha da fila e põe o e-mail na rua.
 //
 // ADR 0038 — a âncora do audit log sai por e-mail, e o destinatário que
-// sustenta a propriedade é o Wyll: a caixa dele é a única que não é
+// sustenta a propriedade é o Sergio: a caixa dele é a única que não é
 // administrada por quem administra o banco. O ADR 0024 §3 explica por que isso
 // é a parte que funciona — o Dev pode reescrever a cadeia inteira, mas não o
 // que já saiu.

@@ -63,7 +63,7 @@ ativo = false       → salva, estudio_id NULL, flag "desativado"
  fora de operação)    ALERTA o Admin: reativar, ou confirmar que saiu de operação
 ```
 
-O segundo balde existe para não queimar crédito de notificação: agendamento na conta do Wyll é rotina (bloqueio de horário, compromisso externo), não erro. Se cada um alertar, o alerta morre e leva junto os do terceiro balde, que são os que exigem ação.
+O segundo balde existe para não queimar crédito de notificação: agendamento na conta do Sergio é rotina (bloqueio de horário, compromisso externo), não erro. Se cada um alertar, o alerta morre e leva junto os do terceiro balde, que são os que exigem ação.
 
 O quarto tem alerta próprio, e não é detalhe de texto: quem cai no terceiro precisa **cadastrar**, quem cai no quarto **já cadastrou** e precisa decidir se a sala volta. Alerta que pede a ação errada é o que treina a equipe a ignorar o canal ([ADR 0033](../adr/0033-sem-alerta-generico-de-anomalia.md)).
 

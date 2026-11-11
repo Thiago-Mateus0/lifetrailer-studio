@@ -115,7 +115,7 @@ está sujeito a prazo.
 
 Cinco anos é o horizonte que cobre prescrição de cobrança e guarda fiscal;
 abaixo disso o registro financeiro deixa de servir pro que ele existe. **Isto é
-desenho de sistema, não parecer jurídico** — o número final é do Wyll confirmar
+desenho de sistema, não parecer jurídico** — o número final é do Sergio confirmar
 com quem cuida da contabilidade. O que esta decisão fixa é que o prazo existe,
 é um só, e vale para o PDF e para o snapshot juntos.
 

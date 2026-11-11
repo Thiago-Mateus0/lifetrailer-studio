@@ -21,10 +21,10 @@ sabe se a opção óbvia foi considerada ou esquecida.
 | 0007 | Varredura detecta ensaio que ocorreu sem Comanda | Aceito — rejeição de criação automática restrita por 0014, não revertida |
 | 0008 | Acréscimo por bloco; tabela de preços é a política | Aceito — D-B esclarecida por 0013; valor do bloco revogado por 0078 |
 | 0009 | Revoga Q1 da Fase 2.9 | Aceito — revoga Q1 |
-| 0010 | Riscos aceitos e comunicados aos sócios | Aceito — revisar quando o Wyll decidir |
+| 0010 | Riscos aceitos e comunicados aos sócios | Aceito — revisar quando o Sergio decidir |
 | 0011 | Stack: Postgres/Supabase, SPA com outbox, escrita financeira por RPC | Aceito |
 | 0012 | Endpoint de webhook sem verificação de origem | Aceito — mecanismo definido pelo 0019 |
-| 0013 | Decisões do Wyll: offset de bloco, virada de dia, leitura do audit log | Aceito |
+| 0013 | Decisões do Sergio: offset de bloco, virada de dia, leitura do audit log | Aceito |
 | 0014 | Comanda automática para ensaio não pago online | Aceito |
 | 0015 | Catálogo de preço fixo para Fundos e Equipamentos | Aceito |
 | 0016 | Sai do Supabase, fica com Postgres self hosted | Aceito — hospedagem do banco revogada por 0018 |
@@ -49,7 +49,7 @@ sabe se a opção óbvia foi considerada ou esquecida.
 | 0035 | Tema da interface é claro + índigo; escuro grafite arquivado | Aceito — fecha pend. 20; borda, borda fraca e fundo de seleção revogados por 0062 |
 | 0036 | Forma física da anonimização (emenda ao 0023 §5) | Aceito — fecha issue #44 |
 | 0037 | `staff_altegio.ativo` é estado, não rótulo — quarto balde | Aceito — fecha issue #32 (perguntas 2 e 3) |
-| 0038 | O canal da âncora do audit log é a caixa de entrada do Wyll | Aceito — fecha issue #37 |
+| 0038 | O canal da âncora do audit log é a caixa de entrada do Sergio | Aceito — fecha issue #37 |
 | 0039 | Quem confere o PIN é o banco; o que protege é o bloqueio | Aceito — completa o 0020 §2 |
 | 0040 | Envelope `{success,data,meta}` da Altegio; guarda do Laço 2 em 4 degraus | Aceito — completa o 0003; fecha issue #36 |
 | 0041 | O evento da reconciliação entra na fila do webhook; `webhook_evento.origem` | Aceito — completa o 0003 (Laço 1) |

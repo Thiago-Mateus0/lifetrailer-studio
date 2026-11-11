@@ -84,7 +84,7 @@ select is(app.quem(time '09:00'), 'aaaaaaaa-0000-0000-0000-000000000003'::uuid,
   'o ensaio das 09:00 continua do domingo — abrir mais cedo nao tira dele');
 
 -- ================================= o que NAO abre a janela do domingo
--- Agendamento nao operacional e bloqueio de agenda do Wyll, nao ensaio
+-- Agendamento nao operacional e bloqueio de agenda do Sergio, nao ensaio
 -- (ADR 0005, segundo balde). Nao pode abrir posse pra ninguem.
 update agendamento set deleted = true;  -- limpa os dois de cima
 select app.ensaio_dom(time '02:00', 'nao_operacional');

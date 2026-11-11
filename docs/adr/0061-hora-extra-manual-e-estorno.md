@@ -89,7 +89,7 @@ criar hora extra.
 ## Alternativas descartadas
 
 - **Parâmetro próprio "valor da hora extra", com vigência.** A regra global 4 já
-  cita o nome, mas não existe CSV dele e o número teria de vir do Wyll. Duas
+  cita o nome, mas não existe CSV dele e o número teria de vir do Sergio. Duas
   réguas para a mesma noite era o problema, não a solução.
 - **Quem lança digita o valor.** Põe dinheiro digitado à mão no lugar de
   parâmetro versionado, e transforma cada lançamento numa negociação.

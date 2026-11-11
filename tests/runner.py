@@ -9,7 +9,7 @@ casos continuam valendo — é esse o contrato deste arquivo.
 
 ═══ D-A e D-B — decididas em 2026-08-12 (ver ADR 0013) ═══
 As duas ambiguidades de dinheiro encontradas na revisão externa foram
-decididas pelo Wyll/Thiago e as constantes abaixo refletem a decisão. O
+decididas pelo Sergio/Thiago e as constantes abaixo refletem a decisão. O
 mecanismo `sensivel_a` em `extensao.yaml` continua disponível — é a forma
 padrão de expor uma regra ambígua nos testes até que alguém decida — mas
 nenhum caso o usa hoje.
@@ -46,7 +46,7 @@ BLOCO_MIN = 30
 # D-A: em que minuto começa o primeiro bloco cobrável? — ADR 0013
 #   0  -> bloco b comeca em fim_agendado + b*30       (DECIDIDO)
 #   15 -> bloco b comeca em fim_agendado + 15 + b*30
-# Rationale do Wyll/Thiago: a partir do limite noturno, não existe cortesia
+# Rationale do Sergio/Thiago: a partir do limite noturno, não existe cortesia
 # de 15 min — a tolerância só decide SE cobra, não desloca ONDE cobra.
 OFFSET_BLOCO = 0
 

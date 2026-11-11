@@ -24,7 +24,7 @@
 --
 -- `local_guarda` guarda o RÓTULO, não um id. Uma tabela de catálogo para dois
 -- valores ("Gaveta A/P", "Com a Helena") seria catálogo sem dono — e a lista real
--- do estúdio é fato do Wyll, que está em docs/pendencias.md.
+-- do estúdio é fato do Sergio, que está em docs/pendencias.md.
 alter table achado
   add column local_guarda text,
   add column observacao   text;

@@ -18,7 +18,7 @@ navegação: a Sidebar dos mockups lista ativos, e um nono item ali não é um
 detalhe que se acrescenta depois sem mexer no resto.
 
 Decidir a **forma** agora não antecipa nada sobre a **regra** — quanto, para
-quem, com que critério. Isso continua sendo do Wyll, em 2027, e nada aqui
+quem, com que critério. Isso continua sendo do Sergio, em 2027, e nada aqui
 supõe uma resposta.
 
 ## Decisão
@@ -70,5 +70,5 @@ decisão. Compartilhar o ativo, sim; compartilhar a linha, não.
   refaça esta discussão do zero.
 - **Nenhuma tabela é criada agora.** A entidade nasce quando a regra existir;
   o que está decidido é onde ela nasce.
-- **A regra continua com o Wyll**, prevista para 2027. Este ADR não a antecipa
+- **A regra continua com o Sergio**, prevista para 2027. Este ADR não a antecipa
   e não a limita: qualquer critério de bonificação cabe na forma escolhida.

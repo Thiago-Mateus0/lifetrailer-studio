@@ -34,7 +34,7 @@ staff desconhecido, não requisição desconhecida — o atacante usa um id vál
 a reconciliação compara com a API, mas o laço 2 só marca `deleted` o que está
 ausente lá; um agendamento forjado com id inventado não some sozinho.
 
-A diretriz do Wyll manda desenhar assumindo um futuro colaborador
+A diretriz do Sergio manda desenhar assumindo um futuro colaborador
 mal-intencionado. Um ex-colaborador que viu a URL do endpoint é exatamente esse
 ator, e ele não precisa de acesso ao tablet nem ao banco.
 

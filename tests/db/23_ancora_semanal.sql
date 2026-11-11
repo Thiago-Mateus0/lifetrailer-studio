@@ -160,7 +160,7 @@ select ok(
   'e ja vem com o assunto pronto: e ele que carrega a ancora, nao o corpo (ADR 0038 §3)');
 
 select lives_ok(
-  $$ select app.ancora_marcar_enviada((select id from com_cadeia), 'wyll@exemplo.com, helena@exemplo.com') $$,
+  $$ select app.ancora_marcar_enviada((select id from com_cadeia), 'sergio@exemplo.com, helena@exemplo.com') $$,
   'o worker marca que saiu');
 select is((select count(*)::int from app.ancora_pendente()), 1,
   'e ela sai da fila — a outra continua esperando');

@@ -224,7 +224,7 @@ function detalhe(a, endereco, saida, eu, agora, admin) {
 // Os lugares do "Guardado onde". Constante da tela, como as abas: uma tabela de
 // catálogo para um valor seria catálogo sem dono (ADR 0042 §3).
 //
-// ⚠ A lista é UMA só, e isso é a resposta do Wyll (G11, 2026-09-23): no estúdio
+// ⚠ A lista é UMA só, e isso é a resposta do Sergio (G11, 2026-09-23): no estúdio
 // item achado vai para a gaveta, e não há segundo lugar. "Gaveta A/P" e "Com a
 // Helena" vinham do mockup da Fase 3, não da operação — com a lista errada o item
 // era guardado num lugar e registrado em outro.

@@ -30,7 +30,7 @@ LT_WEBHOOK_TOKEN=
 LT_CLAIM_SEGREDO=
 
 # ---------------------------------------------------------------- Altegio
-# O USER_TOKEN sai da conexão que o Wyll fez com a conta da empresa (G10 de
+# O USER_TOKEN sai da conexão que o Sergio fez com a conta da empresa (G10 de
 # pendencias.md); o PARTNER_TOKEN, da conta de desenvolvedor que publicou o app.
 LT_ALTEGIO_PARTNER_TOKEN=
 LT_ALTEGIO_USER_TOKEN=

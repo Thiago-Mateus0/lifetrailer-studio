@@ -130,7 +130,7 @@ com o toque duplo, e esconde um estado: a tela que oferece "Li e entendi" a quem
 já confirmou está velha, e LT002 é o que faz a releitura acontecer.
 
 **Tirar da tela os três controles sem decisão.** É o que "não fingir" pediria no
-mínimo. Mas a tela é por onde o Wyll e a Helena veem o sistema, e o controle
+mínimo. Mas a tela é por onde o Sergio e a Helena veem o sistema, e o controle
 travado com uma frase é o jeito de a lacuna ser vista por quem vai fechá-la.
 
 **Aviso que não pede confirmação agora, com snapshot vazio.** Um snapshot vazio

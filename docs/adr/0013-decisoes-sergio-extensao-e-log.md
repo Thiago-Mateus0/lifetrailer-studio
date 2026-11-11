@@ -1,9 +1,9 @@
-# ADR 0013 — Decisões do Wyll: offset de bloco, virada de dia, leitura do audit log
+# ADR 0013 — Decisões do Sergio: offset de bloco, virada de dia, leitura do audit log
 
 - **Status:** Aceito
 - **Data:** 2026-08-12
 - **Fase:** 3 — Design, antes de começar
-- **Decidido por:** Wyll (D-A, D-B, D-C) · comunicado por Thiago via `docs/decisoes-abertas.md`
+- **Decidido por:** Sergio (D-A, D-B, D-C) · comunicado por Thiago via `docs/decisoes-abertas.md`
 
 ## Contexto
 
@@ -11,7 +11,7 @@ A revisão externa de 2026-08-11 encontrou três regras sem dono: duas no
 cálculo de extensão (ADR 0008 continha as duas leituras possíveis, sem
 escolher entre elas), uma na permissão do audit log (matriz e contrato
 divergiam desde o Rev 7.1). `docs/decisoes-abertas.md` foi escrito para o
-Wyll com o custo em reais de cada opção. As três vieram decididas em
+Sergio com o custo em reais de cada opção. As três vieram decididas em
 2026-08-12, antes de qualquer trabalho de Fase 3 começar.
 
 ## Decisão
@@ -21,7 +21,7 @@ Wyll com o custo em reais de cada opção. As três vieram decididas em
 Bloco cobrável começa exatamente no fim do agendamento — `fim_agendado + b×30`,
 não `fim_agendado + 15 + b×30`.
 
-**Justificativa do Wyll, mais precisa que a recomendação original:** a partir
+**Justificativa do Sergio, mais precisa que a recomendação original:** a partir
 do limite noturno não existe cortesia de 15 minutos. A tolerância de 15
 minutos decide **se** o bloco é cobrado — os primeiros 14 minutos de atraso
 são de graça — mas não desloca **onde** a contagem de blocos noturnos começa.
@@ -105,7 +105,7 @@ qualquer conferência antes dela acontecer.
   ideia de hash encadeado como defesa em profundidade adicional continua em
   aberto, é pergunta diferente.
 - `docs/decisoes-abertas.md` não tem mais decisão pendente. Fica como registro
-  do raciocínio que levou até aqui — não é lida mais como "documento do Wyll
+  do raciocínio que levou até aqui — não é lida mais como "documento do Sergio
   em aberto", mas o conteúdo de cada seção continua correto.
 - Fase 3 perde os últimos dois itens do seu bloqueio 🔴 relacionados a
   dinheiro. Restam, na Fase 3: pendência 1 (bonificação da equipe) e pendência

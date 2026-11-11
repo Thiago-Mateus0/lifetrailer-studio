@@ -186,4 +186,4 @@ nunca leva a foto. Seria jogar fora o caminho bom por causa do caminho ruim.
 
 | # | Item | Por quê |
 |---|---|---|
-| 1 | **O texto do compartilhamento não nomeia o estúdio para quem é de fora** — "no Acustico" é vocabulário interno | é fato do Wyll: o que o cliente entende por "Estúdio 1", "Acustico" ou nada |
+| 1 | **O texto do compartilhamento não nomeia o estúdio para quem é de fora** — "no Acustico" é vocabulário interno | é fato do Sergio: o que o cliente entende por "Estúdio 1", "Acustico" ou nada |

@@ -59,7 +59,7 @@ sempre, e até aqui nenhum caminho da tela conseguia disparar.
 - **Fila derivada do histórico** (quem está há mais tempo sem domingo extra).
   Ficaria mais perto do mockup, mas inventa regra de negócio: critério, desempate,
   o que fazer quando a pessoa recusa, se a fila anda no acionar ou no desfazer.
-  Regra de operação é do Wyll, não do código — e uma fila que ninguém combinou é
+  Regra de operação é do Sergio, não do código — e uma fila que ninguém combinou é
   pior que nenhuma. Se ela vier, entra **por cima** deste gesto, como
   pré-seleção: o botão já aceita qualquer pessoa da equipe.
 - **Só o Atendente assume, para si.** É o que a primeira versão fazia. Simples, e

@@ -12,7 +12,7 @@ insert into parametro_buffer (minutos, vigencia_inicio) values (30, date '2026-0
 
 insert into staff_altegio (company_id, staff_id, tipo, estudio_id, rotulo) values
   (1000001, 2000001, 'estudio', 'bbbbbbbb-0000-0000-0000-000000000001', 'Acustico'),
-  (1000001, 2000006, 'pessoa',  null, 'Wyll');
+  (1000001, 2000006, 'pessoa',  null, 'Sergio');
 
 insert into turno_escalado (data, turno, colaborador_id, tipo_registro, origem)
 select g::date, t, 'aaaaaaaa-0000-0000-0000-000000000002', 'padrao', 'teste'

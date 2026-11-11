@@ -7,7 +7,7 @@
 
 ## Contexto
 
-Os estúdios são cadastrados como **profissionais** (`staff_id`) na Altegio, não como recursos. O Rev6 avisava que "se um dia entrar um fotógrafo real como staff ele aparecerá na mesma lista" — mas o arquivo de mapeamento mostrou que já são três: Wyll (2000006), Thiago DEV (2000007) e Recrutas (2000008).
+Os estúdios são cadastrados como **profissionais** (`staff_id`) na Altegio, não como recursos. O Rev6 avisava que "se um dia entrar um fotógrafo real como staff ele aparecerá na mesma lista" — mas o arquivo de mapeamento mostrou que já são três: Sergio (2000006), Thiago DEV (2000007) e Recrutas (2000008).
 
 O Rev6 não definia o que acontece com agendamento cujo `staff_id` não é estúdio. Indefinido numa porta de entrada de webhook vira perda silenciosa.
 
@@ -23,7 +23,7 @@ Na entrada do **webhook e da reconciliação**:
 | `tipo = Pessoa` | salva, `estudio_id` NULL, Não-operacional. Não entra em ativo nenhum. **NÃO alerta.** Painel de descartados |
 | desconhecido | salva, flag "não mapeado", **ALERTA o Admin** |
 
-O balde do meio existe para não queimar crédito de notificação: agendamento na conta do Wyll é rotina (bloqueio de horário, compromisso externo), não erro. Se cada um alertar, o alerta morre e leva junto os do terceiro balde.
+O balde do meio existe para não queimar crédito de notificação: agendamento na conta do Sergio é rotina (bloqueio de horário, compromisso externo), não erro. Se cada um alertar, o alerta morre e leva junto os do terceiro balde.
 
 ## Alternativas rejeitadas
 

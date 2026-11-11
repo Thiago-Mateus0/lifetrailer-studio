@@ -2,15 +2,15 @@
 
 **As três decisões abaixo foram tomadas em 2026-08-12.** Este documento deixou
 de estar em aberto — fica como registro do raciocínio que levou até a decisão
-final, arquivada em [ADR 0013](adr/0013-decisoes-wyll-extensao-e-log.md). Os
+final, arquivada em [ADR 0013](adr/0013-decisoes-sergio-extensao-e-log.md). Os
 valores em reais e os exemplos abaixo continuam corretos; o que mudou é que
 cada seção agora tem uma resposta.
 
 | | Decisão | Quem decidiu | Resultado |
 |---|---|---|---|
-| ~~**D-A**~~ | ~~Em que minuto começa a contar o acréscimo noturno~~ | Wyll | ✅ Opção 1 — offset 0 |
-| ~~**D-B**~~ | ~~Ensaio que vira o dia: o acréscimo continua?~~ | Wyll | ✅ Opção 1 — dia de início |
-| ~~**D-C**~~ | ~~O Desenvolvedor pode ler o log de auditoria?~~ | Wyll | ✅ Opção 3 — lê, com registro |
+| ~~**D-A**~~ | ~~Em que minuto começa a contar o acréscimo noturno~~ | Sergio | ✅ Opção 1 — offset 0 |
+| ~~**D-B**~~ | ~~Ensaio que vira o dia: o acréscimo continua?~~ | Sergio | ✅ Opção 1 — dia de início |
+| ~~**D-C**~~ | ~~O Desenvolvedor pode ler o log de auditoria?~~ | Sergio | ✅ Opção 3 — lê, com registro |
 
 ---
 
@@ -58,7 +58,7 @@ dez passavam de qualquer jeito.
 
 ### Decidido: Opção 1 — bloco começa no fim do agendamento
 
-Justificativa do Wyll, mais precisa que a recomendação original: a partir do
+Justificativa do Sergio, mais precisa que a recomendação original: a partir do
 limite noturno não existe cortesia de 15 minutos. A tolerância decide **se**
 cobra; não desloca **onde** a contagem noturna começa.
 
@@ -66,7 +66,7 @@ cobra; não desloca **onde** a contagem noturna começa.
 
 `OFFSET_BLOCO = 0` em `tests/runner.py`. Casos EXT-11 e EXT-12 têm expectativa
 única — deixaram de reportar as duas leituras. Ver
-[ADR 0013](adr/0013-decisoes-wyll-extensao-e-log.md).
+[ADR 0013](adr/0013-decisoes-sergio-extensao-e-log.md).
 
 ---
 
@@ -114,7 +114,7 @@ turno.
 `REGRA_POS_MEIA_NOITE = "dia_de_inicio"` em `tests/runner.py`. Casos EXT-13 e
 EXT-14 têm expectativa única. A frase ambígua do ADR 0008 foi marcada como
 substituída — ADR aceito não se edita — ver
-[ADR 0013](adr/0013-decisoes-wyll-extensao-e-log.md).
+[ADR 0013](adr/0013-decisoes-sergio-extensao-e-log.md).
 
 ---
 
@@ -136,7 +136,7 @@ que o Desenvolvedor não controla.
 Essa mitigação enfraquece se o Desenvolvedor consulta o log livremente: ele
 passa a ver exatamente o que apareceria numa conferência.
 
-Não é acusação a ninguém. É a diretriz do Wyll aplicada — desenhar assumindo um
+Não é acusação a ninguém. É a diretriz do Sergio aplicada — desenhar assumindo um
 futuro colaborador mal-intencionado, não a equipe atual.
 
 ### Opções
@@ -156,7 +156,7 @@ Preserva a capacidade de depurar sem criar ponto cego: a consulta do Dev vira
 
 `docs/spec/permissoes.md` (2.0.3) e `docs/spec/audit-log.md` (2.0.4)
 atualizados — os dois concordam agora. Ver
-[ADR 0013](adr/0013-decisoes-wyll-extensao-e-log.md).
+[ADR 0013](adr/0013-decisoes-sergio-extensao-e-log.md).
 
 ---
 

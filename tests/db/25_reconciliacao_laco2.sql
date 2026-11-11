@@ -20,7 +20,7 @@ select g::date, t, 'aaaaaaaa-0000-0000-0000-000000000002', 'padrao', 'teste'
 
 insert into staff_altegio (company_id, staff_id, tipo, estudio_id, rotulo) values
   (1000001, 1, 'estudio', 'bbbbbbbb-0000-0000-0000-000000000001', 'Acustico'),
-  (1000001, 9, 'pessoa',  null,                                   'Wyll');
+  (1000001, 9, 'pessoa',  null,                                   'Sergio');
 
 -- Um agendamento da Altegio dentro da janela, com record_id proprio.
 create function app.ag(

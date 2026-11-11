@@ -9,8 +9,8 @@
 ## Contexto
 
 A pendência 7 tinha duas metades. A primeira — *quem lê o audit log* — foi
-decidida pelo Wyll em D-C: o Dev lê, e a leitura vira
-`consulta_audit_log_dev` no próprio log ([ADR 0013](0013-decisoes-wyll-extensao-e-log.md)).
+decidida pelo Sergio em D-C: o Dev lê, e a leitura vira
+`consulta_audit_log_dev` no próprio log ([ADR 0013](0013-decisoes-sergio-extensao-e-log.md)).
 Sobrou a segunda: **defesa em profundidade contra o próprio Dev alterar o que a
 query devolve.**
 
@@ -21,7 +21,7 @@ maior, não menor — quem escreve a função PL/pgSQL escreve também o que ela
 registra no audit log."*
 
 D-C registra a **leitura**. Não registra escrita direta no banco, `UPDATE` em
-linha de log, nem `DELETE`. A diretriz do Wyll é desenhar assumindo um futuro
+linha de log, nem `DELETE`. A diretriz do Sergio é desenhar assumindo um futuro
 colaborador mal-intencionado, não a equipe de hoje — e contra esse colaborador,
 um log que ele pode reescrever não é evidência, é uma narrativa.
 
@@ -159,4 +159,4 @@ escrita. São problemas diferentes, e D-C nunca prometeu cobrir este.
   cadeia quebrada não é backup bom, e antes disto não havia como saber.
 - ⚠ **Isto não impede adulteração. Torna adulteração detectável sem depender de
   quem tem acesso ao banco.** A distinção fica escrita porque é a pergunta que
-  o Wyll vai fazer, e a resposta honesta é essa.
+  o Sergio vai fazer, e a resposta honesta é essa.

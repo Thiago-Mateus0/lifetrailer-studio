@@ -4,7 +4,7 @@
 **Data:** 2026-09-29
 **Fase:** 6 — go-live
 **Decidido por:** Thiago, no primeiro dia de uso real ("o cálculo é feito na diferença entre pacotes"), com uma comanda de papel como prova; issue #223
-**Toca:** [ADR 0008](0008-calculo-de-extensao.md), [ADR 0013](0013-decisoes-wyll-extensao-e-log.md), [ADR 0025](0025-acrescimo-noturno-com-vigencia.md), migration `0081`
+**Toca:** [ADR 0008](0008-calculo-de-extensao.md), [ADR 0013](0013-decisoes-sergio-extensao-e-log.md), [ADR 0025](0025-acrescimo-noturno-com-vigencia.md), migration `0081`
 
 ## Contexto
 

@@ -13,7 +13,7 @@
 -- ⚠ NADA NESTA MIGRATION E A ANCORA. O que esta tabela guarda e o registro de
 -- que a ancora foi publicada — e esse registro mora no banco, ao alcance de
 -- quem o ADR 0010 declara como risco aceito. A ancora e a copia que CHEGA na
--- caixa do Wyll (ADR 0038 §4). Esta e a parte que prepara e entrega; a
+-- caixa do Sergio (ADR 0038 §4). Esta e a parte que prepara e entrega; a
 -- propriedade nasce do outro lado.
 --
 -- Por isso o SQL nao manda e-mail nenhum: ele produz a linha e a deixa

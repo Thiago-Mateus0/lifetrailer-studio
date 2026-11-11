@@ -1,4 +1,4 @@
-# ADR 0038 — O canal da âncora é a caixa de entrada do Wyll
+# ADR 0038 — O canal da âncora é a caixa de entrada do Sergio
 
 **Status:** aceito
 **Data:** 2026-09-08
@@ -45,17 +45,17 @@ Trocar de destinatário resolve a propriedade. Trocar de remetente, não.
 
 ## Decisão
 
-**A âncora vai por e-mail, e o destinatário que sustenta a propriedade é o Wyll.**
+**A âncora vai por e-mail, e o destinatário que sustenta a propriedade é o Sergio.**
 
 1. **Canal: e-mail.** Não é escolha por elegância — é o único canal que este
    projeto pode assumir que existe, que retém histórico por anos sem ninguém
    fazer nada, e cuja retenção não é administrada por quem administra o banco.
 
-2. **Destinatários: Helena e Wyll.** A Helena já era a destinatária do export
-   (ADR 0011 e 0024 §3) e continua sendo. **O Wyll entra por causa da
+2. **Destinatários: Helena e Sergio.** A Helena já era a destinatária do export
+   (ADR 0011 e 0024 §3) e continua sendo. **O Sergio entra por causa da
    propriedade:** a caixa dele é a única do sistema que com certeza não é
    administrada por quem administra o banco. A Helena é Admin *do aplicativo*; o
-   Dev e o DBA são a mesma pessoa, e essa pessoa não é o Wyll.
+   Dev e o DBA são a mesma pessoa, e essa pessoa não é o Sergio.
 
 3. **A âncora vai no ASSUNTO, não no corpo.** O assunto fica no índice da caixa,
    aparece na busca, sobrevive a corpo truncado e a cliente de e-mail que não
@@ -73,7 +73,7 @@ Trocar de destinatário resolve a propriedade. Trocar de remetente, não.
    quem o ADR 0010 declara como risco aceito. Fica escrito aqui para ninguém
    confundir as duas coisas depois.
 
-5. **O Wyll não precisa fazer nada.** Não precisa entender hash, arquivar em
+5. **O Sergio não precisa fazer nada.** Não precisa entender hash, arquivar em
    pasta, conferir número. Precisa **não apagar**. A instrução em uma frase que o
    ADR 0024 pedia é literalmente essa. Um e-mail semanal que ninguém lê é
    exatamente o produto certo aqui — o valor dele é existir numa caixa alheia.
@@ -104,7 +104,7 @@ que importa.
 
 **Só a Helena, como o ADR 0024 dizia.** Funciona **se** a caixa dela não for
 administrada por quem administra o banco — e isso não é uma propriedade do
-desenho, é uma circunstância que pode mudar sem ninguém perceber. Somar o Wyll
+desenho, é uma circunstância que pode mudar sem ninguém perceber. Somar o Sergio
 custa um endereço e tira a propriedade da dependência de uma circunstância.
 
 **Esperar decidir o provedor antes de construir.** É o que já travou a PR E por
@@ -122,7 +122,7 @@ o provedor não é o que faz a âncora valer.
   grita sozinho. Sem isso, uma âncora que deixa de ser publicada seria
   indistinguível de uma semana sem alteração.
 - O ADR 0024 §3 passa a ser lido com este: o canal é e-mail, e o destinatário
-  que sustenta a propriedade é o Wyll, não a Helena.
+  que sustenta a propriedade é o Sergio, não a Helena.
 - Fecha a issue #37. **A âncora não protege contra tudo** — protege contra
   reescrita silenciosa do passado, que é o cenário do ADR 0010. Não protege
   contra o Dev de hoje escrevendo mentira hoje, e nunca prometeu isso.

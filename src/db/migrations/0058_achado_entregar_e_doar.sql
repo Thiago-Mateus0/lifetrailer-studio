@@ -121,7 +121,7 @@ begin
   -- ⚠ A trava do spec ("Item de valor: só Admin pode doar"), no banco e não só
   -- na tela. Hoje ela não protege ninguém: nenhum achado nasce `item_de_valor`
   -- porque o interruptor não tem campo no formulário — é a decorrência 1 do ADR
-  -- 0053, aberta, e pergunta pro Wyll. Está aqui mesmo assim porque a
+  -- 0053, aberta, e pergunta pro Sergio. Está aqui mesmo assim porque a
   -- allow-list alcança a RPC sem passar pelo desenho: trava que só existe na
   -- tela é decoração (ADR 0054 §5).
   --
