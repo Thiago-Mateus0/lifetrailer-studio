@@ -74,6 +74,13 @@ atualizar() {
   base="$(git log -1 --diff-filter=A --format=%H -- "$dir/$ultima")"
   base="${base:+$base^}"
   base="${base:-HEAD}" # migration ainda não commitada: o antes é o HEAD
+  # Commit raiz (ex.: a cópia de portfólio, que nasce num commit só): não há
+  # "antes" para restaurar. Sem esta guarda o `git archive` quebra com
+  # "Needed a single revision" e derruba a CI inteira.
+  if ! git rev-parse --verify --quiet "$base^{commit}" >/dev/null; then
+    echo "test-db: $ultima não tem commit anterior; usando HEAD como base" >&2
+    base=HEAD
+  fi
   tmp="$(mktemp -d)"
   trap 'rm -rf "$tmp"' RETURN
   git archive "$base" src/db data | tar -x -C "$tmp"
