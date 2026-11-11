@@ -157,7 +157,7 @@ tests/         pgTAP, Node, domínio
 
 ## Licença
 
-[MIT](LICENSE). O código é livre para estudar e reaproveitar; os dados em `data/` e as capturas são de demonstração.
+Sem licença de reuso: todos os direitos reservados. O código está visível para avaliação do meu trabalho, e não para ser copiado ou redistribuído. Os dados em `data/` e as capturas são de demonstração.
 
 ## Sobre mim
 
