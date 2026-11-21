@@ -31,6 +31,12 @@ O que mais diz sobre como eu trabalho, em ordem:
 - **Número vem do CSV, nunca do texto.** Preço, turno e catálogo moram em `data/`. Já errei contagem de estoque duas vezes por ter número escrito num parágrafo, e transformei o erro em regra.
 - **Migrations sem superuser.** Rodam como no banco gerenciado de produção e são validadas na CI, do zero, a cada PR ([ADR 0077](docs/adr/0077-migrations-sem-superuser.md)).
 
+## Demo em vídeo
+
+[![Demo do Lifetrailer: agenda, comanda, checklist, escala, avisos, achados e estoque](docs/img/demo-poster.jpg)](docs/video/demo-lifetrailer.mp4)
+
+Cerca de 1 minuto, sem áudio, com legendas na tela e dados 100% fictícios (clique na imagem para assistir): agenda do dia, Comanda do começo ao Pix, Checklist, Escala, Avisos, Achados e Estoque. Para refazer a gravação, veja [`docs/roteiro-demo.md`](docs/roteiro-demo.md).
+
 ## Telas
 
 Tablet em modo kiosk (capturas em 1280×800, com os dados de demonstração de `scripts/seed-demo*.sql`).
