@@ -3,9 +3,9 @@
 A topologia e o porquê de cada escolha estão no [ADR 0063](../docs/adr/0063-topologia-de-producao.md).
 Aqui é só a ordem dos comandos.
 
-**Nada disto foi executado contra um servidor de verdade** — não existe um ainda.
-É o roteiro escrito a partir do que o código exige; a primeira instalação real
-vai corrigi-lo, e é para isso que ele está no repositório e não na cabeça de
+O sistema já está em uso no estúdio, mas **este roteiro não foi conferido passo a passo
+contra o servidor real**: foi escrito a partir do que o código exige. Onde divergir do que
+roda hoje, corrija aqui — é para isso que ele está no repositório e não na cabeça de
 ninguém.
 
 ---
