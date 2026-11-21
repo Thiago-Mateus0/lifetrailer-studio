@@ -121,3 +121,23 @@ espírito da Comanda #34 de sessões anteriores):
 
 A troca e a falta testadas na Escala **foram revertidas** ao padrão antes de
 terminar — a agenda de 19 e 21/09 não ficou alterada.
+
+## Gravar o vídeo da demo
+
+`scripts/demo/` grava um vídeo de cerca de 1 minuto com legendas na tela, sem áudio,
+percorrendo Início → Comanda (criar, lançar itens, fechar, Pix) → Checklist → Escala →
+Avisos → Achados → Estoque, tudo com os dados fictícios do `seed-demo*.sql`.
+
+1. Suba o banco, o servidor e o Vite como em "Antes de começar", mas com um banco
+   **recém-criado** (a gravação cria uma Comanda; repetir sobre o mesmo banco falha no
+   "Criar comanda"). O app precisa estar em `http://localhost:5173`.
+2. Registre o aparelho e guarde a chave em `/tmp/lt-chave.txt`
+   (`node src/db/dispositivo.mjs registrar "Tablet Demo"`), depois:
+   ```
+   node scripts/demo/registrar.cjs    # grava o estado do aparelho em /tmp/lt-demo-estado.json
+   node scripts/demo/gravar.cjs       # grava o .webm em /tmp/lt-demo-video
+   ```
+   Requer o Playwright (`require('playwright')`). Para MP4:
+   `ffmpeg -i <arquivo>.webm -c:v libx264 -pix_fmt yuv420p -crf 26 -movflags +faststart demo.mp4`.
+3. O arquivo de vídeo não fica no repositório. Para exibir no README, arraste o MP4
+   para o editor do README no GitHub (ele gera o link) ou publique no YouTube.
